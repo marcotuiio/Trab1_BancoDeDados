@@ -22,23 +22,35 @@ public class Main {
         HttpClient client = HttpClient.newHttpClient();
         ObjectMapper objectMapper = new ObjectMapper();
 
+        // Mapa de Mapas para armazenar os resultados
+        // A chave geral é o país, e a chave de chada sub-mapa é o indicador 
+        // Então por linhas gerais tem-se mapa do páis com vários atributos de indicadores
         Map<String, Map<String, JsonNode>> resultadosPorPais = new HashMap<>();
 
+        // Fazer um request para cada país e indicador
         for (String pais : paises) {
-            Map<String, JsonNode> resultadosPorIndicador = new HashMap<>();
-            for (String indicador : indicadores) {
-                String urlCompleta = url.replace("{pais}", pais).replace("{indicador}", indicador);
 
+            // Para cada país, criar um sub-mapa para armazenar os resultados dos indicadores
+            Map<String, JsonNode> resultadosPorIndicador = new HashMap<>();
+            
+            for (String indicador : indicadores) {
+
+                // Fazer o request de GET para a API para aquele país e indicador
+                String urlCompleta = url.replace("{pais}", pais).replace("{indicador}", indicador);
                 HttpRequest request = HttpRequest.newBuilder()
                         .GET()
                         .uri(URI.create(urlCompleta))
                         .build();
 
                 try {
+                    
                     HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                    
                     if (response.statusCode() == 200) {
+                        // Converter a resposta para um objeto JsonNode e armazenar no mapa dos indicadores
                         JsonNode jsonResponse = objectMapper.readTree(response.body());
                         resultadosPorIndicador.put(indicador, jsonResponse);
+                    
                     } else {
                         System.out.println("ERRO NO REQUEST COM RESPONSE CODE = " + response.statusCode());
                     }
@@ -48,21 +60,24 @@ public class Main {
                 } catch (InterruptedException e) {
                     throw new RuntimeException(e);
                 }
+
             }
+
+            // Armazenar o sub-mapa dos indicadores no mapa geral dos países
             resultadosPorPais.put(pais, resultadosPorIndicador);
         }
 
         // Imprimir os resultados de forma mais legível
         for (Map.Entry<String, Map<String, JsonNode>> entry : resultadosPorPais.entrySet()) {
-            String pais = entry.getKey();
-            Map<String, JsonNode> resultadosPorIndicador = entry.getValue();
+            String pais = entry.getKey(); // Chave do mapa geral, país
+            Map<String, JsonNode> resultadosPorIndicador = entry.getValue(); // Sub-mapa dos indicadores
             System.out.println("Resultados para o país: " + pais);
-            for (Map.Entry<String, JsonNode> indicadorEntry : resultadosPorIndicador.entrySet()) {
-                String indicador = indicadorEntry.getKey();
-                JsonNode resposta = indicadorEntry.getValue();
+            for (Map.Entry<String, JsonNode> indicadorEntry : resultadosPorIndicador.entrySet()) { 
+                String indicador = indicadorEntry.getKey();  // Chave do sub-mapa, indicador
+                JsonNode resposta = indicadorEntry.getValue(); // Valor do sub-mapa, resposta da API para tal indicador
                 System.out.println("Indicador: " + indicador);
                 System.out.println("Resposta da API:");
-                System.out.println(resposta.toPrettyString()); // Imprime JSON formatado
+                System.out.println(resposta.toPrettyString()); // Imprime JSON +- formatado
             }
         }
 
