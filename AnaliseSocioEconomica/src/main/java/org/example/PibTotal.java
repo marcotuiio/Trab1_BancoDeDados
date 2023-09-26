@@ -2,7 +2,6 @@ package org.example;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
@@ -11,9 +10,10 @@ public class PibTotal {
     private String indicador;
     private List<SerieAnoAtrib> series;
 
-    public PibTotal(int id, String ind) {
+    public PibTotal(int id, String ind, List<SerieAnoAtrib> serie) {
         this.id = id;
         this.indicador = ind;
+        this.series = serie;
     }
 
     public int getId() {

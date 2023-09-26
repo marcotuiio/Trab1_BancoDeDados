@@ -38,4 +38,19 @@ IMPOSTOS: https://zonos.com/docs/landed-cost/decoder-guides/tax/import-tax-rates
 * ETAPA 2: Sistema rodando com funcionalidades de carga de dados.
 
 * ETAPA 3: Sistema finalizado, incluindo os relatórios.
-	
+
+### Andamento do trabalho:
+
+* Etapa 1:
+    a) Amostra dos dados de interesse: conseguimos pegar a maior parte bruta do site do IBGE e o filtro está indo bem. Ainda não conseguimos organizar os impostos.
+    b) Vini e eu fizemos boa parte da modelagem juntos, mas ainda faltam ajustes. Vini ficou encarregado de formalizar os diagramas e fez um script inicial do SQL 
+    c) So precisamos ajustar os dados (principalmente impostos) e acabar o encapsulamentos nas classes. Depois é so fazer o script de carga de dados.
+    d) Com os itens acima feitos, basta juntar tudo e o banco de dados estará rodando com alguns dados.
+
+# TODO:
+* Ajustar impostos
+* Finalizar classes e encapsulamentos
+* Ajusar diagramas
+* Fazer script de criação de tabelas
+* Fazer script de carga de dados
+* Juntar tudo e rodar o banco de dados
