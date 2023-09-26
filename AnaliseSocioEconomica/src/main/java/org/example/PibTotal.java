@@ -9,7 +9,7 @@ import java.util.List;
 public class PibTotal {
     private int id;
     private String indicador;
-    private List<SeriePib> series = new ArrayList<>();
+    private List<SerieAnoAtrib> series;
 
     public PibTotal(int id, String ind) {
         this.id = id;
@@ -32,11 +32,11 @@ public class PibTotal {
         this.indicador = indicador;
     }
 
-    public List<SeriePib> getSeries() {
+    public List<SerieAnoAtrib> getSeries() {
         return series;
     }
 
-    public void setSeries(List<SeriePib> series) {
+    public void setSeries(List<SerieAnoAtrib> series) {
         this.series = series;
     }
 }

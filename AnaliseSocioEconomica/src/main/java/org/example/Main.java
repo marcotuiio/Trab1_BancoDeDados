@@ -15,7 +15,7 @@ public class Main {
 //        List<String> paises = List.of("BR", "US", "AR", "BE", "FR", "ZM");
         List<String> paises = List.of("BR");
 //        List<String> indicadores = List.of("77827", "77825", "77826", "77821", "77823", "77857", "77831");
-        List<String> indicadores = List.of("77827");
+        List<String> indicadores = List.of("77827", "77825");
         String url = "https://servicodados.ibge.gov.br/api/v1/paises/{pais}/indicadores/{indicador}";
 
         HttpClient client = HttpClient.newHttpClient();
@@ -67,6 +67,7 @@ public class Main {
         }
 
         ArrayList<Pais> meusPaises = new ArrayList<>();
+
         // Imprimir os resultados de forma mais legível
         for (Map.Entry<String, Map<String, JsonNode>> entry : resultadosPorPais.entrySet()) {
 
@@ -86,11 +87,9 @@ public class Main {
                 JsonNode seriesDados = resposta.get(0).get("series").get(0).get("serie"); // pega serie de anos e valores
                 paisTeste.setNome(nomePais);
 
-//                System.out.println("\n"+idInd+" | "+nomeInd+" | "+nomePais);
-//                System.out.println(seriesDados+"\n");
+                System.out.println(idInd+" | "+nomeInd+" | "+nomePais);
 
-                PibTotal indicadorPib = new PibTotal(idInd, nomeInd);
-                List<SeriePib> seriePib = indicadorPib.getSeries();
+                List<SerieAnoAtrib> serieAnoAtrib = new ArrayList<>();
 
                 for (JsonNode ponto : seriesDados) {
                     Iterator<String> fieldNames = ponto.fieldNames();
@@ -98,40 +97,51 @@ public class Main {
                         String ano = fieldNames.next();
                         String valor = ponto.get(ano).asText();
 
-                        SeriePib dupla = new SeriePib(ano, valor);
-                        seriePib.add(dupla);
+                        SerieAnoAtrib dupla = new SerieAnoAtrib(ano, valor);
+                        serieAnoAtrib.add(dupla);
 //                        System.out.println("Ano: " + ano + ", Valor: " + valor);
                     }
                 }
-                paisTeste.setPibTotal(indicadorPib);
+
+                // Observe que as classes seguem um padrão parecido com PIB total. Id, nome, dados que podem ser
+                // filtrados e serie temporal de valores.
+                // Fiz a série temporal para ser generica, recebendo duas strings no mapa, entao pode ser aproveitada
+                // Tem que fazer agora as classes para todos os outros indicativos
+
+                // Observe que nesse trecho não mexemos com os impostos ainda
+
+                switch (idInd) {
+                    case 77827: // Total PIB
+                        PibTotal indicadorPib = new PibTotal(idInd, nomeInd);
+                        paisTeste.setPibTotal(indicadorPib);
+                        break;
+                    case 77825: // Total Exportações
+                        // criar classe total exportações e invocar como no PibTotal, com construtor e etc
+                        paisTeste.setTotalExport();
+                        break;
+                    case 77826: // Total Importações
+                        // criar classe total importações e invocar como no PibTotal, com construtor e etc
+                        paisTeste.setTotalImport();
+                        break;
+                    case 77821: // Investimentos em pesquisa e desenvolvimento
+                        // criar classe investimentos e invocar como no PibTotal, com construtor e etc
+                        paisTeste.setInvestPesqDesenv();
+                        break;
+                    case 77823: // PIB per capita
+                        // criar classe pip per capita e invocar como no PibTotal, com construtor e etc
+                        paisTeste.setPibPerCapita();
+                        break;
+                    case 77857: // Indivíduos com acesso à internet
+                        // criar classe acesso internet e invocar como no PibTotal, com construtor e etc
+                        paisTeste.setAcessoNet();
+                        break;
+                    case 77831: // IDH
+                        // criar classe idh e invocar como no PibTotal, com construtor e etc
+                        paisTeste.setIDH();
+                        break;
+                }
+
             }
         }
-        System.out.println("-------- TESTE POS FILTRO --------");
-        for (Pais p : meusPaises) {
-            System.out.println(p.getId() + " || " + p.getNome());
-            for (SeriePib m : p.getPibTotal().getSeries()) {
-                System.out.println(m.getDuplaAnoAtributo());
-            }
-        }
-//        Tentativa de fazer um unico request, FALHOU
-//        String paisesParam = String.join("|", paises);
-//        String indicadoresParam = String.join("|", indicadores);
-//        System.out.println(paisesParam);
-//        System.out.println(indicadoresParam);
-//        String urlCompleta = url.replace("{pais}", paisesParam).replace("{indicador}", indicadoresParam);
-//        HttpRequest request = HttpRequest.newBuilder()
-//                .GET()
-//                .uri(URI.create(urlCompleta))
-//                .build();
-//
-//        try {
-//            HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-//            System.out.println(response.statusCode());
-//            System.out.println(response.body());
-//        } catch (IOException e) {
-//            throw new RuntimeException(e);
-//        } catch (InterruptedException e) {
-//            throw new RuntimeException(e);
-//        }
     }
 }
