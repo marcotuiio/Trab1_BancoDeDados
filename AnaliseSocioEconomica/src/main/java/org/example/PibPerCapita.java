@@ -5,12 +5,12 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.util.List;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
-public class Pib {
+public class PibPerCapita {
     private int id;
     private String indicador;
     private List<SerieAnoAtrib> series;
 
-    public Pib(int id, String indicador, List<SerieAnoAtrib>series) {
+    public PibPerCapita(int id, String indicador, List<SerieAnoAtrib> series) {
         this.id = id;
         this.indicador = indicador;
         this.series = series;
