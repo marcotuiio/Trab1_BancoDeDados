@@ -100,9 +100,11 @@ public class Controller {
                         String ano = fieldNames.next();
                         String valor = ponto.get(ano).asText();
 
-                        SerieAnoAtrib dupla = new SerieAnoAtrib(ano, valor);
-                        serieAnoAtrib.add(dupla);
+                        if (ano.length() == 4) {
+                            SerieAnoAtrib dupla = new SerieAnoAtrib(Integer.parseInt(ano), valor);
+                            serieAnoAtrib.add(dupla);
 //                        System.out.println("Ano: " + ano + ", Valor: " + valor);
+                        }
                     }
                 }
 
@@ -119,28 +121,28 @@ public class Controller {
                         paisTeste.setPibTotal(indicadorPib);
                         break;
                     case 77825: // Total Exportações
-                        // criar classe total exportações e invocar como no PibTotal, com construtor e etc
-//                        paisTeste.setTotalExport();
+                        TotalExportacoes indicadorExportacoes = new TotalExportacoes(idInd, nomeInd, serieAnoAtrib);
+                        paisTeste.setTotalExportacoes(indicadorExportacoes);
                         break;
                     case 77826: // Total Importações
-                        // criar classe total importações e invocar como no PibTotal, com construtor e etc
-//                        paisTeste.setTotalImport();
+                        TotalImportacoes indicadorImportacoes = new TotalImportacoes(idInd, nomeInd, serieAnoAtrib);
+                        paisTeste.setTotalImportacoes(indicadorImportacoes);
                         break;
                     case 77821: // Investimentos em pesquisa e desenvolvimento
-                        // criar classe investimentos e invocar como no PibTotal, com construtor e etc
-//                        paisTeste.setInvestPesqDesenv();
+                        InvestimentoPD indicadorInvestimento = new InvestimentoPD(idInd, nomeInd, serieAnoAtrib);
+                        paisTeste.setInvestimentoPD(indicadorInvestimento);
                         break;
                     case 77823: // PIB per capita
-                        // criar classe pip per capita e invocar como no PibTotal, com construtor e etc
-//                        paisTeste.setPibPerCapita();
+                        PibPerCapita indicadorPibPC = new PibPerCapita(idInd, nomeInd, serieAnoAtrib);
+                        paisTeste.setPibPerCapita(indicadorPibPC);
                         break;
                     case 77857: // Indivíduos com acesso à internet
-                        // criar classe acesso internet e invocar como no PibTotal, com construtor e etc
-//                        paisTeste.setAcessoNet();
+                        IndividuosAI indicadorIndividuos = new IndividuosAI(idInd, nomeInd, serieAnoAtrib);
+                        paisTeste.setIndividuosAI(indicadorIndividuos);
                         break;
                     case 77831: // IDH
-                        // criar classe idh e invocar como no PibTotal, com construtor e etc
-//                        paisTeste.setIDH();
+                        Idh indicadorIdh = new Idh(idInd, nomeInd, serieAnoAtrib);
+                        paisTeste.setIdh(indicadorIdh);
                         break;
                 }
             }
