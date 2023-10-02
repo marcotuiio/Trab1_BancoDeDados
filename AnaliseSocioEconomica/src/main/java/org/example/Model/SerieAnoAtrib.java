@@ -1,4 +1,4 @@
-package org.example;
+package org.example.Model;
 
 
 import com.fasterxml.jackson.annotation.JsonAlias;

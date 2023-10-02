@@ -1,14 +1,20 @@
-package org.example;
+package org.example.Controller;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.opencsv.CSVReader;
 
+import com.opencsv.exceptions.CsvException;
+import org.example.Model.*;
+
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
+import java.io.FileReader;
 
 public class Controller {
     private static List<String> paises = List.of("BR", "US", "AR", "BE", "FR", "ZM");
@@ -19,6 +25,8 @@ public class Controller {
 
     private static HttpClient client = HttpClient.newHttpClient();
     private static ObjectMapper objectMapper = new ObjectMapper();
+
+    private static String PATH_TO_CSV = "C:\\Users\\marco\\Desktop\\UEL\\Database\\Trab1_BancoDeDados\\CSVs\\";
 
     public Map<String, Map<String, JsonNode>> makeRequestAPI() {
         // Mapa de Mapas para armazenar os resultados
@@ -160,4 +168,31 @@ public class Controller {
             System.out.println("\n\n");
         }
     }
-}
+
+    public void LeituraCSV(String arquivo, Class<? extends InterfaceDadosCSV> type) throws IOException, CsvException, InstantiationException, IllegalAccessException {
+        CSVReader reader = new CSVReader(new FileReader(PATH_TO_CSV+arquivo+".csv"));
+        List<String[]> linhas = reader.readAll();
+
+        for (String[] linha : linhas) {
+            String pais = linha[0]; // traduzir nome ou colocar a sigla tal qual nos do IBGE
+            int ano = 2010;
+            List<SerieAnoAtrib> serieAnoAtrib = new ArrayList<>();
+            for (int i = 1; i < linha.length; i++) {
+                String valor = linha[i];
+                SerieAnoAtrib dupla = new SerieAnoAtrib(ano, valor);
+                ano++;
+                serieAnoAtrib.add(dupla);
+            }
+            InterfaceDadosCSV objeto = type.newInstance();
+            objeto.setTipoIndicador(arquivo);
+            objeto.setSeries(serieAnoAtrib);
+
+            System.out.println("\nArquivo " + arquivo + " País " + pais);
+            for (SerieAnoAtrib s : serieAnoAtrib) {
+                System.out.println(s.getDuplaAnoAtributo());
+            }
+
+            // Falta setar a qual país isso pertence
+        }
+    }
+ }
