@@ -8,6 +8,11 @@ Agora, impostos de interesse precisam ser definidos (imposto de renda, imposto s
 industrializados) e a tabela projetada. Um problema é que existem diversos tipos de imposto e apesar de serem públicos, extrair e
 encapsular os dados de interesse pode ser complexo. Talvez um csv contendo país-imposto precisará ser feito na mão, ou via scraping de uma
 tabela online.  
+
+Os países foco de estudo serão os membros do G20, sendo eles: África do SUl, Alemanha, Arábia Saudita, Argentina, Austrália, Brasil, Canadá, China, Coreia do Sul, Estados Unidos, França, Índia, Indonésia, Itália, Japão, México, Reino Unido, Rússia, Turquia.
+
+Os impostos de interesse são: sob comércio internacional (%), sob exportação (%), receita fiscal (US$), alfândega e importações (US$) e imposto de renda (%). 
+
 Com todas as tabelas montadas e preenchidas, devem ser feitas consultas e relatórios gráficos do tipo relacionamentos entre imposto
 desenvolvimento, investimento x desenvolvimento x imposto, imposto x qualidade de vida devem ser possíveis. 
 
@@ -21,11 +26,12 @@ https://servicodados.ibge.gov.br/api/docs/paises
 77857 - Redes - Indivíduos com acesso à internet
 77831 - Indicadores sociais - Índice de desenvolvimento humano
 
-IMPOSTOS: https://zonos.com/docs/landed-cost/decoder-guides/tax/import-tax-rates-by-country 
-	  https://en.wikipedia.org/wiki/List_of_countries_by_tax_rates
-          https://data.worldbank.org/indicator/GC.TAX.EXPT.ZS imposto de exportação
-          https://data.worldbank.org/indicator/GC.TAX.IMPT.CN imposto de importação
-	  https://data.worldbank.org/indicator/GC.TAX.TOTL.CN imposto de renda	
+IMPOSTOS: 
+Sob Comércio Internacional (%): https://data.worldbank.org/indicator/GC.TAX.INTT.RV.ZS?locations=BR
+Sob Exportação (%): https://data.worldbank.org/indicator/GC.TAX.EXPT.ZS?locations=BR
+Receita Fiscal (US$): https://data.worldbank.org/indicator/GC.TAX.TOTL.CN?locations=BR
+Alfândega e Importações (US$): https://data.worldbank.org/indicator/GC.TAX.IMPT.CN?name_desc=false&locations=BR
+Imposto de renda (%): https://data.worldbank.org/indicator/GC.TAX.YPKG.RV.ZS?locations=BR
 
 ## Etapas do trabalho:
 
