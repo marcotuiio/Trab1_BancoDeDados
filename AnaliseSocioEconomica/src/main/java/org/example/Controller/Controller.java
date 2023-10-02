@@ -17,7 +17,8 @@ import java.util.*;
 import java.io.FileReader;
 
 public class Controller {
-    private static List<String> paises = List.of("BR", "US", "AR", "BE", "FR", "ZM");
+    private static List<String> paises = List.of("AR", "AU", "BR", "CA", "CN", "DE", "FR", "GB", "ID",
+            "IN", "IT", "JP", "KR", "MX", "RU", "SA", "TR", "US", "ZA");
 //    List<String> paises = List.of("BR");
 //    List<String> indicadores = List.of("77827", "77825", "77826", "77821", "77823", "77857", "77831");
     List<String> indicadores = List.of("77827");
@@ -169,7 +170,8 @@ public class Controller {
         }
     }
 
-    public void LeituraCSV(String arquivo, Class<? extends InterfaceDadosCSV> type) throws IOException, CsvException, InstantiationException, IllegalAccessException {
+    public void LeituraCSV(String arquivo, Class<? extends AbstrataDadosCSV> type)
+            throws IOException, CsvException, InstantiationException, IllegalAccessException {
         CSVReader reader = new CSVReader(new FileReader(PATH_TO_CSV+arquivo+".csv"));
         List<String[]> linhas = reader.readAll();
 
@@ -183,7 +185,8 @@ public class Controller {
                 ano++;
                 serieAnoAtrib.add(dupla);
             }
-            InterfaceDadosCSV objeto = type.newInstance();
+
+            AbstrataDadosCSV objeto = new AbstrataDadosCSV();
             objeto.setTipoIndicador(arquivo);
             objeto.setSeries(serieAnoAtrib);
 
