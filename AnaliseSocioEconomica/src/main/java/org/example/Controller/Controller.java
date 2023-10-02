@@ -7,7 +7,6 @@ import com.opencsv.CSVReader;
 import com.opencsv.exceptions.CsvException;
 import org.example.Model.*;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -26,6 +25,7 @@ public class Controller {
     private static ObjectMapper objectMapper = new ObjectMapper();
 
     private static String PATH_TO_CSV = "C:\\Users\\marco\\Desktop\\UEL\\Database\\Trab1_BancoDeDados\\CSVs\\";
+//    private static String PATH_TO_CSV = "/home/vfs/Documents/Database_I/Trab1_BancoDeDados/CSVs/";
 
     public Map<String, Map<String, JsonNode>> makeRequestAPI() {
 
@@ -125,31 +125,31 @@ public class Controller {
 
                 switch (idInd) {
                     case 77827: // Total PIB
-                        PibTotal indicadorPib = new PibTotal(idInd, nomeInd, serieAnoAtrib);
+                        Dados indicadorPib = new Dados(idInd, nomeInd, serieAnoAtrib);
                         paisTeste.setPibTotal(indicadorPib);
                         break;
                     case 77825: // Total Exportações
-                        TotalExportacoes indicadorExportacoes = new TotalExportacoes(idInd, nomeInd, serieAnoAtrib);
-                        paisTeste.setTotalExportacoes(indicadorExportacoes);
+                        Dados indicadorExportacoes = new Dados(idInd, nomeInd, serieAnoAtrib);
+                        paisTeste.setTotalExportacao(indicadorExportacoes);
                         break;
                     case 77826: // Total Importações
-                        TotalImportacoes indicadorImportacoes = new TotalImportacoes(idInd, nomeInd, serieAnoAtrib);
-                        paisTeste.setTotalImportacoes(indicadorImportacoes);
+                        Dados indicadorImportacoes = new Dados(idInd, nomeInd, serieAnoAtrib);
+                        paisTeste.setTotalImportacao(indicadorImportacoes);
                         break;
                     case 77821: // Investimentos em pesquisa e desenvolvimento
-                        InvestimentoPD indicadorInvestimento = new InvestimentoPD(idInd, nomeInd, serieAnoAtrib);
-                        paisTeste.setInvestimentoPD(indicadorInvestimento);
+                        Dados indicadorInvestimento = new Dados(idInd, nomeInd, serieAnoAtrib);
+                        paisTeste.setInvestPesqDesenv(indicadorInvestimento);
                         break;
                     case 77823: // PIB per capita
-                        PibPerCapita indicadorPibPC = new PibPerCapita(idInd, nomeInd, serieAnoAtrib);
+                        Dados indicadorPibPC = new Dados(idInd, nomeInd, serieAnoAtrib);
                         paisTeste.setPibPerCapita(indicadorPibPC);
                         break;
                     case 77857: // Indivíduos com acesso à internet
-                        IndividuosAI indicadorIndividuos = new IndividuosAI(idInd, nomeInd, serieAnoAtrib);
-                        paisTeste.setIndividuosAI(indicadorIndividuos);
+                        Dados indicadorIndividuos = new Dados(idInd, nomeInd, serieAnoAtrib);
+                        paisTeste.setIndivAcesNet(indicadorIndividuos);
                         break;
                     case 77831: // IDH
-                        Idh indicadorIdh = new Idh(idInd, nomeInd, serieAnoAtrib);
+                        Dados indicadorIdh = new Dados(idInd, nomeInd, serieAnoAtrib);
                         paisTeste.setIdh(indicadorIdh);
                         break;
                 }
@@ -172,17 +172,17 @@ public class Controller {
                 System.out.println(pibcapita.getDuplaAnoAtributo());
             }
 
-            for (SerieAnoAtrib exp : p.getTotalExportacoes().getSeries()) {
+            for (SerieAnoAtrib exp : p.getTotalExportacao().getSeries()) {
                 System.out.println("<Serie anual TotalExportacoes>");
                 System.out.println(exp.getDuplaAnoAtributo());
             }
 
-            for (SerieAnoAtrib imp : p.getTotalImportacoes().getSeries()) {
+            for (SerieAnoAtrib imp : p.getTotalImportacao().getSeries()) {
                 System.out.println("<Serie anual TotalImportacoes>");
                 System.out.println(imp.getDuplaAnoAtributo());
             }
 
-            for (SerieAnoAtrib net : p.getIndividuosAI().getSeries()) {
+            for (SerieAnoAtrib net : p.getIndivAcesNet().getSeries()) {
                 System.out.println("<Serie anual IndividuosAcessoInternet>");
                 System.out.println(net.getDuplaAnoAtributo());
             }
@@ -196,7 +196,7 @@ public class Controller {
         }
     }
 
-    public void LeituraCSV(String arquivo, Class<? extends AbstrataDadosCSV> type)
+    public void LeituraCSV(String arquivo, Class<? extends Dados> type)
             throws IOException, CsvException, InstantiationException, IllegalAccessException {
         CSVReader reader = new CSVReader(new FileReader(PATH_TO_CSV+arquivo+".csv"));
         List<String[]> linhas = reader.readAll();
@@ -212,8 +212,8 @@ public class Controller {
                 serieAnoAtrib.add(dupla);
             }
 
-            AbstrataDadosCSV objeto = new AbstrataDadosCSV();
-            objeto.setTipoIndicador(arquivo);
+            Dados objeto = new Dados();
+            objeto.setIndicador(arquivo);
             objeto.setSeries(serieAnoAtrib);
 
             System.out.println("\nArquivo " + arquivo + " País " + pais);

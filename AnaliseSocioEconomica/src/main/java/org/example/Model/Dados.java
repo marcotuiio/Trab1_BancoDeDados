@@ -1,16 +1,15 @@
 package org.example.Model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-
 import java.util.List;
 
-@JsonIgnoreProperties(ignoreUnknown = true)
-public class IndividuosAI {
+public class Dados {
     private int id;
     private String indicador;
     private List<SerieAnoAtrib> series;
 
-    public IndividuosAI(int id, String indicador, List<SerieAnoAtrib> series) {
+    public Dados() {}
+
+    public Dados(int id, String indicador, List<SerieAnoAtrib> series) {
         this.id = id;
         this.indicador = indicador;
         this.series = series;

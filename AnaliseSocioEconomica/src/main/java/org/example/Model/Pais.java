@@ -3,13 +3,18 @@ package org.example.Model;
 public class Pais {
     private String id;
     private String nome;
-    private PibTotal pibTotal;
-    private PibPerCapita pibPerCapita;
-    private TotalExportacoes totalExportacoes;
-    private TotalImportacoes totalImportacoes;
-    private InvestimentoPD investimentoPD;
-    private IndividuosAI individuosAI;
-    private AbstrataDadosIBGE idh;
+    private Dados pibTotal;
+    private Dados pibPerCapita;
+    private Dados totalExportacao;
+    private Dados totalImportacao;
+    private Dados investPesqDesenv;
+    private Dados indivAcesNet;
+    private Dados idh;
+    private Dados impComInter;
+    private Dados impExportacao;
+    private Dados impReceitaFiscal;
+    private Dados impAlfanImport;
+    private Dados impRenda;
 
     public Pais(String id) {
         this.id = id;
@@ -31,59 +36,99 @@ public class Pais {
         this.nome = nome;
     }
 
-    public PibTotal getPibTotal() {
+    public Dados getPibTotal() {
         return pibTotal;
     }
 
-    public void setPibTotal(PibTotal pibTotal) {
+    public void setPibTotal(Dados pibTotal) {
         this.pibTotal = pibTotal;
     }
 
-    public PibPerCapita getPibPerCapita() {
+    public Dados getPibPerCapita() {
         return pibPerCapita;
     }
 
-    public void setPibPerCapita(PibPerCapita pibPerCapita) {
+    public void setPibPerCapita(Dados pibPerCapita) {
         this.pibPerCapita = pibPerCapita;
     }
 
-    public TotalExportacoes getTotalExportacoes() {
-        return totalExportacoes;
+    public Dados getTotalExportacao() {
+        return totalExportacao;
     }
 
-    public void setTotalExportacoes(TotalExportacoes totalExportacoes) {
-        this.totalExportacoes = totalExportacoes;
+    public void setTotalExportacao(Dados totalExportacao) {
+        this.totalExportacao = totalExportacao;
     }
 
-    public TotalImportacoes getTotalImportacoes() {
-        return totalImportacoes;
+    public Dados getTotalImportacao() {
+        return totalImportacao;
     }
 
-    public void setTotalImportacoes(TotalImportacoes totalImportacoes) {
-        this.totalImportacoes = totalImportacoes;
+    public void setTotalImportacao(Dados totalImportacao) {
+        this.totalImportacao = totalImportacao;
     }
 
-    public InvestimentoPD getInvestimentoPD() {
-        return investimentoPD;
+    public Dados getInvestPesqDesenv() {
+        return investPesqDesenv;
     }
 
-    public void setInvestimentoPD(InvestimentoPD investimentoPD) {
-        this.investimentoPD = investimentoPD;
+    public void setInvestPesqDesenv(Dados investPesqDesenv) {
+        this.investPesqDesenv = investPesqDesenv;
     }
 
-    public IndividuosAI getIndividuosAI() {
-        return individuosAI;
+    public Dados getIndivAcesNet() {
+        return indivAcesNet;
     }
 
-    public void setIndividuosAI(IndividuosAI individuosAI) {
-        this.individuosAI = individuosAI;
+    public void setIndivAcesNet(Dados indivAcesNet) {
+        this.indivAcesNet = indivAcesNet;
     }
 
-    public AbstrataDadosIBGE getIdh() {
+    public Dados getIdh() {
         return idh;
     }
 
-    public void setIdh(Idh idh) {
+    public void setIdh(Dados idh) {
         this.idh = idh;
+    }
+
+    public Dados getImpComInter() {
+        return impComInter;
+    }
+
+    public void setImpComInter(Dados impComInter) {
+        this.impComInter = impComInter;
+    }
+
+    public Dados getImpExportacao() {
+        return impExportacao;
+    }
+
+    public void setImpExportacao(Dados impExportacao) {
+        this.impExportacao = impExportacao;
+    }
+
+    public Dados getImpReceitaFiscal() {
+        return impReceitaFiscal;
+    }
+
+    public void setImpReceitaFiscal(Dados impReceitaFiscal) {
+        this.impReceitaFiscal = impReceitaFiscal;
+    }
+
+    public Dados getImpAlfanImport() {
+        return impAlfanImport;
+    }
+
+    public void setImpAlfanImport(Dados impAlfanImport) {
+        this.impAlfanImport = impAlfanImport;
+    }
+
+    public Dados getImpRenda() {
+        return impRenda;
+    }
+
+    public void setImpRenda(Dados impRenda) {
+        this.impRenda = impRenda;
     }
 }
