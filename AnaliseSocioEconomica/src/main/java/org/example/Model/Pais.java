@@ -9,7 +9,7 @@ public class Pais {
     private TotalImportacoes totalImportacoes;
     private InvestimentoPD investimentoPD;
     private IndividuosAI individuosAI;
-    private Idh idh;
+    private AbstrataDadosIBGE idh;
 
     public Pais(String id) {
         this.id = id;
@@ -79,7 +79,7 @@ public class Pais {
         this.individuosAI = individuosAI;
     }
 
-    public Idh getIdh() {
+    public AbstrataDadosIBGE getIdh() {
         return idh;
     }
 

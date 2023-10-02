@@ -18,10 +18,8 @@ import java.io.FileReader;
 
 public class Controller {
     private static List<String> paises = List.of("AR", "AU", "BR", "CA", "CN", "DE", "FR", "GB", "ID",
-            "IN", "IT", "JP", "KR", "MX", "RU", "SA", "TR", "US", "ZA");
-//    List<String> paises = List.of("BR");
-//    List<String> indicadores = List.of("77827", "77825", "77826", "77821", "77823", "77857", "77831");
-    List<String> indicadores = List.of("77827");
+                                                    "IN", "IT", "JP", "KR", "MX", "RU", "SA", "TR", "US", "ZA");
+    List<String> indicadores = List.of("77827", "77825", "77826", "77821", "77823", "77857", "77831");
     String url = "https://servicodados.ibge.gov.br/api/v1/paises/{pais}/indicadores/{indicador}";
 
     private static HttpClient client = HttpClient.newHttpClient();
@@ -30,6 +28,7 @@ public class Controller {
     private static String PATH_TO_CSV = "C:\\Users\\marco\\Desktop\\UEL\\Database\\Trab1_BancoDeDados\\CSVs\\";
 
     public Map<String, Map<String, JsonNode>> makeRequestAPI() {
+
         // Mapa de Mapas para armazenar os resultados
         // A chave geral é o país, e a chave de chada sub-mapa é o indicador
         // Então por linhas gerais tem-se mapa do páis com vários atributos de indicadores
@@ -163,9 +162,36 @@ public class Controller {
         for (Pais p : meusPaises) {
             System.out.println(p.getId() + " || " + p.getNome());
             // colocar um loop para cada atributo (ponto de interrogação)
-            for (SerieAnoAtrib m : p.getPibTotal().getSeries()) {
-                System.out.println(m.getDuplaAnoAtributo());
+            for (SerieAnoAtrib pib : p.getPibTotal().getSeries()){
+                System.out.println("<Serie anual PibTotal>");
+                System.out.println(pib.getDuplaAnoAtributo());
             }
+
+            for (SerieAnoAtrib pibcapita : p.getPibPerCapita().getSeries()) {
+                System.out.println("<Serie anual PibPerCapita>");
+                System.out.println(pibcapita.getDuplaAnoAtributo());
+            }
+
+            for (SerieAnoAtrib exp : p.getTotalExportacoes().getSeries()) {
+                System.out.println("<Serie anual TotalExportacoes>");
+                System.out.println(exp.getDuplaAnoAtributo());
+            }
+
+            for (SerieAnoAtrib imp : p.getTotalImportacoes().getSeries()) {
+                System.out.println("<Serie anual TotalImportacoes>");
+                System.out.println(imp.getDuplaAnoAtributo());
+            }
+
+            for (SerieAnoAtrib net : p.getIndividuosAI().getSeries()) {
+                System.out.println("<Serie anual IndividuosAcessoInternet>");
+                System.out.println(net.getDuplaAnoAtributo());
+            }
+
+            for (SerieAnoAtrib idh : p.getIdh().getSeries()) {
+                System.out.println("<Serie anual IDH>");
+                System.out.println(idh.getDuplaAnoAtributo());
+            }
+
             System.out.println("\n\n");
         }
     }
