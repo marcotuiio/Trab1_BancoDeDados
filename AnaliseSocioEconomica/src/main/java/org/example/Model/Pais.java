@@ -28,6 +28,13 @@ public class Pais {
         this.id = id;
     }
 
+    public boolean equals(String sigla) {
+        if (this.id.equals(sigla)) {
+            return true;
+        }
+        return false;
+    }
+
     public String getNome() {
         return nome;
     }
