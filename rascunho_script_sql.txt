@@ -1,0 +1,169 @@
+/* FALTA ADICIONAR OS TIPOS DAS VARIÁVEIS PRINCIPAIS E SUAS CONSTRAINTS EM CADA TABELA */
+
+
+create schema T1BD;
+
+
+create table T1BD.paises (
+	sigla char(3),
+	nome_extenso varchar(30),
+	
+	constraint pk_paises primary key(sigla),
+	constraint uk_paises unique(nome_extenso)
+);
+
+
+create table T1BD.pib_total (
+	ano date,
+	sigla char(3),
+	pib_total ...,
+	
+	constraint pk_pib_total primary key(ano, sigla),
+	constraint fk_pib_total foreign key(ano)
+		references(paises) on delete cascade,
+	
+	constraint ...
+);
+
+
+create table T1BD.pib_per_capita (
+	ano date,
+	sigla char(3),
+	pib_per_capita ...,
+	
+	constraint pk_pib_per_capita primary key(ano, sigla),
+	constraint fk_pib_per_capita foreign key(ano)
+		references(paises) on delete cascade,
+	
+	constraint ...
+);
+
+
+create table T1BD.total_exportacao (
+	ano date,
+	sigla char(3),
+	total_exportacao ...,
+	
+	constraint pk_total_exportacao primary key(ano, sigla),
+	constraint fk_total_exportacao foreign key(ano)
+		references(paises) on delete cascade,
+	
+	constraint ...
+);
+
+
+create table T1BD.total_importacao (
+	ano date,
+	sigla char(3),
+	total_importacao ...,
+	
+	constraint pk_total_importacao primary key(ano, sigla),
+	constraint fk_total_importacao foreign key(ano)
+		references(paises) on delete cascade,
+	
+	constraint ...
+);
+
+
+create table T1BD.invest_pesq_desenv (
+	ano date,
+	sigla char(3),
+	invest_pesq_desenv ...,
+	
+	constraint pk_invest_pesq_desenv primary key(ano, sigla),
+	constraint fk_invest_pesq_desenv foreign key(ano)
+		references(paises) on delete cascade,
+	
+	constraint ...
+);
+
+
+create table T1BD.indiv_aces_net (
+	ano date,
+	sigla char(3),
+	indiv_aces_net ...,
+	
+	constraint pk_indiv_aces_net primary key(ano, sigla),
+	constraint fk_indiv_aces_net foreign key(ano)
+		references(paises) on delete cascade,
+	
+	constraint ...
+);
+
+
+create table T1BD.idh (
+	ano date,
+	sigla char(3),
+	idh ...,
+	
+	constraint pk_idh primary key(ano, sigla),
+	constraint fk_idh foreign key(ano)
+		references(paises) on delete cascade,
+	
+	constraint ...
+);
+
+
+create table T1BD.imp_com_int (
+	ano date,
+	sigla char(3),
+	imp_com_int ...,
+	
+	constraint pk_imp_com_int primary key(ano, sigla),
+	constraint fk_imp_com_int foreign key(ano)
+		references(paises) on delete cascade,
+	
+	constraint ...
+);
+
+
+create table T1BD.imp_exportacao (
+	ano date,
+	sigla char(3),
+	imp_exportacao ...,
+	
+	constraint pk_imp_exportacao primary key(ano, sigla),
+	constraint fk_imp_exportacao foreign key(ano)
+		references(paises) on delete cascade,
+	
+	constraint ...
+);
+
+
+create table T1BD.imp_receita_fiscal (
+	ano date,
+	sigla char(3),
+	imp_receita_fiscal ...,
+	
+	constraint pk_imp_receita_fiscal primary key(ano, sigla),
+	constraint fk_imp_receita_fiscal foreign key(ano)
+		references(paises) on delete cascade,
+	
+	constraint ...
+);
+
+
+create table T1BD.imp_alfan_import (
+	ano date,
+	sigla char(3),
+	imp_alfan_import ...,
+	
+	constraint pk_imp_alfan_import primary key(ano, sigla),
+	constraint fk_imp_alfan_import foreign key(ano)
+		references(paises) on delete cascade,
+	
+	constraint ...
+);
+
+
+create table T1BD.imp_renda (
+	ano date,
+	sigla char(3),
+	imp_renda ...,
+	
+	constraint pk_imp_renda primary key(ano, sigla),
+	constraint fk_imp_renda foreign key(ano)
+		references(paises) on delete cascade,
+	
+	constraint ...
+);
