@@ -17,7 +17,9 @@ Com todas as tabelas montadas e preenchidas, devem ser feitas consultas e relat�
 desenvolvimento, investimento x desenvolvimento x imposto, imposto x qualidade de vida devem ser possíveis. 
 
 ### LINKS ÚTEIS:
+
 https://servicodados.ibge.gov.br/api/docs/paises
+
 77827 - Economia - Total do PIB
 77825 - Economia - Total de exportações
 77826 - Economia - Total de importações
@@ -27,6 +29,7 @@ https://servicodados.ibge.gov.br/api/docs/paises
 77831 - Indicadores sociais - Índice de desenvolvimento humano
 
 IMPOSTOS: 
+
 Sob Comércio Internacional (%): https://data.worldbank.org/indicator/GC.TAX.INTT.RV.ZS?locations=BR
 Sob Exportação (%): https://data.worldbank.org/indicator/GC.TAX.EXPT.ZS?locations=BR
 Receita Fiscal (US$): https://data.worldbank.org/indicator/GC.TAX.TOTL.CN?locations=BR
@@ -54,9 +57,7 @@ Imposto de renda (%): https://data.worldbank.org/indicator/GC.TAX.YPKG.RV.ZS?loc
     d) Com os itens acima feitos, basta juntar tudo e o banco de dados estará rodando com alguns dados.
 
 # TODO:
-* Ajustar impostos
-* Finalizar classes e encapsulamentos
-* Ajusar diagramas
-* Fazer script de criação de tabelas
+* Ajustar impostos -> faremos depois pois alguns dados estão faltando, mas os tipos ja foram definidos
+* Fazer script de criação de tabelas e verificar diagramas -> conferir
 * Fazer script de carga de dados
 * Juntar tudo e rodar o banco de dados
