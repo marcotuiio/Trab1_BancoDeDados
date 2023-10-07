@@ -7,7 +7,7 @@ import java.sql.SQLException;
 // Classe que permite conexão ao banco de dados de forma génerica, limpo e simples de ser utilizado
 // em qualquer outro lugar do código de forma mais bem otimizada
 public class DatabaseManager {
-    private static final String DB_URL = "jdbc:postgresql://sicm.dc.uel.br:5432/t1bd";
+    private static final String DB_URL = "jdbc:postgresql://sicm.dc.uel.br:5432/t1bd?sslmode=require";
     private static final String DB_USER = "marcotab";
     private static final String DB_PASSWORD = "bd23";
 

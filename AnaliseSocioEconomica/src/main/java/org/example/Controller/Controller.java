@@ -599,7 +599,7 @@ public class Controller {
         for (Pais pais : meusPaises) {
             for (Map.Entry<Integer, String> entry : pais.getTotalExportacao().getSeries().getDuplaAnoAtributo().entrySet()) {
                 try {
-                    String sqlInsertTotalExportacao = "INSERT INTO T1BD.t_total_exportacao (ano, sigla, pib_per_capita_valor) VALUES (?, ?, ?)";
+                    String sqlInsertTotalExportacao = "INSERT INTO T1BD.t_total_exportacao (ano, sigla, total_exportacao_valor) VALUES (?, ?, ?)";
                     preparedStatement = connection.prepareStatement(sqlInsertTotalExportacao);
 
                     preparedStatement.setInt(1, entry.getKey());
@@ -624,7 +624,7 @@ public class Controller {
         for (Pais pais : meusPaises) {
             for (Map.Entry<Integer, String> entry : pais.getTotalImportacao().getSeries().getDuplaAnoAtributo().entrySet()) {
                 try {
-                    String sqlInsertTotalImportacao = "INSERT INTO T1BD.t_total_importacao (ano, sigla, pib_per_capita_valor) VALUES (?, ?, ?)";
+                    String sqlInsertTotalImportacao = "INSERT INTO T1BD.t_total_importacao (ano, sigla, total_importacao_valor) VALUES (?, ?, ?)";
                     preparedStatement = connection.prepareStatement(sqlInsertTotalImportacao);
 
                     preparedStatement.setInt(1, entry.getKey());
@@ -649,7 +649,7 @@ public class Controller {
         for (Pais pais : meusPaises) {
             for (Map.Entry<Integer, String> entry : pais.getInvestPesqDesenv().getSeries().getDuplaAnoAtributo().entrySet()) {
                 try {
-                    String sqlInsertPesqDesenv = "INSERT INTO T1BD.t_invest_pesq_desenv (ano, sigla, pib_per_capita_valor) VALUES (?, ?, ?)";
+                    String sqlInsertPesqDesenv = "INSERT INTO T1BD.t_invest_pesq_desenv (ano, sigla, invest_pesq_desenv_valor) VALUES (?, ?, ?)";
                     preparedStatement = connection.prepareStatement(sqlInsertPesqDesenv);
 
                     preparedStatement.setInt(1, entry.getKey());
@@ -674,7 +674,7 @@ public class Controller {
         for (Pais pais : meusPaises) {
             for (Map.Entry<Integer, String> entry : pais.getIndivAcesNet().getSeries().getDuplaAnoAtributo().entrySet()) {
                 try {
-                    String sqlInsertIndivAcesNet = "INSERT INTO T1BD.t_indiv_aces_net (ano, sigla, pib_per_capita_valor) VALUES (?, ?, ?)";
+                    String sqlInsertIndivAcesNet = "INSERT INTO T1BD.t_indiv_aces_net (ano, sigla, indiv_aces_net_valor) VALUES (?, ?, ?)";
                     preparedStatement = connection.prepareStatement(sqlInsertIndivAcesNet);
 
                     preparedStatement.setInt(1, entry.getKey());
@@ -699,7 +699,7 @@ public class Controller {
         for (Pais pais : meusPaises) {
             for (Map.Entry<Integer, String> entry : pais.getIdh().getSeries().getDuplaAnoAtributo().entrySet()) {
                 try {
-                    String sqlInsertIdh = "INSERT INTO T1BD.t_idh (ano, sigla, pib_per_capita_valor) VALUES (?, ?, ?)";
+                    String sqlInsertIdh = "INSERT INTO T1BD.t_idh (ano, sigla, idh_valor) VALUES (?, ?, ?)";
                     preparedStatement = connection.prepareStatement(sqlInsertIdh);
 
                     preparedStatement.setInt(1, entry.getKey());
@@ -724,7 +724,7 @@ public class Controller {
         for (Pais pais : meusPaises) {
             for (Map.Entry<Integer, String> entry : pais.getImpComInter().getSeries().getDuplaAnoAtributo().entrySet()) {
                 try {
-                    String sqlInsertImpComInter = "INSERT INTO T1BD.t_imp_com_inter (ano, sigla, pib_per_capita_valor) VALUES (?, ?, ?)";
+                    String sqlInsertImpComInter = "INSERT INTO T1BD.t_imp_com_inter (ano, sigla, imp_com_inter_valor) VALUES (?, ?, ?)";
                     preparedStatement = connection.prepareStatement(sqlInsertImpComInter);
 
                     preparedStatement.setInt(1, entry.getKey());
@@ -749,7 +749,7 @@ public class Controller {
         for (Pais pais : meusPaises) {
             for (Map.Entry<Integer, String> entry : pais.getImpExportacao().getSeries().getDuplaAnoAtributo().entrySet()) {
                 try {
-                    String sqlInsertImpExportacao = "INSERT INTO T1BD.t_imp_exportacao (ano, sigla, pib_per_capita_valor) VALUES (?, ?, ?)";
+                    String sqlInsertImpExportacao = "INSERT INTO T1BD.t_imp_exportacao (ano, sigla, imp_exportacao_valor) VALUES (?, ?, ?)";
                     preparedStatement = connection.prepareStatement(sqlInsertImpExportacao);
 
                     preparedStatement.setInt(1, entry.getKey());
@@ -774,7 +774,7 @@ public class Controller {
         for (Pais pais : meusPaises) {
             for (Map.Entry<Integer, String> entry : pais.getImpReceitaFiscal().getSeries().getDuplaAnoAtributo().entrySet()) {
                 try {
-                    String sqlInsertImpReceitaFiscal = "INSERT INTO T1BD.t_imp_receita_fiscal (ano, sigla, pib_per_capita_valor) VALUES (?, ?, ?)";
+                    String sqlInsertImpReceitaFiscal = "INSERT INTO T1BD.t_imp_receita_fiscal (ano, sigla, imp_receita_fiscal_valor) VALUES (?, ?, ?)";
                     preparedStatement = connection.prepareStatement(sqlInsertImpReceitaFiscal);
 
                     preparedStatement.setInt(1, entry.getKey());
@@ -799,7 +799,7 @@ public class Controller {
         for (Pais pais : meusPaises) {
             for (Map.Entry<Integer, String> entry : pais.getImpAlfanImport().getSeries().getDuplaAnoAtributo().entrySet()) {
                 try {
-                    String sqlInsertImpAlfanImport = "INSERT INTO T1BD.t_imp_alfan_import (ano, sigla, pib_per_capita_valor) VALUES (?, ?, ?)";
+                    String sqlInsertImpAlfanImport = "INSERT INTO T1BD.t_imp_alfan_import (ano, sigla, imp_alfan_import_valor) VALUES (?, ?, ?)";
                     preparedStatement = connection.prepareStatement(sqlInsertImpAlfanImport);
 
                     preparedStatement.setInt(1, entry.getKey());
@@ -824,7 +824,7 @@ public class Controller {
         for (Pais pais : meusPaises) {
             for (Map.Entry<Integer, String> entry : pais.getImpRenda().getSeries().getDuplaAnoAtributo().entrySet()) {
                 try {
-                    String sqlInsertImpRenda = "INSERT INTO T1BD.t_imp_renda (ano, sigla, pib_per_capita_valor) VALUES (?, ?, ?)";
+                    String sqlInsertImpRenda = "INSERT INTO T1BD.t_imp_renda (ano, sigla, imp_renda_valor) VALUES (?, ?, ?)";
                     preparedStatement = connection.prepareStatement(sqlInsertImpRenda);
 
                     preparedStatement.setInt(1, entry.getKey());

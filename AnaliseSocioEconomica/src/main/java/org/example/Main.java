@@ -21,6 +21,6 @@ public class Main {
 
         controller.insertIntoDB(meusPaises);
 
-        controller.printarMeusPaises(meusPaises);
+//        controller.printarMeusPaises(meusPaises);
     }
 }
