@@ -22,6 +22,4 @@ public class SerieAnoAtrib {
     public void setDuplaAnoAtributo(int ano, String atributo) {
         this.duplaAnoAtributo.put(ano, atributo);
     }
-
-
 }

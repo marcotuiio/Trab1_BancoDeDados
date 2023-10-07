@@ -19,7 +19,8 @@ public class Main {
 
         controller.callCSVFilter(meusPaises);
 
-        controller.printarMeusPaises(meusPaises);
+        controller.insertIntoDB(meusPaises);
 
+        controller.printarMeusPaises(meusPaises);
     }
 }
