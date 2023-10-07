@@ -19,11 +19,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Controller {
-//    private static List<String> paises = List.of("AR", "AU", "BR", "CA", "CN", "DE", "FR", "GB", "ID",
-//                                                    "IN", "IT", "JP", "KR", "MX", "RU", "SA", "TR", "US", "ZA");
-//    private static List<String> indicadores = List.of("77827", "77825", "77826", "77821", "77823", "77857", "77831");
-    private static List<String> paises = List.of("BR");
-    private static List<String> indicadores = List.of("77827");
+    private static List<String> paises = List.of("AR", "AU", "BR", "CA", "CN", "DE", "FR", "GB", "ID",
+                                                    "IN", "IT", "JP", "KR", "MX", "RU", "SA", "TR", "US", "ZA");
+    private static List<String> indicadores = List.of("77827", "77825", "77826", "77821", "77823", "77857", "77831");
+//    private static List<String> paises = List.of("BR");
+//    private static List<String> indicadores = List.of("77827");
     private static String url = "https://servicodados.ibge.gov.br/api/v1/paises/{pais}/indicadores/{indicador}";
 
     private static HttpClient client = HttpClient.newHttpClient();
@@ -112,7 +112,7 @@ public class Controller {
 
 //                System.out.println(idInd + " | " + nomeInd + " | " + nomePais);
 
-                List<SerieAnoAtrib> serieAnoAtrib = new ArrayList<>();
+                SerieAnoAtrib serieAnoAtrib = new SerieAnoAtrib();
 
                 for (JsonNode ponto : seriesDados) {
                     Iterator<String> fieldNames = ponto.fieldNames();
@@ -126,8 +126,7 @@ public class Controller {
 
                         if (ano.length() == 4) {
                             if (Integer.parseInt(ano) >= 2010 && Integer.parseInt(ano) <= 2021) {
-                                SerieAnoAtrib dupla = new SerieAnoAtrib(Integer.parseInt(ano), valor);
-                                serieAnoAtrib.add(dupla);
+                                serieAnoAtrib.setDuplaAnoAtributo(Integer.parseInt(ano), valor);
 //                        System.out.println("Ano: " + ano + ", Valor: " + valor);
                             }
                         }
@@ -201,12 +200,11 @@ public class Controller {
             String nomePaisCsv = linha[0]; // traduzir nome ou colocar a sigla tal qual nos do IBGE
 //            System.out.println("-----> País linha[0]: " + nomePaisCsv);
             int ano = 2010;
-            List<SerieAnoAtrib> serieAnoAtrib = new ArrayList<>();
+            SerieAnoAtrib serieAnoAtrib = new SerieAnoAtrib();
             for (int i = 1; i < linha.length; i++) {
                 String valor = linha[i];
-                SerieAnoAtrib dupla = new SerieAnoAtrib(ano, valor);
+                serieAnoAtrib.setDuplaAnoAtributo(ano, valor);
                 ano++;
-                serieAnoAtrib.add(dupla);
             }
 
             Dados objeto = new Dados();
@@ -336,7 +334,7 @@ public class Controller {
             }
 
             if (paisToSet == null) {
-                System.out.println("ERRO -> País " + nomePaisCsv + "não está no filtro do IBGE");
+                System.out.println("ERRO -> País " + nomePaisCsv + " não está no filtro do IBGE");
                 break;
             }
 
@@ -371,53 +369,72 @@ public class Controller {
             System.out.println("-- DADOS DO IBGE --");
 
             System.out.println("\n<Serie anual PibTotal>");
-            for (SerieAnoAtrib pib : p.getPibTotal().getSeries()){
-                pib.setAnoValorFromDupla(pib.getDuplaAnoAtributo());
-                System.out.println("ANO: " + pib.getAnoToSet() + " VALOR: " + pib.getValueToSet());
+            Map<Integer, String> pib = p.getPibTotal().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : pib.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
             }
-//            System.out.println("\n<Serie anual PibPerCapita>");
-//            for (SerieAnoAtrib pibcapita : p.getPibPerCapita().getSeries()) {
-//                System.out.println(pibcapita.getDuplaAnoAtributo());
-//            }
-//            System.out.println("\n<Serie anual TotalExportacoes>");
-//            for (SerieAnoAtrib exp : p.getTotalExportacao().getSeries()) {
-//                System.out.println(exp.getDuplaAnoAtributo());
-//            }
-//            System.out.println("\n<Serie anual TotalImportacoes>");
-//            for (SerieAnoAtrib imp : p.getTotalImportacao().getSeries()) {
-//                System.out.println(imp.getDuplaAnoAtributo());
-//            }
-//            System.out.println("\n<Serie anual IndividuosAcessoInternet>");
-//            for (SerieAnoAtrib net : p.getIndivAcesNet().getSeries()) {
-//                System.out.println(net.getDuplaAnoAtributo());
-//            }
-//            System.out.println("\n<Serie anual IDH>");
-//            for (SerieAnoAtrib idh : p.getIdh().getSeries()) {
-//                System.out.println(idh.getDuplaAnoAtributo());
-//            }
-//
-//            System.out.println("\n-- DADOS DO CSV --");
-//
-//            System.out.println("\n<Serie anual impComInter>");
-//            for (SerieAnoAtrib impComInter : p.getImpComInter().getSeries()) {
-//                System.out.println(impComInter.getDuplaAnoAtributo());
-//            }
-//            System.out.println("\n<Serie anual impExportacao>");
-//            for (SerieAnoAtrib impExportacao : p.getImpExportacao().getSeries()) {
-//                System.out.println(impExportacao.getDuplaAnoAtributo());
-//            }
-//            System.out.println("\n<Serie anual impReceitaFiscal>");
-//            for (SerieAnoAtrib impReceitaFiscal : p.getImpReceitaFiscal().getSeries()) {
-//                System.out.println(impReceitaFiscal.getDuplaAnoAtributo());
-//            }
-//            System.out.println("\n<Serie anual impAlfanImport>");
-//            for (SerieAnoAtrib impAlfanImport : p.getImpAlfanImport().getSeries()) {
-//                System.out.println(impAlfanImport.getDuplaAnoAtributo());
-//            }
-//            System.out.println("\n<Serie anual impRenda>");
-//            for (SerieAnoAtrib impRenda : p.getImpRenda().getSeries()) {
-//                System.out.println(impRenda.getDuplaAnoAtributo());
-//            }
+
+            System.out.println("\n<Serie anual PibPerCapita>");
+            Map<Integer, String> pipCapita = p.getPibPerCapita().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : pipCapita.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
+
+            System.out.println("\n<Serie anual TotalExportacoes>");
+            Map<Integer, String> totalExp = p.getTotalExportacao().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : totalExp.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
+
+            System.out.println("\n<Serie anual TotalImportacoes>");
+            Map<Integer, String> totalImp = p.getTotalImportacao().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : totalImp.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
+
+            System.out.println("\n<Serie anual IndividuosAcessoInternet>");
+            Map<Integer, String> acessoNet = p.getIndivAcesNet().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : acessoNet.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
+
+            System.out.println("\n<Serie anual IDH>");
+            Map<Integer, String> idh = p.getIdh().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : idh.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
+
+            System.out.println("\n-- DADOS DO CSV --");
+
+            System.out.println("\n<Serie anual impComInter>");
+            Map<Integer, String> impInter = p.getImpComInter().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : impInter.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
+
+            System.out.println("\n<Serie anual impExportacao>");
+            Map<Integer, String> impExp = p.getImpExportacao().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : impExp.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
+
+            System.out.println("\n<Serie anual impReceitaFiscal>");
+            Map<Integer, String> receitaFiscal = p.getImpReceitaFiscal().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : receitaFiscal.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
+
+            System.out.println("\n<Serie anual impAlfanImport>");
+            Map<Integer, String> impAlf = p.getImpAlfanImport().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : impAlf.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
+
+            System.out.println("\n<Serie anual impRenda>");
+            Map<Integer, String> impRenda = p.getImpRenda().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : impRenda.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
 
             System.out.println("\n\n");
         }
@@ -464,7 +481,7 @@ public class Controller {
             preparedStatement.setString(1, siglaPais);
 
             ResultSet resultSet = preparedStatement.executeQuery();
-            List<SerieAnoAtrib> series = new ArrayList<>();
+            SerieAnoAtrib series = new SerieAnoAtrib();
 
             if (resultSet.next() == false) {
                 System.out.println("ERRO DE QUERY EM PIB TOTAL :: PAÍS COM SIGLA " + siglaPais + " NÃO ENCONTRADO\n");
@@ -475,8 +492,7 @@ public class Controller {
                 int ano = resultSet.getInt("sigla");
                 String valor = resultSet.getString("pib_total_valor");
 
-                SerieAnoAtrib dupla = new SerieAnoAtrib(ano, valor);
-                series.add(dupla);
+                series.setDuplaAnoAtributo(ano, valor);
             }
             pipTotal.setSeries(series);
 

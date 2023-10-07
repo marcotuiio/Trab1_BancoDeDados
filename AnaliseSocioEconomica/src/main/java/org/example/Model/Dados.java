@@ -5,11 +5,11 @@ import java.util.List;
 public class Dados {
     private int id;
     private String indicador;
-    private List<SerieAnoAtrib> series;
+    private SerieAnoAtrib series;
 
     public Dados() {}
 
-    public Dados(int id, String indicador, List<SerieAnoAtrib> series) {
+    public Dados(int id, String indicador, SerieAnoAtrib series) {
         this.id = id;
         this.indicador = indicador;
         this.series = series;
@@ -31,11 +31,11 @@ public class Dados {
         this.indicador = indicador;
     }
 
-    public List<SerieAnoAtrib> getSeries() {
+    public SerieAnoAtrib getSeries() {
         return series;
     }
 
-    public void setSeries(List<SerieAnoAtrib> series) {
+    public void setSeries(SerieAnoAtrib series) {
         this.series = series;
     }
 }

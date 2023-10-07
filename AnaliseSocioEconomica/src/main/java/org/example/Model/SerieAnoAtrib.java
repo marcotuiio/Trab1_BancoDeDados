@@ -9,30 +9,19 @@ import java.util.Map;
 
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SerieAnoAtrib {
-    private int anoToSet;
-    private String valueToSet;
-    private Map<Integer, String> duplaAnoAtributo = new HashMap<>();
+    private Map<Integer, String> duplaAnoAtributo;
 
-    public SerieAnoAtrib(int ano, String atributo) {
-        this.duplaAnoAtributo.put(ano, atributo);
+    public SerieAnoAtrib() {
+        duplaAnoAtributo = new HashMap<>();
     }
 
     public Map<Integer, String> getDuplaAnoAtributo() {
         return duplaAnoAtributo;
     }
 
-    public void setDuplaAnoAtributo(Map<Integer, String> value) {
-        this.duplaAnoAtributo = value;
+    public void setDuplaAnoAtributo(int ano, String atributo) {
+        this.duplaAnoAtributo.put(ano, atributo);
     }
 
-    public void setAnoValorFromDupla(Map<Integer, String> dupla) {
-        for (Map.Entry d : dupla.entrySet()) {
-            this.anoToSet = (int) d.getKey();
-            this.valueToSet = (String) d.getValue();
-        }
-    }
 
-    public int getAnoToSet() { return anoToSet; }
-
-    public String getValueToSet() { return valueToSet; }
 }
