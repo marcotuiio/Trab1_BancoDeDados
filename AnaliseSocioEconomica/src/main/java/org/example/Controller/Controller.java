@@ -14,6 +14,7 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
 import java.io.FileReader;
+import java.sql.*;
 
 public class Controller {
     private static List<String> paises = List.of("AR", "AU", "BR", "CA", "CN", "DE", "FR", "GB", "ID",
@@ -22,13 +23,17 @@ public class Controller {
     private static String url = "https://servicodados.ibge.gov.br/api/v1/paises/{pais}/indicadores/{indicador}";
 
     private static HttpClient client = HttpClient.newHttpClient();
+
     private static ObjectMapper objectMapper = new ObjectMapper();
 
+    private DatabaseManagerApp databaseManager = new DatabaseManagerApp();
+
+    PreparedStatement preparedStatement;
     private static String PATH_TO_CSV = "C:\\Users\\marco\\Desktop\\UEL\\Database\\Trab1_BancoDeDados\\CSVs\\";
 //    private static String PATH_TO_CSV = "/home/vfs/Documents/Database_I/Trab1_BancoDeDados/CSVs/";
 
     private static List<String> arquivos = List.of("impComInter", "impExportacao", "impReceitaFiscal",
-                                                "impAlfanImport", "impRenda");
+                                                    "impAlfanImport", "impRenda");
 
     public Map<String, Map<String, JsonNode>> makeRequestAPI() {
 
@@ -410,6 +415,29 @@ public class Controller {
             }
 
             System.out.println("\n\n");
+        }
+    }
+
+    public void insertPais(List<Pais> meusPaises) {
+        databaseManager.connect();
+        Connection connection = databaseManager.getConnection();
+
+        for (Pais pais : meusPaises) {
+            try {
+                String sqlInsertUser = "INSERT INTO pais (sigla, nome_extenso) VALUES (?, ?)";
+                preparedStatement = connection.prepareStatement(sqlInsertUser);
+
+                preparedStatement.setString(1, pais.getId());
+                preparedStatement.setString(2, pais.getNome());
+
+                int linhasAfetadas = preparedStatement.executeUpdate();
+
+                if (linhasAfetadas == 0) {
+                    return;
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(GerenciadorAppOnibus.class.getName()).log(Level.SEVERE, null, ex);
+            }
         }
     }
  }
