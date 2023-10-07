@@ -15,7 +15,7 @@ create table T1BD.t_pib_total (
 	pib_total_valor numeric(14, 2),
 	
 	constraint pk_pib_total primary key(ano, sigla),
-	constraint fk_pib_total foreign key(sigla) references pais(sigla) on delete cascade,
+	constraint fk_pib_total foreign key(sigla) references T1BD.pais(sigla) on delete cascade,
     constraint const_pib_total check(pib_total_valor >= 0)
 );
 
@@ -26,7 +26,7 @@ create table T1BD.t_pib_per_capita (
 	pib_per_capita_valor numeric(8, 2),
 	
 	constraint pk_pib_per_capita primary key(ano, sigla),
-	constraint fk_pib_per_capita foreign key(sigla) references pais(sigla) on delete cascade,
+	constraint fk_pib_per_capita foreign key(sigla) references T1BD.pais(sigla) on delete cascade,
 	constraint const_pib_cap check(pib_per_capita_valor >= 0)
 );
 
@@ -37,7 +37,7 @@ create table T1BD.t_total_exportacao (
 	total_exportacao_valor numeric(14, 2),
 	
 	constraint pk_total_exportacao primary key(ano, sigla),
-	constraint fk_total_exportacao foreign key(sigla) references pais(sigla) on delete cascade,
+	constraint fk_total_exportacao foreign key(sigla) references T1BD.pais(sigla) on delete cascade,
 	constraint const_tot_exp check(total_exportacao_valor >= 0)
 );
 
@@ -48,7 +48,7 @@ create table T1BD.t_total_importacao (
 	total_importacao_valor numeric(14, 2),
 	
 	constraint pk_total_importacao primary key(ano, sigla),
-	constraint fk_total_importacao foreign key(sigla) references pais(sigla) on delete cascade,
+	constraint fk_total_importacao foreign key(sigla) references T1BD.pais(sigla) on delete cascade,
 	constraint const_tot_imp check(total_importacao_valor >= 0)
 );
 
@@ -59,7 +59,7 @@ create table T1BD.t_invest_pesq_desenv (
 	invest_pesq_desenv_valor numeric(4, 3),
 	
 	constraint pk_invest_pesq_desenv primary key(ano, sigla),
-	constraint fk_invest_pesq_desenv foreign key(sigla) references pais(sigla) on delete cascade,
+	constraint fk_invest_pesq_desenv foreign key(sigla) references T1BD.pais(sigla) on delete cascade,
 	constraint const_tot_pesq check(invest_pesq_desenv_valor >= 0 and invest_pesq_desenv_valor <= 1)
 );
 
@@ -70,7 +70,7 @@ create table T1BD.t_indiv_aces_net (
 	indiv_aces_net_valor numeric(5, 2),
 	
 	constraint pk_indiv_aces_net primary key(ano, sigla),
-	constraint fk_indiv_aces_net foreign key(sigla) references pais(sigla) on delete cascade,
+	constraint fk_indiv_aces_net foreign key(sigla) references T1BD.pais(sigla) on delete cascade,
 	constraint const_aces_net check(indiv_aces_net_valor >= 0 and indiv_aces_net_valor <= 100) 
 );
 
@@ -81,7 +81,7 @@ create table T1BD.t_idh (
 	idh_valor numeric(4, 3),
 	
 	constraint pk_idh primary key(ano, sigla),
-	constraint fk_idh foreign key(sigla) references pais(sigla) on delete cascade,
+	constraint fk_idh foreign key(sigla) references T1BD.pais(sigla) on delete cascade,
 	constraint conts_idh check(idh_valor >= 0 and idh_valor <= 1)
 );
 
@@ -92,7 +92,7 @@ create table T1BD.t_imp_com_inter (
 	imp_com_inter_valor numeric(5, 3),
 	
 	constraint pk_imp_com_inter primary key(ano, sigla),
-	constraint fk_imp_com_inter foreign key(sigla) references pais(sigla) on delete cascade,
+	constraint fk_imp_com_inter foreign key(sigla) references T1BD.pais(sigla) on delete cascade,
 	constraint const_imp_inter check(imp_com_inter_valor >= 0 and imp_com_inter_valor <= 100) 
 );
 
@@ -103,7 +103,7 @@ create table T1BD.t_imp_exportacao (
 	imp_exportacao_valor numeric(16, 1),
 	
 	constraint pk_imp_exportacao primary key(ano, sigla),
-	constraint fk_imp_exportacao foreign key(sigla) references pais(sigla) on delete cascade,
+	constraint fk_imp_exportacao foreign key(sigla) references T1BD.pais(sigla) on delete cascade,
 	constraint const_imp_exp check(imp_exportacao_valor >= 0) 
 );
 
@@ -114,7 +114,7 @@ create table T1BD.t_imp_receita_fiscal (
 	imp_receita_fiscal_valor numeric(14, 2),
 	
 	constraint pk_imp_receita_fiscal primary key(ano, sigla),
-	constraint fk_imp_receita_fiscal foreign key(sigla) references pais(sigla) on delete cascade,
+	constraint fk_imp_receita_fiscal foreign key(sigla) references T1BD.pais(sigla) on delete cascade,
 	constraint const_imp_receita check(imp_receita_fiscal_valor >= 0) 
 );
 
@@ -125,7 +125,7 @@ create table T1BD.t_imp_alfan_import (
 	imp_alfan_import_valor numeric(14, 1),
 	
 	constraint pk_imp_alfan_import primary key(ano, sigla),
-	constraint fk_imp_alfan_import foreign key(sigla) references pais(sigla) on delete cascade,
+	constraint fk_imp_alfan_import foreign key(sigla) references T1BD.pais(sigla) on delete cascade,
 	constraint const_imp_alfan check(imp_alfan_import_valor >= 0) 
 );
 
@@ -136,6 +136,6 @@ create table T1BD.t_imp_renda (
 	imp_renda_valor numeric(4, 2),
 	
 	constraint pk_imp_renda primary key(ano, sigla),
-	constraint fk_imp_renda foreign key(sigla) references pais(sigla) on delete cascade,
+	constraint fk_imp_renda foreign key(sigla) references T1BD.pais(sigla) on delete cascade,
 	constraint const_imp_renda check(imp_renda_valor >= 0 and imp_renda_valor < 100) 
 );

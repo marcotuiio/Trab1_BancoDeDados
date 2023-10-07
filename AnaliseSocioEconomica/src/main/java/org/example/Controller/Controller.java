@@ -15,6 +15,8 @@ import java.net.http.HttpResponse;
 import java.util.*;
 import java.io.FileReader;
 import java.sql.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 public class Controller {
     private static List<String> paises = List.of("AR", "AU", "BR", "CA", "CN", "DE", "FR", "GB", "ID",
@@ -26,7 +28,7 @@ public class Controller {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-    private DatabaseManagerApp databaseManager = new DatabaseManagerApp();
+    private DatabaseManager databaseManager = new DatabaseManager();
 
     PreparedStatement preparedStatement;
     private static String PATH_TO_CSV = "C:\\Users\\marco\\Desktop\\UEL\\Database\\Trab1_BancoDeDados\\CSVs\\";
@@ -418,6 +420,72 @@ public class Controller {
         }
     }
 
+    public Pais queryPaises(String siglaPais) {
+        databaseManager.connect();
+        Connection connection = databaseManager.getConnection();
+
+        Pais paisAlvo = new Pais(siglaPais);
+
+        try {
+            String sql = "SELECT * FROM t1bd.pais WHERE sigla = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, siglaPais);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+
+            if (resultSet.next()) {
+                String sigla = resultSet.getString("sigla");
+                String nome = resultSet.getString("nome_entenso");
+                paisAlvo.setNome(nome);
+
+            } else {
+                System.out.println("ERRO DE QUERY :: PAÍS COM SIGLA " + siglaPais + " NÃO ENCONTRADO\n");
+                return null;
+            }
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        return paisAlvo;
+    }
+
+    public Dados queryPibTotal(String siglaPais) {
+        databaseManager.connect();
+        Connection connection = databaseManager.getConnection();
+
+        Dados pipTotal = new Dados();
+        try {
+            String sql = "SELECT * FROM t1bd.t_pib_total WHERE sigla = ?";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setString(1, siglaPais);
+
+            ResultSet resultSet = preparedStatement.executeQuery();
+            List<SerieAnoAtrib> series = new ArrayList<>();
+
+            if (resultSet.next() == false) {
+                System.out.println("ERRO DE QUERY EM PIB TOTAL :: PAÍS COM SIGLA " + siglaPais + " NÃO ENCONTRADO\n");
+                return null;
+            }
+
+            while (resultSet.next()) {
+                int ano = resultSet.getInt("sigla");
+                String valor = resultSet.getString("pib_total_valor");
+
+                SerieAnoAtrib dupla = new SerieAnoAtrib(ano, valor);
+                series.add(dupla);
+            }
+            pipTotal.setSeries(series);
+
+        } catch (SQLException ex) {
+            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+        }
+
+        pipTotal.setId(1);
+        pipTotal.setIndicador("Economia - Total do PIB");
+        return pipTotal;
+    }
+
     public void insertPais(List<Pais> meusPaises) {
         databaseManager.connect();
         Connection connection = databaseManager.getConnection();
@@ -436,7 +504,7 @@ public class Controller {
                     return;
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(GerenciadorAppOnibus.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
