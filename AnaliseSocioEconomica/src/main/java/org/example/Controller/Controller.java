@@ -19,9 +19,11 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class Controller {
-    private static List<String> paises = List.of("AR", "AU", "BR", "CA", "CN", "DE", "FR", "GB", "ID",
-                                                    "IN", "IT", "JP", "KR", "MX", "RU", "SA", "TR", "US", "ZA");
-    private static List<String> indicadores = List.of("77827", "77825", "77826", "77821", "77823", "77857", "77831");
+//    private static List<String> paises = List.of("AR", "AU", "BR", "CA", "CN", "DE", "FR", "GB", "ID",
+//                                                    "IN", "IT", "JP", "KR", "MX", "RU", "SA", "TR", "US", "ZA");
+//    private static List<String> indicadores = List.of("77827", "77825", "77826", "77821", "77823", "77857", "77831");
+    private static List<String> paises = List.of("BR");
+    private static List<String> indicadores = List.of("77827");
     private static String url = "https://servicodados.ibge.gov.br/api/v1/paises/{pais}/indicadores/{indicador}";
 
     private static HttpClient client = HttpClient.newHttpClient();
@@ -370,51 +372,52 @@ public class Controller {
 
             System.out.println("\n<Serie anual PibTotal>");
             for (SerieAnoAtrib pib : p.getPibTotal().getSeries()){
-                System.out.println(pib.getDuplaAnoAtributo());
+                pib.setAnoValorFromDupla(pib.getDuplaAnoAtributo());
+                System.out.println("ANO: " + pib.getAnoToSet() + " VALOR: " + pib.getValueToSet());
             }
-            System.out.println("\n<Serie anual PibPerCapita>");
-            for (SerieAnoAtrib pibcapita : p.getPibPerCapita().getSeries()) {
-                System.out.println(pibcapita.getDuplaAnoAtributo());
-            }
-            System.out.println("\n<Serie anual TotalExportacoes>");
-            for (SerieAnoAtrib exp : p.getTotalExportacao().getSeries()) {
-                System.out.println(exp.getDuplaAnoAtributo());
-            }
-            System.out.println("\n<Serie anual TotalImportacoes>");
-            for (SerieAnoAtrib imp : p.getTotalImportacao().getSeries()) {
-                System.out.println(imp.getDuplaAnoAtributo());
-            }
-            System.out.println("\n<Serie anual IndividuosAcessoInternet>");
-            for (SerieAnoAtrib net : p.getIndivAcesNet().getSeries()) {
-                System.out.println(net.getDuplaAnoAtributo());
-            }
-            System.out.println("\n<Serie anual IDH>");
-            for (SerieAnoAtrib idh : p.getIdh().getSeries()) {
-                System.out.println(idh.getDuplaAnoAtributo());
-            }
-
-            System.out.println("\n-- DADOS DO CSV --");
-
-            System.out.println("\n<Serie anual impComInter>");
-            for (SerieAnoAtrib impComInter : p.getImpComInter().getSeries()) {
-                System.out.println(impComInter.getDuplaAnoAtributo());
-            }
-            System.out.println("\n<Serie anual impExportacao>");
-            for (SerieAnoAtrib impExportacao : p.getImpExportacao().getSeries()) {
-                System.out.println(impExportacao.getDuplaAnoAtributo());
-            }
-            System.out.println("\n<Serie anual impReceitaFiscal>");
-            for (SerieAnoAtrib impReceitaFiscal : p.getImpReceitaFiscal().getSeries()) {
-                System.out.println(impReceitaFiscal.getDuplaAnoAtributo());
-            }
-            System.out.println("\n<Serie anual impAlfanImport>");
-            for (SerieAnoAtrib impAlfanImport : p.getImpAlfanImport().getSeries()) {
-                System.out.println(impAlfanImport.getDuplaAnoAtributo());
-            }
-            System.out.println("\n<Serie anual impRenda>");
-            for (SerieAnoAtrib impRenda : p.getImpRenda().getSeries()) {
-                System.out.println(impRenda.getDuplaAnoAtributo());
-            }
+//            System.out.println("\n<Serie anual PibPerCapita>");
+//            for (SerieAnoAtrib pibcapita : p.getPibPerCapita().getSeries()) {
+//                System.out.println(pibcapita.getDuplaAnoAtributo());
+//            }
+//            System.out.println("\n<Serie anual TotalExportacoes>");
+//            for (SerieAnoAtrib exp : p.getTotalExportacao().getSeries()) {
+//                System.out.println(exp.getDuplaAnoAtributo());
+//            }
+//            System.out.println("\n<Serie anual TotalImportacoes>");
+//            for (SerieAnoAtrib imp : p.getTotalImportacao().getSeries()) {
+//                System.out.println(imp.getDuplaAnoAtributo());
+//            }
+//            System.out.println("\n<Serie anual IndividuosAcessoInternet>");
+//            for (SerieAnoAtrib net : p.getIndivAcesNet().getSeries()) {
+//                System.out.println(net.getDuplaAnoAtributo());
+//            }
+//            System.out.println("\n<Serie anual IDH>");
+//            for (SerieAnoAtrib idh : p.getIdh().getSeries()) {
+//                System.out.println(idh.getDuplaAnoAtributo());
+//            }
+//
+//            System.out.println("\n-- DADOS DO CSV --");
+//
+//            System.out.println("\n<Serie anual impComInter>");
+//            for (SerieAnoAtrib impComInter : p.getImpComInter().getSeries()) {
+//                System.out.println(impComInter.getDuplaAnoAtributo());
+//            }
+//            System.out.println("\n<Serie anual impExportacao>");
+//            for (SerieAnoAtrib impExportacao : p.getImpExportacao().getSeries()) {
+//                System.out.println(impExportacao.getDuplaAnoAtributo());
+//            }
+//            System.out.println("\n<Serie anual impReceitaFiscal>");
+//            for (SerieAnoAtrib impReceitaFiscal : p.getImpReceitaFiscal().getSeries()) {
+//                System.out.println(impReceitaFiscal.getDuplaAnoAtributo());
+//            }
+//            System.out.println("\n<Serie anual impAlfanImport>");
+//            for (SerieAnoAtrib impAlfanImport : p.getImpAlfanImport().getSeries()) {
+//                System.out.println(impAlfanImport.getDuplaAnoAtributo());
+//            }
+//            System.out.println("\n<Serie anual impRenda>");
+//            for (SerieAnoAtrib impRenda : p.getImpRenda().getSeries()) {
+//                System.out.println(impRenda.getDuplaAnoAtributo());
+//            }
 
             System.out.println("\n\n");
         }
