@@ -120,6 +120,8 @@ public class Controller {
                         String ano = fieldNames.next();
                         String valor = ponto.get(ano).asText();
 
+                        if (valor.startsWith("-")) valor = valor.replace("-", "");
+                        if (valor == null || valor.equals("null") || valor.equals("")) valor = "-1";
                         // Intervalo de anos definido como foco de estudo 2010 - 2021
                         // A escolha foi feita em grande parte pela falta de dados
                         // para muitos países em anos anteriores
@@ -219,6 +221,8 @@ public class Controller {
             SerieAnoAtrib serieAnoAtrib = new SerieAnoAtrib();
             for (int i = 1; i < linha.length; i++) {
                 String valor = linha[i];
+                if (valor.startsWith("-")) valor = valor.replace("-", "");
+                if (valor.equals("") || valor == null) valor = "-1";
                 serieAnoAtrib.setDuplaAnoAtributo(ano, valor);
                 ano++;
             }
@@ -264,7 +268,6 @@ public class Controller {
                             .filter(pais -> pais.getId().equals("DE"))
                             .findFirst()
                             .orElse(null);
-                    System.out.println(paisToSet.getNome());
                     break;
                 case "France":
                     paisToSet = meusPaises.stream()
