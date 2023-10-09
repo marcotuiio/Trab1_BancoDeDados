@@ -1,44 +1,149 @@
 # Trab1_BancoDeDados
 
-## RESUMO: 
+## RESUMO GERAL: 
 O intuito do trabalho é montar tabelas para analisar socioeconomicamente os países, exibindo PIB e aprofundando-se em importações,
-exportações e investimentos em pesquisas. Com essas tabelas montadas, devemos montar tabelas que mostrem dados mais específicos de caratér
-social, como PIB per capita, acesso a internet e IDH. 
-Agora, impostos de interesse precisam ser definidos (imposto de renda, imposto sob importação e exportação, imposto sob bens
-industrializados) e a tabela projetada. Um problema é que existem diversos tipos de imposto e apesar de serem públicos, extrair e
-encapsular os dados de interesse pode ser complexo. Talvez um csv contendo país-imposto precisará ser feito na mão, ou via scraping de uma
-tabela online.  
+exportações, investimentos em pesquisas e IDH. 
 
-Os países foco de estudo serão os membros do G20, sendo eles: África do SUl, Alemanha, Arábia Saudita, Argentina, Austrália, Brasil, Canadá, China, Coreia do Sul, Estados Unidos, França, Índia, Indonésia, Itália, Japão, México, Reino Unido, Rússia, Turquia.
+Um problema é que existem diversos tipos de imposto e apesar de serem públicos, extrair e encapsular os dados de interesse 
+mostrou-se uma tarefa complexa, pois cada país possui sua particularidade fiscal específica. 
 
-Os impostos de interesse são: sob comércio internacional (%), sob exportação (%), receita fiscal (US$), alfândega e importações (US$) e imposto de renda (%). 
+Com esses dados filtrados, pretendemos realizar consultadas e comparações cruzando dados variados, como por exemplo, 
+imposto x arrecadação, imposto x desenvolvimento, imposto x investimento, imposto x qualidade de vida, etc.
 
-Com todas as tabelas montadas e preenchidas, devem ser feitas consultas e relatórios gráficos do tipo relacionamentos entre imposto
-desenvolvimento, investimento x desenvolvimento x imposto, imposto x qualidade de vida devem ser possíveis. 
+Os países foco de estudo serão os membros do G20, por questões de importância, relacionamentos com o Brasil e influência. 
+Sendo eles: África do Sul, Alemanha, Arábia Saudita, Argentina, Austrália, Brasil, Canadá, China, Coreia do Sul, 
+Estados Unidos, França, Índia, Indonésia, Itália, Japão, México, Reino Unido, Rússia, Turquia.
 
-### LINKS ÚTEIS:
+![alt text](https://static.mundoeducacao.uol.com.br/mundoeducacao/2023/09/1-bandeira-dos-participantes-do-g20-grupo-dos-20-ate-o-ano-de-2023.jpg)
 
-https://servicodados.ibge.gov.br/api/docs/paises
+Os impostos de interesse são: sob comércio internacional (%), sob exportação (%), receita fiscal (DÓLAR), alfândega e importações (DÓLAR) e imposto de renda (%). 
 
-77827 - Economia - Total do PIB
-77825 - Economia - Total de exportações
-77826 - Economia - Total de importações
-77821 - Economia - Investimentos em pesquisa e desenvolvimento
-77823 - Economia - PIB per capita
-77857 - Redes - Indivíduos com acesso à internet
-77831 - Indicadores sociais - Índice de desenvolvimento humano
+Portanto ao final das consultas, filtros e encapsulamentos, os dados serão armazenados em um banco de dados relacional, e futuras consultas para
+geração de relatórios serão feitas com SQL. 
+* Relatórios gráficos almejados:
+    - PIB x IDH
+    - PIB x Investimento
+    - PIB x Exportação x Importação x Impostos
+    - PIB x Impostos
+    - IDH x Impostos
+    - Investimento x Impostos
+    - Exportação x Impostos
+    - Importação x Impostos
+    - IDH x Investimento x Impostos
 
-IMPOSTOS: 
+### FONTES DE DADOS:
 
-Sob Comércio Internacional (%): https://data.worldbank.org/indicator/GC.TAX.INTT.RV.ZS?locations=BR
-Sob Exportação (%): https://data.worldbank.org/indicator/GC.TAX.EXPT.ZS?locations=BR
-Receita Fiscal (US$): https://data.worldbank.org/indicator/GC.TAX.TOTL.CN?locations=BR
-Alfândega e Importações (US$): https://data.worldbank.org/indicator/GC.TAX.IMPT.CN?name_desc=false&locations=BR
-Imposto de renda (%): https://data.worldbank.org/indicator/GC.TAX.YPKG.RV.ZS?locations=BR
+Para a extração dos dados foram utilizados as seguintes fontes:
+
+#### IBGE: 
+
+A API do IBGE foi utilizada para modelar os países e os indicativos fundamentais. 
+
+    - https://servicodados.ibge.gov.br/api/docs/paisesV
+
+* Indicativos e os códigos necessários para os requests:
+    - 77827 - Economia - Total do PIB
+    - 77825 - Economia - Total de exportações
+    - 77826 - Economia - Total de importações
+    - 77821 - Economia - Investimentos em pesquisa e desenvolvimento
+    - 77823 - Economia - PIB per capita
+    - 77857 - Redes - Indivíduos com acesso à internet
+    - 77831 - Indicadores sociais - Índice de desenvolvimento humano
+
+* Exemplo de request:
+    ```json
+        [ {
+    "id" : 77831,
+    "indicador" : "Indicadores sociais - Índice de desenvolvimento humano",
+    "series" : [ {
+        "pais" : {
+        "id" : "BR",
+        "nome" : "Brasil"
+        },
+        "serie" : [ {
+        "-" : null
+        }, {
+        "2008-2010" : null
+        }, {
+        "2009" : "0.717"
+        }, {
+        "2009-2011" : null
+        }, {
+        "2010" : "0.723"
+        }, {
+        "2010-2012" : null
+        }, {
+        "2010-2015" : null
+        }, {
+        "2011" : "0.728"
+        }, {
+        "2011-2013" : null
+        }, {
+        "2012" : "0.732"
+        }, {
+        "2012-2014" : null
+        }, {
+        "2013" : "0.75"
+        }, {
+        "2013-2015" : null
+        }, {
+        "2014" : "0.754"
+        }, {
+        "2014-2016" : null
+        }, {
+        "2015" : "0.753"
+        }, {
+        "2015-2017" : null
+        }, {
+        "2015-2020" : null
+        }, {
+        "2016" : "0.755"
+        }, {
+        "2016-2018" : null
+        }, {
+        "2017" : "0.759"
+        }, {
+        "2017-2019" : null
+        }, {
+        "2018" : "0.764"
+        }, {
+        "2018-2020" : null
+        }, {
+        "2019" : "0.766"
+        }, {
+        "2020" : "0.758"
+        }, {
+        "2021" : "0.754"
+        }, {
+        "2022" : null
+        } ]
+    } ]
+    } ]
+
+    ```
+
+#### WorldBank: 
+
+Para extração dos impostos, foi utilizado o site WorldBank, que possui um conjunto de datasets sobre 
+assuntos variados de diversos países, e os impostos são organizados por tipo de imposto e por país.
+
+    - https://data.worldbank.org/
+
+* Impostos de interesse e link para acessar dataset original: 
+
+    - Sob Comércio Internacional (%): https://data.worldbank.org/indicator/GC.TAX.INTT.RV.ZS?locations=BR
+    - Sob Exportação (%): https://data.worldbank.org/indicator/GC.TAX.EXPT.ZS?locations=BR
+    - Receita Fiscal (US$): https://data.worldbank.org/indicator/GC.TAX.TOTL.CN?locations=BR
+    - Alfândega e Importações (US$): https://data.worldbank.org/indicator/GC.TAX.IMPT.CN?name_desc=false&locations=BR
+    - Imposto de renda (%): https://data.worldbank.org/indicator/GC.TAX.YPKG.RV.ZS?locations=BR
+
+<!-- * Exemplo do CSV:
+    ![alt text](Trab1_BancoDeDados\exemploCSV.png?raw=true "Exemplo CSV") -->
 
 ## Etapas do trabalho:
 
 * ETAPA 1: Descrição dos serviços de coleta de dados escolhidos e indicação de relatórios relevantes a serem construídos.
+
     a) Amostra dos dados de interesse;
     b) Diagrama Entidade Relacionamento, Modelo Relacional Normalizado e Script SQL;
     c) Instruções SQL da carga de dados;
@@ -47,6 +152,17 @@ Imposto de renda (%): https://data.worldbank.org/indicator/GC.TAX.YPKG.RV.ZS?loc
 * ETAPA 2: Sistema rodando com funcionalidades de carga de dados.
 
 * ETAPA 3: Sistema finalizado, incluindo os relatórios.
+
+<!-- ### Banco de dados:
+
+#### DER:
+![alt text](inserir imagem do der)
+
+#### Modelo Relacional:
+![alt text](inserir imagem do modelo relacional)
+
+#### Script SQL:
+encaminhar script sql -->
 
 ### Andamento do trabalho:
 
@@ -58,6 +174,4 @@ Imposto de renda (%): https://data.worldbank.org/indicator/GC.TAX.YPKG.RV.ZS?loc
 
 # TODO:
 * Ajustar impostos -> faremos depois pois alguns dados estão faltando, mas os tipos ja foram definidos
-* Fazer script de criação de tabelas e verificar diagramas -> conferir
-* Fazer script de carga de dados
-* Juntar tudo e rodar o banco de dados
+* Verificar dados e estudar incrementos para variar mais dados, aumentar volume de dados e melhorar a qualidade dos relatórios
