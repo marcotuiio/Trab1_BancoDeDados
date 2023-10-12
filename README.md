@@ -16,6 +16,8 @@ Estados Unidos, França, Índia, Indonésia, Itália, Japão, México, Reino Uni
 
 ![alt text](https://static.mundoeducacao.uol.com.br/mundoeducacao/2023/09/1-bandeira-dos-participantes-do-g20-grupo-dos-20-ate-o-ano-de-2023.jpg)
 
+
+
 Os impostos de interesse são: sob comércio internacional (%), sob exportação (%), receita fiscal (DÓLAR), alfândega e importações (DÓLAR) e imposto de renda (%). 
 
 Portanto ao final das consultas, filtros e encapsulamentos, os dados serão armazenados em um banco de dados relacional, e futuras consultas para
@@ -30,6 +32,18 @@ geração de relatórios serão feitas com SQL.
     - Exportação x Impostos
     - Importação x Impostos
     - IDH x Investimento x Impostos
+
+##### Rascunho estudo dos estados e cidades
+Por ser um caso particular e merecedor de destaque, os estados brasileiros serão inclusos no estudo, e algumas cidades em especial com Londrina, São Paulo, Curitiba,
+Brasília e Rio de Janeiro. Dados inclusos serão: população, PIB estadual e partipação no PIB nacional, arrecadação total e ICMS (imposto estadual sob circulação de produtos).
+
+* links:
+https://www.undp.org/pt/brazil/desenvolvimento-humano/painel-idhm IDH
+https://servicodados.ibge.gov.br/api/docs/localidades IBGE ESTADOS
+https://apidatalake.tesouro.gov.br/docs/siconfi/ API TESOURO NACIONAL
+https://www.tesourotransparente.gov.br/temas/estados-e-municipios/transferencias-a-estados-e-municipios TRANSFERÊNCIAS ESTADOS
+https://taxshape.com/utilitario/tabela-icms-em-excel-interna-e-interestadual-download/ ICMS ESTADOS
+http://www.ipeadata.gov.br/Default.aspx  API IPEA
 
 ### FONTES DE DADOS:
 
