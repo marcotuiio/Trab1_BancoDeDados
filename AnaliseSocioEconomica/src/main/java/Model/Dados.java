@@ -1,6 +1,4 @@
-package org.example.Model;
-
-import java.util.List;
+package Model;
 
 public class Dados {
     private int id;

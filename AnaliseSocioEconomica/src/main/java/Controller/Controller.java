@@ -1,11 +1,14 @@
-package org.example.Controller;
+package Controller;
 
+import Model.Dados;
+import Model.Pais;
+import Model.SerieAnoAtrib;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
 
 import com.opencsv.exceptions.CsvException;
-import org.example.Model.*;
+import Model.*;
 
 import java.io.IOException;
 import java.net.URI;
@@ -14,9 +17,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.*;
 import java.io.FileReader;
-import java.sql.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 public class Controller {
     private static List<String> paises = List.of("AR", "AU", "BR", "CA", "CN", "DE", "FR", "GB", "ID",
@@ -24,22 +24,21 @@ public class Controller {
     private static List<String> indicadores = List.of("77827", "77825", "77826", "77821", "77823", "77857", "77831");
 //    private static List<String> paises = List.of("BR");
 //    private static List<String> indicadores = List.of("77827");
-    private static String url = "https://servicodados.ibge.gov.br/api/v1/paises/{pais}/indicadores/{indicador}";
+    private static String urlIbge = "https://servicodados.ibge.gov.br/api/v1/paises/{pais}/indicadores/{indicador}";
 
     private static HttpClient client = HttpClient.newHttpClient();
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-    private DatabaseManager databaseManager = new DatabaseManager();
-
-    PreparedStatement preparedStatement;
     private static String PATH_TO_CSV = "C:\\Users\\marco\\Desktop\\UEL\\Database\\Trab1_BancoDeDados\\CSVs\\";
 //    private static String PATH_TO_CSV = "/home/vfs/Documents/Database_I/Trab1_BancoDeDados/CSVs/";
 
     private static List<String> arquivos = List.of("impComInter", "impExportacao", "impReceitaFiscal",
                                                     "impAlfanImport", "impRenda");
 
-    public Map<String, Map<String, JsonNode>> makeRequestAPI() {
+    DatabaseController databaseController = new DatabaseController();
+
+    public Map<String, Map<String, JsonNode>> makeRequestIbgeAPI() {
 
         // Mapa de Mapas para armazenar os resultados
         // A chave geral é o país, e a chave de chada sub-mapa é o indicador
@@ -55,7 +54,7 @@ public class Controller {
                 for (String indicador : indicadores) {
 
                     // Fazer o request de GET para a API para aquele país e indicador
-                    String urlCompleta = url.replace("{pais}", pais).replace("{indicador}", indicador);
+                    String urlCompleta = urlIbge.replace("{pais}", pais).replace("{indicador}", indicador);
                     HttpRequest request = HttpRequest.newBuilder()
                             .GET()
                             .uri(URI.create(urlCompleta))
@@ -121,7 +120,7 @@ public class Controller {
                         String valor = ponto.get(ano).asText();
 
                         if (valor.startsWith("-")) valor = valor.replace("-", "");
-                        if (valor == null || valor.equals("null") || valor.equals("")) valor = "-1";
+                        if (valor == null || valor.equals("null") || valor.equals("")) valor = null;
                         // Intervalo de anos definido como foco de estudo 2010 - 2021
                         // A escolha foi feita em grande parte pela falta de dados
                         // para muitos países em anos anteriores
@@ -186,22 +185,6 @@ public class Controller {
 
     }
 
-    public void insertIntoDB(List<Pais> meusPaises) {
-        insertPais(meusPaises);
-        insertPibTotal(meusPaises);
-        insertPibPerCapita(meusPaises);
-        insertTotalExportacao(meusPaises);
-        insertTotalImportacao(meusPaises);
-        insertInvestPesqDesenv(meusPaises);
-        insertIndivAcesNet(meusPaises);
-        insertIdh(meusPaises);
-        insertImpComInter(meusPaises);
-        insertImpExportacao(meusPaises);
-        insertImpReceitaFiscal(meusPaises);
-        insertImpAlfanImport(meusPaises);
-        insertImpRenda(meusPaises);
-    }
-
     public void LeituraCSV(List<Pais> meusPaises, String arquivo, Class<? extends Dados> type)
             throws IOException, CsvException, InstantiationException, IllegalAccessException {
 
@@ -222,7 +205,7 @@ public class Controller {
             for (int i = 1; i < linha.length; i++) {
                 String valor = linha[i];
                 if (valor.startsWith("-")) valor = valor.replace("-", "");
-                if (valor.equals("") || valor == null) valor = "-1";
+                if (valor.equals("") || valor == null) valor = null;
                 serieAnoAtrib.setDuplaAnoAtributo(ano, valor);
                 ano++;
             }
@@ -380,6 +363,70 @@ public class Controller {
         }
     }
 
+    public Map<String, Map<String, JsonNode>> makeRequestTesouroNacionalAPI() {
+
+        // Mapa de Mapas para armazenar os resultados
+        // A chave geral é o país, e a chave de chada sub-mapa é o indicador
+        // Então por linhas gerais tem-se mapa do páis com vários atributos de indicadores
+        Map<String, Map<String, JsonNode>> resultadosPorPais = new HashMap<>();
+
+        // Fazer um request para cada país e indicador
+        for (String pais : paises) {
+
+            // Para cada país, criar um sub-mapa para armazenar os resultados dos indicadores
+            Map<String, JsonNode> resultadosPorIndicador = new HashMap<>();
+
+            for (String indicador : indicadores) {
+
+                // Fazer o request de GET para a API para aquele país e indicador
+                String urlCompleta = urlIbge.replace("{pais}", pais).replace("{indicador}", indicador);
+                HttpRequest request = HttpRequest.newBuilder()
+                        .GET()
+                        .uri(URI.create(urlCompleta))
+                        .build();
+
+                try {
+
+                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+                    if (response.statusCode() == 200) {
+                        // Converter a resposta para um objeto JsonNode e armazenar no mapa dos indicadores
+                        JsonNode jsonResponse = objectMapper.readTree(response.body());
+                        resultadosPorIndicador.put(indicador, jsonResponse);
+
+                    } else {
+                        System.out.println("ERRO NO REQUEST COM RESPONSE CODE = " + response.statusCode());
+                    }
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
+                }
+
+            }
+            // Armazenar o sub-mapa dos indicadores no mapa geral dos países
+            resultadosPorPais.put(pais, resultadosPorIndicador);
+        }
+        return resultadosPorPais;
+    }
+
+    public void insertIntoDB(List<Pais> meusPaises) {
+        databaseController.insertPais(meusPaises);
+        databaseController.insertPibTotal(meusPaises);
+        databaseController.insertPibPerCapita(meusPaises);
+        databaseController.insertTotalExportacao(meusPaises);
+        databaseController.insertTotalImportacao(meusPaises);
+        databaseController.insertInvestPesqDesenv(meusPaises);
+        databaseController.insertIndivAcesNet(meusPaises);
+        databaseController.insertIdh(meusPaises);
+        databaseController.insertImpComInter(meusPaises);
+        databaseController.insertImpExportacao(meusPaises);
+        databaseController.insertImpReceitaFiscal(meusPaises);
+        databaseController.insertImpAlfanImport(meusPaises);
+        databaseController.insertImpRenda(meusPaises);
+    }
+
     public void printarMeusPaises(List<Pais> meusPaises) {
         System.out.println("\n---- TESTE POS FILTRO ----");
         for (Pais p : meusPaises) {
@@ -456,392 +503,6 @@ public class Controller {
             }
 
             System.out.println("\n\n");
-        }
-    }
-
-    public Pais queryPaises(String siglaPais) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        Pais paisAlvo = new Pais(siglaPais);
-
-        try {
-            String sql = "SELECT * FROM t1bd.pais WHERE sigla = ?";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, siglaPais);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-
-            if (resultSet.next()) {
-                String sigla = resultSet.getString("sigla");
-                String nome = resultSet.getString("nome_entenso");
-                paisAlvo.setNome(nome);
-
-            } else {
-                System.out.println("ERRO DE QUERY :: PAÍS COM SIGLA " + siglaPais + " NÃO ENCONTRADO\n");
-                return null;
-            }
-        } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        return paisAlvo;
-    }
-
-    public Dados queryPibTotal(String siglaPais) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        Dados pipTotal = new Dados();
-        try {
-            String sql = "SELECT * FROM t1bd.t_pib_total WHERE sigla = ?";
-            preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setString(1, siglaPais);
-
-            ResultSet resultSet = preparedStatement.executeQuery();
-            SerieAnoAtrib series = new SerieAnoAtrib();
-
-            if (resultSet.next() == false) {
-                System.out.println("ERRO DE QUERY EM PIB TOTAL :: PAÍS COM SIGLA " + siglaPais + " NÃO ENCONTRADO\n");
-                return null;
-            }
-
-            while (resultSet.next()) {
-                int ano = resultSet.getInt("sigla");
-                String valor = resultSet.getString("pib_total_valor");
-
-                series.setDuplaAnoAtributo(ano, valor);
-            }
-            pipTotal.setSeries(series);
-
-        } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-        }
-
-        pipTotal.setId(1);
-        pipTotal.setIndicador("Economia - Total do PIB");
-        return pipTotal;
-    }
-
-    public void insertPais(List<Pais> meusPaises) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        for (Pais pais : meusPaises) {
-            try {
-                String sqlInsertPais = "INSERT INTO T1BD.pais (sigla, nome_extenso) VALUES (?, ?)";
-                preparedStatement = connection.prepareStatement(sqlInsertPais);
-
-                preparedStatement.setString(1, pais.getId());
-                preparedStatement.setString(2, pais.getNome());
-
-                int linhasAfetadas = preparedStatement.executeUpdate();
-                if (linhasAfetadas == 0) {
-                    return;
-                }
-            } catch (SQLException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-            }
-        }
-    }
-
-    public void insertPibTotal(List<Pais> meusPaises) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        for (Pais pais : meusPaises) {
-            for (Map.Entry<Integer, String> entry : pais.getPibTotal().getSeries().getDuplaAnoAtributo().entrySet()) {
-                try {
-                    String sqlInsertPibTotal = "INSERT INTO T1BD.t_pib_total (ano, sigla, pib_total_valor) VALUES (?, ?, ?)";
-                    preparedStatement = connection.prepareStatement(sqlInsertPibTotal);
-
-                    preparedStatement.setInt(1, entry.getKey());
-                    preparedStatement.setString(2, pais.getId());
-                    preparedStatement.setString(3, entry.getValue());
-
-                    int linhasAfetadas = preparedStatement.executeUpdate();
-                    if (linhasAfetadas == 0) {
-                        return;
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
-    public void insertPibPerCapita(List<Pais> meusPaises) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        for (Pais pais : meusPaises) {
-            for (Map.Entry<Integer, String> entry : pais.getPibPerCapita().getSeries().getDuplaAnoAtributo().entrySet()) {
-                try {
-                    String sqlInsertPibPerCapita = "INSERT INTO T1BD.t_pib_per_capita (ano, sigla, pib_per_capita_valor) VALUES (?, ?, ?)";
-                    preparedStatement = connection.prepareStatement(sqlInsertPibPerCapita);
-
-                    preparedStatement.setInt(1, entry.getKey());
-                    preparedStatement.setString(2, pais.getId());
-                    preparedStatement.setString(3, entry.getValue());
-
-                    int linhasAfetadas = preparedStatement.executeUpdate();
-                    if (linhasAfetadas == 0) {
-                        return;
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
-    public void insertTotalExportacao(List<Pais> meusPaises) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        for (Pais pais : meusPaises) {
-            for (Map.Entry<Integer, String> entry : pais.getTotalExportacao().getSeries().getDuplaAnoAtributo().entrySet()) {
-                try {
-                    String sqlInsertTotalExportacao = "INSERT INTO T1BD.t_total_exportacao (ano, sigla, total_exportacao_valor) VALUES (?, ?, ?)";
-                    preparedStatement = connection.prepareStatement(sqlInsertTotalExportacao);
-
-                    preparedStatement.setInt(1, entry.getKey());
-                    preparedStatement.setString(2, pais.getId());
-                    preparedStatement.setString(3, entry.getValue());
-
-                    int linhasAfetadas = preparedStatement.executeUpdate();
-                    if (linhasAfetadas == 0) {
-                        return;
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
-    public void insertTotalImportacao(List<Pais> meusPaises) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        for (Pais pais : meusPaises) {
-            for (Map.Entry<Integer, String> entry : pais.getTotalImportacao().getSeries().getDuplaAnoAtributo().entrySet()) {
-                try {
-                    String sqlInsertTotalImportacao = "INSERT INTO T1BD.t_total_importacao (ano, sigla, total_importacao_valor) VALUES (?, ?, ?)";
-                    preparedStatement = connection.prepareStatement(sqlInsertTotalImportacao);
-
-                    preparedStatement.setInt(1, entry.getKey());
-                    preparedStatement.setString(2, pais.getId());
-                    preparedStatement.setString(3, entry.getValue());
-
-                    int linhasAfetadas = preparedStatement.executeUpdate();
-                    if (linhasAfetadas == 0) {
-                        return;
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
-    public void insertInvestPesqDesenv(List<Pais> meusPaises) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        for (Pais pais : meusPaises) {
-            for (Map.Entry<Integer, String> entry : pais.getInvestPesqDesenv().getSeries().getDuplaAnoAtributo().entrySet()) {
-                try {
-                    String sqlInsertPesqDesenv = "INSERT INTO T1BD.t_invest_pesq_desenv (ano, sigla, invest_pesq_desenv_valor) VALUES (?, ?, ?)";
-                    preparedStatement = connection.prepareStatement(sqlInsertPesqDesenv);
-
-                    preparedStatement.setInt(1, entry.getKey());
-                    preparedStatement.setString(2, pais.getId());
-                    preparedStatement.setString(3, entry.getValue());
-
-                    int linhasAfetadas = preparedStatement.executeUpdate();
-                    if (linhasAfetadas == 0) {
-                        return;
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
-    public void insertIndivAcesNet(List<Pais> meusPaises) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        for (Pais pais : meusPaises) {
-            for (Map.Entry<Integer, String> entry : pais.getIndivAcesNet().getSeries().getDuplaAnoAtributo().entrySet()) {
-                try {
-                    String sqlInsertIndivAcesNet = "INSERT INTO T1BD.t_indiv_aces_net (ano, sigla, indiv_aces_net_valor) VALUES (?, ?, ?)";
-                    preparedStatement = connection.prepareStatement(sqlInsertIndivAcesNet);
-
-                    preparedStatement.setInt(1, entry.getKey());
-                    preparedStatement.setString(2, pais.getId());
-                    preparedStatement.setString(3, entry.getValue());
-
-                    int linhasAfetadas = preparedStatement.executeUpdate();
-                    if (linhasAfetadas == 0) {
-                        return;
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
-    public void insertIdh(List<Pais> meusPaises) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        for (Pais pais : meusPaises) {
-            for (Map.Entry<Integer, String> entry : pais.getIdh().getSeries().getDuplaAnoAtributo().entrySet()) {
-                try {
-                    String sqlInsertIdh = "INSERT INTO T1BD.t_idh (ano, sigla, idh_valor) VALUES (?, ?, ?)";
-                    preparedStatement = connection.prepareStatement(sqlInsertIdh);
-
-                    preparedStatement.setInt(1, entry.getKey());
-                    preparedStatement.setString(2, pais.getId());
-                    preparedStatement.setString(3, entry.getValue());
-
-                    int linhasAfetadas = preparedStatement.executeUpdate();
-                    if (linhasAfetadas == 0) {
-                        return;
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
-    public void insertImpComInter(List<Pais> meusPaises) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        for (Pais pais : meusPaises) {
-            for (Map.Entry<Integer, String> entry : pais.getImpComInter().getSeries().getDuplaAnoAtributo().entrySet()) {
-                try {
-                    String sqlInsertImpComInter = "INSERT INTO T1BD.t_imp_com_inter (ano, sigla, imp_com_inter_valor) VALUES (?, ?, ?)";
-                    preparedStatement = connection.prepareStatement(sqlInsertImpComInter);
-
-                    preparedStatement.setInt(1, entry.getKey());
-                    preparedStatement.setString(2, pais.getId());
-                    preparedStatement.setString(3, entry.getValue());
-
-                    int linhasAfetadas = preparedStatement.executeUpdate();
-                    if (linhasAfetadas == 0) {
-                        return;
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
-    public void insertImpExportacao(List<Pais> meusPaises) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        for (Pais pais : meusPaises) {
-            for (Map.Entry<Integer, String> entry : pais.getImpExportacao().getSeries().getDuplaAnoAtributo().entrySet()) {
-                try {
-                    String sqlInsertImpExportacao = "INSERT INTO T1BD.t_imp_exportacao (ano, sigla, imp_exportacao_valor) VALUES (?, ?, ?)";
-                    preparedStatement = connection.prepareStatement(sqlInsertImpExportacao);
-
-                    preparedStatement.setInt(1, entry.getKey());
-                    preparedStatement.setString(2, pais.getId());
-                    preparedStatement.setString(3, entry.getValue());
-
-                    int linhasAfetadas = preparedStatement.executeUpdate();
-                    if (linhasAfetadas == 0) {
-                        return;
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
-    public void insertImpReceitaFiscal(List<Pais> meusPaises) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        for (Pais pais : meusPaises) {
-            for (Map.Entry<Integer, String> entry : pais.getImpReceitaFiscal().getSeries().getDuplaAnoAtributo().entrySet()) {
-                try {
-                    String sqlInsertImpReceitaFiscal = "INSERT INTO T1BD.t_imp_receita_fiscal (ano, sigla, imp_receita_fiscal_valor) VALUES (?, ?, ?)";
-                    preparedStatement = connection.prepareStatement(sqlInsertImpReceitaFiscal);
-
-                    preparedStatement.setInt(1, entry.getKey());
-                    preparedStatement.setString(2, pais.getId());
-                    preparedStatement.setString(3, entry.getValue());
-
-                    int linhasAfetadas = preparedStatement.executeUpdate();
-                    if (linhasAfetadas == 0) {
-                        return;
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
-    public void insertImpAlfanImport(List<Pais> meusPaises) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        for (Pais pais : meusPaises) {
-            for (Map.Entry<Integer, String> entry : pais.getImpAlfanImport().getSeries().getDuplaAnoAtributo().entrySet()) {
-                try {
-                    String sqlInsertImpAlfanImport = "INSERT INTO T1BD.t_imp_alfan_import (ano, sigla, imp_alfan_import_valor) VALUES (?, ?, ?)";
-                    preparedStatement = connection.prepareStatement(sqlInsertImpAlfanImport);
-
-                    preparedStatement.setInt(1, entry.getKey());
-                    preparedStatement.setString(2, pais.getId());
-                    preparedStatement.setString(3, entry.getValue());
-
-                    int linhasAfetadas = preparedStatement.executeUpdate();
-                    if (linhasAfetadas == 0) {
-                        return;
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
-        }
-    }
-
-    public void insertImpRenda(List<Pais> meusPaises) {
-        databaseManager.connect();
-        Connection connection = databaseManager.getConnection();
-
-        for (Pais pais : meusPaises) {
-            for (Map.Entry<Integer, String> entry : pais.getImpRenda().getSeries().getDuplaAnoAtributo().entrySet()) {
-                try {
-                    String sqlInsertImpRenda = "INSERT INTO T1BD.t_imp_renda (ano, sigla, imp_renda_valor) VALUES (?, ?, ?)";
-                    preparedStatement = connection.prepareStatement(sqlInsertImpRenda);
-
-                    preparedStatement.setInt(1, entry.getKey());
-                    preparedStatement.setString(2, pais.getId());
-                    preparedStatement.setString(3, entry.getValue());
-
-                    int linhasAfetadas = preparedStatement.executeUpdate();
-                    if (linhasAfetadas == 0) {
-                        return;
-                    }
-                } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
-                }
-            }
         }
     }
 }

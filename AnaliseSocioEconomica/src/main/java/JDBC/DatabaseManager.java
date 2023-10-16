@@ -1,4 +1,4 @@
-package org.example.Controller;
+package JDBC;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

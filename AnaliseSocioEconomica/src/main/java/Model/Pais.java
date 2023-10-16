@@ -1,4 +1,4 @@
-package org.example.Model;
+package Model;
 
 public class Pais {
     private String id;
