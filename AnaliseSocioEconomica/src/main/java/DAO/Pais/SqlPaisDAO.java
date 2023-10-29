@@ -9,6 +9,9 @@ import java.util.List;
 public class SqlPaisDAO implements PaisDAO {
     private final Connection connection;
 
+    // BASE:
+    // https://bitbucket.org/dskaster/bd2022/src/master/bd2022/src/main/java/dao/PgUserDAO.java
+
     public SqlPaisDAO(Connection connection) {
         this.connection = connection;
     }

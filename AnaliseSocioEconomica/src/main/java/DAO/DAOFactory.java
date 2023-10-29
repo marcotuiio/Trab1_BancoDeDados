@@ -20,8 +20,8 @@ public abstract class DAOFactory implements AutoCloseable {
 
         } else if (ConnectionFactory.getDbServer().equals("mysql")) {
             factory = new SqlDAOFactory(connection);
-        }
-        else {
+
+        } else {
             throw new RuntimeException("Servidor de banco de dados não suportado.");
         }
 

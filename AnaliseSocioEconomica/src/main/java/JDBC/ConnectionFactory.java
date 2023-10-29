@@ -13,7 +13,7 @@ public abstract class ConnectionFactory {
 
     protected String dbHost;
     protected String dbPort;
-    protected String dbSchema;
+    protected String dbName;
     protected String dbUser;
     protected String dbPassword;
 
@@ -35,7 +35,7 @@ public abstract class ConnectionFactory {
             }
 
             if (getDbServer().equals("postgresql")) {
-//                instance = new PgConnectionFactory();
+                instance = new PgConnectionFactory();
             } else if (getDbServer().equals("mysql")) {
                 instance = new MySqlConnectionFactory();
             }
@@ -62,7 +62,7 @@ public abstract class ConnectionFactory {
 
             dbHost = properties.getProperty("host");
             dbPort = properties.getProperty("port");
-            dbSchema = properties.getProperty("schema");
+            dbName = properties.getProperty("db");
             dbUser = properties.getProperty("user");
             dbPassword = properties.getProperty("password");
 

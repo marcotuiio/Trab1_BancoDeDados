@@ -38,6 +38,19 @@ public class Controller {
 
     DatabaseController databaseController = new DatabaseController();
 
+    public void NaoSeiMasEoQueRodaQuandoComeca() {
+        Controller controller = new Controller();
+
+        Map<String, Map<String, JsonNode>> resultadosPorPais = controller.makeRequestIbgeAPI();  // dados brutos json da API
+        List<Pais> meusPaises = controller.filtraPaises(resultadosPorPais);  // filtro inicial, limpando mapas e anos desejado
+
+        controller.callCSVFilter(meusPaises);
+
+        controller.insertIntoDB(meusPaises);
+
+//        controller.printarMeusPaises(meusPaises);
+    }
+
     public Map<String, Map<String, JsonNode>> makeRequestIbgeAPI() {
 
         // Mapa de Mapas para armazenar os resultados
