@@ -18,7 +18,17 @@ import java.net.http.HttpResponse;
 import java.util.*;
 import java.io.FileReader;
 
-public class Controller {
+import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+
+@Controller
+public class RequestController {
     private static List<String> paises = List.of("AR", "AU", "BR", "CA", "CN", "DE", "FR", "GB", "ID",
                                                     "IN", "IT", "JP", "KR", "MX", "RU", "SA", "TR", "US", "ZA");
     private static List<String> indicadores = List.of("77827", "77825", "77826", "77821", "77823", "77857", "77831");
@@ -38,15 +48,16 @@ public class Controller {
 
     DatabaseController databaseController = new DatabaseController();
 
+    @GetMapping("/")
     public void NaoSeiMasEoQueRodaQuandoComeca() {
-        Controller controller = new Controller();
+//        Controller controller = new Controller();
 
-        Map<String, Map<String, JsonNode>> resultadosPorPais = controller.makeRequestIbgeAPI();  // dados brutos json da API
-        List<Pais> meusPaises = controller.filtraPaises(resultadosPorPais);  // filtro inicial, limpando mapas e anos desejado
+        Map<String, Map<String, JsonNode>> resultadosPorPais = makeRequestIbgeAPI();  // dados brutos json da API
+        List<Pais> meusPaises = filtraPaises(resultadosPorPais);  // filtro inicial, limpando mapas e anos desejado
 
-        controller.callCSVFilter(meusPaises);
+        callCSVFilter(meusPaises);
 
-        controller.insertIntoDB(meusPaises);
+        insertIntoDB(meusPaises);
 
 //        controller.printarMeusPaises(meusPaises);
     }

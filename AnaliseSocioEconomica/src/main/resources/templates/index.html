@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+<!--    <link rel="stylesheet" th:href="@{/static/style_index.css}">-->
+    <title>Request dos Países</title>
+</head>
+<div class="center">
+    <body>
+    <h2>Teste de request</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>País</th>
+            <th>Sigla</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="pais : ${paises}">
+            <td th:text="${pais.nome} - ${pais.id}"></td>
+            <td><a class="btn-list" th:href="@{}">Atributos</a></td>
+        </tr>
+        </tbody>
+    </table>
+    </body>
+</div>
+</html>
