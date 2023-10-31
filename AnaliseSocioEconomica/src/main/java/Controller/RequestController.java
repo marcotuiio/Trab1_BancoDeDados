@@ -1,5 +1,6 @@
 package Controller;
 
+import DatabaseController.DatabaseController;
 import Model.Dados;
 import Model.Pais;
 import Model.SerieAnoAtrib;
@@ -8,7 +9,6 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
 
 import com.opencsv.exceptions.CsvException;
-import Model.*;
 
 import java.io.IOException;
 import java.net.URI;
@@ -18,21 +18,21 @@ import java.net.http.HttpResponse;
 import java.util.*;
 import java.io.FileReader;
 
-import jakarta.servlet.http.HttpServletRequest;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.boot.context.event.ApplicationReadyEvent;
+import org.springframework.context.event.EventListener;
 
 @Controller
 public class RequestController {
     private static List<String> paises = List.of("AR", "AU", "BR", "CA", "CN", "DE", "FR", "GB", "ID",
-                                                    "IN", "IT", "JP", "KR", "MX", "RU", "SA", "TR", "US", "ZA");
+            "IN", "IT", "JP", "KR", "MX", "RU", "SA", "TR", "US", "ZA");
     private static List<String> indicadores = List.of("77827", "77825", "77826", "77821", "77823", "77857", "77831");
-//    private static List<String> paises = List.of("BR");
+    //    private static List<String> paises = List.of("BR");
 //    private static List<String> indicadores = List.of("77827");
     private static String urlIbge = "https://servicodados.ibge.gov.br/api/v1/paises/{pais}/indicadores/{indicador}";
 
@@ -44,22 +44,22 @@ public class RequestController {
 //    private static String PATH_TO_CSV = "/home/vfs/Documents/Database_I/Trab1_BancoDeDados/CSVs/";
 
     private static List<String> arquivos = List.of("impComInter", "impExportacao", "impReceitaFiscal",
-                                                    "impAlfanImport", "impRenda");
+            "impAlfanImport", "impRenda");
 
     DatabaseController databaseController = new DatabaseController();
-
     @GetMapping("/")
-    public void NaoSeiMasEoQueRodaQuandoComeca() {
+    public String NaoSeiMasEoQueRodaQuandoComeca(Model model) {
 //        Controller controller = new Controller();
-
+        System.out.println("Fazendo request\n");
         Map<String, Map<String, JsonNode>> resultadosPorPais = makeRequestIbgeAPI();  // dados brutos json da API
         List<Pais> meusPaises = filtraPaises(resultadosPorPais);  // filtro inicial, limpando mapas e anos desejado
-
+        System.out.println("Lendo csv\n");
         callCSVFilter(meusPaises);
-
+        System.out.println("Inserindo\n");
         insertIntoDB(meusPaises);
-
-//        controller.printarMeusPaises(meusPaises);
+//        printarMeusPaises(meusPaises);
+        model.addAttribute("paises", meusPaises);
+        return "index";
     }
 
     public Map<String, Map<String, JsonNode>> makeRequestIbgeAPI() {
@@ -69,44 +69,45 @@ public class RequestController {
         // Então por linhas gerais tem-se mapa do páis com vários atributos de indicadores
         Map<String, Map<String, JsonNode>> resultadosPorPais = new HashMap<>();
 
-            // Fazer um request para cada país e indicador
-            for (String pais : paises) {
+        // Fazer um request para cada país e indicador
+        for (String pais : paises) {
 
-                // Para cada país, criar um sub-mapa para armazenar os resultados dos indicadores
-                Map<String, JsonNode> resultadosPorIndicador = new HashMap<>();
+            // Para cada país, criar um sub-mapa para armazenar os resultados dos indicadores
+            Map<String, JsonNode> resultadosPorIndicador = new HashMap<>();
 
-                for (String indicador : indicadores) {
+            for (String indicador : indicadores) {
 
-                    // Fazer o request de GET para a API para aquele país e indicador
-                    String urlCompleta = urlIbge.replace("{pais}", pais).replace("{indicador}", indicador);
-                    HttpRequest request = HttpRequest.newBuilder()
-                            .GET()
-                            .uri(URI.create(urlCompleta))
-                            .build();
+                // Fazer o request de GET para a API para aquele país e indicador
+                String urlCompleta = urlIbge.replace("{pais}", pais).replace("{indicador}", indicador);
+                HttpRequest request = HttpRequest.newBuilder()
+                        .GET()
+                        .uri(URI.create(urlCompleta))
+                        .build();
 
-                    try {
+                try {
 
-                        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
+                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
 
-                        if (response.statusCode() == 200) {
-                            // Converter a resposta para um objeto JsonNode e armazenar no mapa dos indicadores
-                            JsonNode jsonResponse = objectMapper.readTree(response.body());
-                            resultadosPorIndicador.put(indicador, jsonResponse);
+                    if (response.statusCode() == 200) {
+                        // Converter a resposta para um objeto JsonNode e armazenar no mapa dos indicadores
+                        JsonNode jsonResponse = objectMapper.readTree(response.body());
+                        resultadosPorIndicador.put(indicador, jsonResponse);
 
-                        } else {
-                            System.out.println("ERRO NO REQUEST COM RESPONSE CODE = " + response.statusCode());
-                        }
-
-                    } catch (IOException e) {
-                        throw new RuntimeException(e);
-                    } catch (InterruptedException e) {
-                        throw new RuntimeException(e);
+                    } else {
+                        System.out.println("ERRO NO REQUEST COM RESPONSE CODE = " + response.statusCode());
                     }
 
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                } catch (InterruptedException e) {
+                    throw new RuntimeException(e);
                 }
-                // Armazenar o sub-mapa dos indicadores no mapa geral dos países
-                resultadosPorPais.put(pais, resultadosPorIndicador);
+
             }
+            // Armazenar o sub-mapa dos indicadores no mapa geral dos países
+            resultadosPorPais.put(pais, resultadosPorIndicador);
+        }
+        System.out.println("Feito request do ibge\n");
         return resultadosPorPais;
     }
 

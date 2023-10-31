@@ -1,4 +1,4 @@
-package Controller;
+package DatabaseController;
 
 import JDBC.DatabaseManager;
 import Model.Dados;
@@ -43,7 +43,7 @@ public class DatabaseController {
                 return null;
             }
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         return paisAlvo;
@@ -76,7 +76,7 @@ public class DatabaseController {
             pipTotal.setSeries(series);
 
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         pipTotal.setId(1);
@@ -111,7 +111,7 @@ public class DatabaseController {
             pipPerCapita.setSeries(series);
 
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         pipPerCapita.setId(2);
@@ -146,7 +146,7 @@ public class DatabaseController {
             totalExportacao.setSeries(series);
 
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         totalExportacao.setId(3);
@@ -181,7 +181,7 @@ public class DatabaseController {
             totalImportacao.setSeries(series);
 
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         totalImportacao.setId(4);
@@ -216,7 +216,7 @@ public class DatabaseController {
             investPesqDesenv.setSeries(series);
 
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         investPesqDesenv.setId(5);
@@ -251,7 +251,7 @@ public class DatabaseController {
             indivAcesNet.setSeries(series);
 
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         indivAcesNet.setId(6);
@@ -286,7 +286,7 @@ public class DatabaseController {
             idh.setSeries(series);
 
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         idh.setId(7);
@@ -320,7 +320,7 @@ public class DatabaseController {
             impComInter.setSeries(series);
 
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         impComInter.setId(8);
@@ -355,7 +355,7 @@ public class DatabaseController {
             impExportacao.setSeries(series);
 
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         impExportacao.setId(9);
@@ -390,7 +390,7 @@ public class DatabaseController {
             impReceitaFiscal.setSeries(series);
 
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         impReceitaFiscal.setId(10);
@@ -425,7 +425,7 @@ public class DatabaseController {
             impAlfanImport.setSeries(series);
 
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         impAlfanImport.setId(11);
@@ -460,7 +460,7 @@ public class DatabaseController {
             impRenda.setSeries(series);
 
         } catch (SQLException ex) {
-            Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+            Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
         impRenda.setId(12);
@@ -485,7 +485,7 @@ public class DatabaseController {
                     return;
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
             }
         }
     }
@@ -509,7 +509,7 @@ public class DatabaseController {
                         return;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -534,7 +534,7 @@ public class DatabaseController {
                         return;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -559,7 +559,7 @@ public class DatabaseController {
                         return;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -584,7 +584,7 @@ public class DatabaseController {
                         return;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -609,7 +609,7 @@ public class DatabaseController {
                         return;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -634,7 +634,7 @@ public class DatabaseController {
                         return;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -659,7 +659,7 @@ public class DatabaseController {
                         return;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -684,7 +684,7 @@ public class DatabaseController {
                         return;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -709,7 +709,7 @@ public class DatabaseController {
                         return;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -734,7 +734,7 @@ public class DatabaseController {
                         return;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -759,7 +759,7 @@ public class DatabaseController {
                         return;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
@@ -784,7 +784,7 @@ public class DatabaseController {
                         return;
                     }
                 } catch (SQLException ex) {
-                    Logger.getLogger(Controller.class.getName()).log(Level.SEVERE, null, ex);
+                    Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
                 }
             }
         }
