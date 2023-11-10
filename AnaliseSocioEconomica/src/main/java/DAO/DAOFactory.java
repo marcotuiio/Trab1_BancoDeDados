@@ -4,7 +4,7 @@ import java.sql.Connection;
 import java.sql.SQLException;
 
 import DAO.Pais.PaisDAO;
-import DAO.Pais.SqlDAOFactory;
+import DAO.Dados.DadosDAO;
 import JDBC.ConnectionFactory;
 
 public abstract class DAOFactory implements AutoCloseable {
@@ -84,6 +84,8 @@ public abstract class DAOFactory implements AutoCloseable {
     }
 
     public abstract PaisDAO getPaisDAO();
+
+    public abstract DadosDAO getDadosDAO();
 
     @Override
     public void close() throws SQLException {

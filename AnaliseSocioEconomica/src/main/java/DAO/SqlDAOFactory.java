@@ -1,8 +1,10 @@
-package DAO.Pais;
+package DAO;
 
-import DAO.DAOFactory;
 import DAO.Pais.PaisDAO;
 import DAO.Pais.SqlPaisDAO;
+
+import DAO.Dados.DadosDAO;
+import DAO.Dados.SqlDadosDAO;
 
 import java.sql.Connection;
 
@@ -17,4 +19,8 @@ public class SqlDAOFactory extends DAOFactory {
         return new SqlPaisDAO(this.connection);
     }
 
+    @Override
+    public DadosDAO getDadosDAO() {
+        return new SqlDadosDAO(this.connection);
+    }
 }
