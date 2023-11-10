@@ -19,7 +19,7 @@ public class SqlPaisDAO implements PaisDAO {
 
     private static final String READ_QUERY = "SELECT * FROM t1bd.pais WHERE sigla = ?;";
 
-    private static final String UPDATE_QUERY = "UPDATE t1bd.pais SET sigla = ? nome_extenso = > WHERE sigla = ?;";
+    private static final String UPDATE_QUERY = "UPDATE t1bd.pais SET sigla = ? nome_extenso = ? WHERE sigla = ?;";
 
     private static final String DELETE_QUERY = "DELETE FROM t1bd.pais WHERE sigla = ?;";
 
@@ -127,8 +127,7 @@ public class SqlPaisDAO implements PaisDAO {
     public List<Pais> all() throws SQLException {
         List<Pais> paisList = new ArrayList<>();
 
-        try (PreparedStatement statement = connection.prepareStatement(ALL_QUERY);
-             ResultSet result = statement.executeQuery()) {
+        try (PreparedStatement statement = connection.prepareStatement(ALL_QUERY); ResultSet result = statement.executeQuery()) {
             while (result.next()) {
                 Pais pais = new Pais(result.getString("sigla"));
                 pais.setNome(result.getString("nome_extenso"));

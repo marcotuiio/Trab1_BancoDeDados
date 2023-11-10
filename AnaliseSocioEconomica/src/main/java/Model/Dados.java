@@ -1,24 +1,24 @@
 package Model;
 
 public class Dados {
-    private int id;
+    private String sigla;
     private String indicador;
     private SerieAnoAtrib series;
 
     public Dados() {}
 
-    public Dados(int id, String indicador, SerieAnoAtrib series) {
-        this.id = id;
+    public Dados(String sigla, String indicador, SerieAnoAtrib series) {
+        this.sigla = sigla;
         this.indicador = indicador;
         this.series = series;
     }
 
-    public int getId() {
-        return id;
+    public String getSigla() {
+        return sigla;
     }
 
-    public void setId(int id) {
-        this.id = id;
+    public void setSigla(String sigla) {
+        this.sigla = sigla;
     }
 
     public String getIndicador() {

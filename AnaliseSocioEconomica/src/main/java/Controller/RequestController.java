@@ -129,6 +129,7 @@ public class RequestController {
 
                 int idInd = Integer.parseInt(indicadorEntry.getKey());  // Chave do sub-mapa, indicador
                 JsonNode resposta = indicadorEntry.getValue(); // Valor do sub-mapa, resposta da API para tal indicador
+                // TEM QUE MUDAR DEPOIS: O NOME DO IDENTIFICADOR TEM QUE SER IDÊNTICO À COMO ESTÁ NO BANCO DE DADOS
                 String nomeInd = resposta.get(0).get("indicador").asText(); // pega nome do indicador
                 String nomePais = resposta.get(0).get("series").get(0).get("pais").get("nome").asText();  // pega nome do pais
                 JsonNode seriesDados = resposta.get(0).get("series").get(0).get("serie"); // pega serie de anos e valores
@@ -165,31 +166,31 @@ public class RequestController {
 
                 switch (idInd) {
                     case 77827: // Total PIB
-                        Dados indicadorPib = new Dados(idInd, nomeInd, serieAnoAtrib);
+                        Dados indicadorPib = new Dados(paisSigla, nomeInd, serieAnoAtrib);
                         paisTeste.setPibTotal(indicadorPib);
                         break;
                     case 77825: // Total Exportações
-                        Dados indicadorExportacoes = new Dados(idInd, nomeInd, serieAnoAtrib);
+                        Dados indicadorExportacoes = new Dados(paisSigla, nomeInd, serieAnoAtrib);
                         paisTeste.setTotalExportacao(indicadorExportacoes);
                         break;
                     case 77826: // Total Importações
-                        Dados indicadorImportacoes = new Dados(idInd, nomeInd, serieAnoAtrib);
+                        Dados indicadorImportacoes = new Dados(paisSigla, nomeInd, serieAnoAtrib);
                         paisTeste.setTotalImportacao(indicadorImportacoes);
                         break;
                     case 77821: // Investimentos em pesquisa e desenvolvimento
-                        Dados indicadorInvestimento = new Dados(idInd, nomeInd, serieAnoAtrib);
+                        Dados indicadorInvestimento = new Dados(paisSigla, nomeInd, serieAnoAtrib);
                         paisTeste.setInvestPesqDesenv(indicadorInvestimento);
                         break;
                     case 77823: // PIB per capita
-                        Dados indicadorPibPC = new Dados(idInd, nomeInd, serieAnoAtrib);
+                        Dados indicadorPibPC = new Dados(paisSigla, nomeInd, serieAnoAtrib);
                         paisTeste.setPibPerCapita(indicadorPibPC);
                         break;
                     case 77857: // Indivíduos com acesso à internet
-                        Dados indicadorIndividuos = new Dados(idInd, nomeInd, serieAnoAtrib);
+                        Dados indicadorIndividuos = new Dados(paisSigla, nomeInd, serieAnoAtrib);
                         paisTeste.setIndivAcesNet(indicadorIndividuos);
                         break;
                     case 77831: // IDH
-                        Dados indicadorIdh = new Dados(idInd, nomeInd, serieAnoAtrib);
+                        Dados indicadorIdh = new Dados(paisSigla, nomeInd, serieAnoAtrib);
                         paisTeste.setIdh(indicadorIdh);
                         break;
                 }
