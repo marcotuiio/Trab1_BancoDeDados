@@ -1,4 +1,4 @@
-package run;
+package org.AnaliseSocioEconomica;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

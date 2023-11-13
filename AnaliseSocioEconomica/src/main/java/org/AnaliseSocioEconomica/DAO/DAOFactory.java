@@ -1,11 +1,11 @@
-package DAO;
+package org.AnaliseSocioEconomica.DAO;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
-import DAO.Pais.PaisDAO;
-import DAO.Dados.DadosDAO;
-import JDBC.ConnectionFactory;
+import org.AnaliseSocioEconomica.DAO.Pais.PaisDAO;
+import org.AnaliseSocioEconomica.DAO.Dados.DadosDAO;
+import org.AnaliseSocioEconomica.JDBC.ConnectionFactory;
 
 public abstract class DAOFactory implements AutoCloseable {
 

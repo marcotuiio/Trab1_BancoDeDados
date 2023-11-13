@@ -1,7 +1,6 @@
-package DAO.Pais;
+package org.AnaliseSocioEconomica.DAO.Pais;
 
-import Controller.RequestController;
-import Model.Pais;
+import org.AnaliseSocioEconomica.Model.Pais;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
@@ -24,9 +23,6 @@ public class SqlPaisDAO implements PaisDAO {
     private static final String DELETE_QUERY = "DELETE FROM t1bd.pais WHERE sigla = ?;";
 
     private static final String ALL_QUERY = "SELECT sigla, nome_extenso FROM t1bd.pais ORDER BY sigla;";  // ORDER BY funciona aqui???
-    // BASE:
-    // https://bitbucket.org/dskaster/bd2022/src/master/bd2022/src/main/java/dao/PgUserDAO.java
-    // Fazer sqlDadosDAO usando switch case para montar o texto de consulta (concatenando com "+") e switch case dentro do if (result.next())
 
     public SqlPaisDAO(Connection connection) {
         this.connection = connection;
@@ -40,7 +36,7 @@ public class SqlPaisDAO implements PaisDAO {
 
             statement.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "DAO", ex);
+            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "org/AnaliseSocioEconomica/DAO", ex);
 
             if (ex.getMessage().contains("uq_pais_sigla")) {
                 throw new SQLException("Erro ao inserir país: país já existente.");
@@ -66,7 +62,7 @@ public class SqlPaisDAO implements PaisDAO {
                 }
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "DAO", ex);
+            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "org/AnaliseSocioEconomica/DAO", ex);
 
             if (ex.getMessage().equals("Erro ao visualizar: País não encontrado.")) {
                 throw ex;
@@ -90,7 +86,7 @@ public class SqlPaisDAO implements PaisDAO {
                 throw new SQLException("Erro ao editar: país não encontrado.");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "DAO", ex);
+            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "org/AnaliseSocioEconomica/DAO", ex);
 
             if (ex.getMessage().equals("Erro ao editar: país não encontrado.")) {
                 throw ex;
@@ -113,7 +109,7 @@ public class SqlPaisDAO implements PaisDAO {
                 throw new SQLException("Erro ao excluir: país não encontrado.");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "DAO", ex);
+            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "org/AnaliseSocioEconomica/DAO", ex);
 
             if (ex.getMessage().equals("Erro ao excluir: país não encontrado.")) {
                 throw ex;
@@ -135,7 +131,7 @@ public class SqlPaisDAO implements PaisDAO {
                 paisList.add(pais);
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "DAO", ex);
+            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "org/AnaliseSocioEconomica/DAO", ex);
 
             throw new SQLException("Erro ao listar países.");
         }

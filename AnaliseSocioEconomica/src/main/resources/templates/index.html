@@ -17,11 +17,12 @@
         </thead>
         <tbody>
         <tr th:each="pais : ${paises}">
-            <td th:text="${pais.nome} - ${pais.id}"></td>
-            <td><a class="btn-list" th:href="@{}">Atributos</a></td>
+            <td th:text="${pais.nome}"></td>
+            <td th:text="${pais.id}"></td>
         </tr>
         </tbody>
     </table>
+    <td><a th:href="@{/}">Teste</a></td>
     </body>
 </div>
 </html>

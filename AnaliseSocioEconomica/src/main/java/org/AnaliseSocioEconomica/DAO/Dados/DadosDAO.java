@@ -1,10 +1,9 @@
-package DAO.Dados;
+package org.AnaliseSocioEconomica.DAO.Dados;
 
 import java.sql.SQLException;
-import java.util.List;
 
-import DAO.DAO;
-import Model.Dados;
+import org.AnaliseSocioEconomica.DAO.DAO;
+import org.AnaliseSocioEconomica.Model.Dados;
 
 public interface DadosDAO extends DAO<Dados> {
 

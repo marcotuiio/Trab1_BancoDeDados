@@ -1,4 +1,4 @@
-package Model;
+package org.AnaliseSocioEconomica.Model;
 
 public class Dados {
     private String sigla;

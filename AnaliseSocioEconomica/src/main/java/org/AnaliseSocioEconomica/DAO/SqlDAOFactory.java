@@ -1,10 +1,10 @@
-package DAO;
+package org.AnaliseSocioEconomica.DAO;
 
-import DAO.Pais.PaisDAO;
-import DAO.Pais.SqlPaisDAO;
+import org.AnaliseSocioEconomica.DAO.Dados.SqlDadosDAO;
+import org.AnaliseSocioEconomica.DAO.Pais.PaisDAO;
+import org.AnaliseSocioEconomica.DAO.Pais.SqlPaisDAO;
 
-import DAO.Dados.DadosDAO;
-import DAO.Dados.SqlDadosDAO;
+import org.AnaliseSocioEconomica.DAO.Dados.DadosDAO;
 
 import java.sql.Connection;
 

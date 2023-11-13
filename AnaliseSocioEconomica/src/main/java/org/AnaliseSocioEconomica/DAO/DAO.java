@@ -1,4 +1,4 @@
-package DAO;
+package org.AnaliseSocioEconomica.DAO;
 
 import java.sql.SQLException;
 import java.util.List;

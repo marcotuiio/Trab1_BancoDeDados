@@ -1,10 +1,9 @@
-package DatabaseController;
+package org.AnaliseSocioEconomica.Controller;
 
-import JDBC.DatabaseManager;
-import Model.Dados;
-import Model.Pais;
-import Model.SerieAnoAtrib;
-import Model.*;
+import org.AnaliseSocioEconomica.JDBC.DatabaseManager;
+import org.AnaliseSocioEconomica.Model.Dados;
+import org.AnaliseSocioEconomica.Model.Pais;
+import org.AnaliseSocioEconomica.Model.SerieAnoAtrib;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -79,7 +78,6 @@ public class DatabaseController {
             Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        pipTotal.setId(1);
         pipTotal.setIndicador("Economia - Total do PIB");
         return pipTotal;
     }
@@ -114,7 +112,6 @@ public class DatabaseController {
             Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        pipPerCapita.setId(2);
         pipPerCapita.setIndicador("Economia - PIB per capita");
         return pipPerCapita;
     }
@@ -149,7 +146,6 @@ public class DatabaseController {
             Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        totalExportacao.setId(3);
         totalExportacao.setIndicador("Economia - Total de exportações");
         return totalExportacao;
     }
@@ -184,7 +180,6 @@ public class DatabaseController {
             Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        totalImportacao.setId(4);
         totalImportacao.setIndicador("Economia - Total de importações");
         return totalImportacao;
     }
@@ -219,7 +214,6 @@ public class DatabaseController {
             Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        investPesqDesenv.setId(5);
         investPesqDesenv.setIndicador("Economia - Investimentos em pesquisa e desenvolvimento");
         return investPesqDesenv;
     }
@@ -254,7 +248,6 @@ public class DatabaseController {
             Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        indivAcesNet.setId(6);
         indivAcesNet.setIndicador("Redes - Indivíduos com acesso à internet");
         return indivAcesNet;
     }
@@ -289,7 +282,6 @@ public class DatabaseController {
             Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        idh.setId(7);
         idh.setIndicador("Indicadores sociais - Índice de desenvolvimento humano");
         return idh;
     }
@@ -323,7 +315,6 @@ public class DatabaseController {
             Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        impComInter.setId(8);
         impComInter.setIndicador("Impostos - Imposto sob comércio exterior");
         return impComInter;
     }
@@ -358,7 +349,6 @@ public class DatabaseController {
             Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        impExportacao.setId(9);
         impExportacao.setIndicador("Impostos - Imposto sob exportação");
         return impExportacao;
     }
@@ -393,7 +383,6 @@ public class DatabaseController {
             Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        impReceitaFiscal.setId(10);
         impReceitaFiscal.setIndicador("Impostos - Receita fiscal");
         return impReceitaFiscal;
     }
@@ -428,7 +417,6 @@ public class DatabaseController {
             Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        impAlfanImport.setId(11);
         impAlfanImport.setIndicador("Impostos - Imposto alfandegário de importação");
         return impAlfanImport;
     }
@@ -463,7 +451,6 @@ public class DatabaseController {
             Logger.getLogger(DatabaseController.class.getName()).log(Level.SEVERE, null, ex);
         }
 
-        impRenda.setId(12);
         impRenda.setIndicador("Impostos - Imposto de renda");
         return impRenda;
     }

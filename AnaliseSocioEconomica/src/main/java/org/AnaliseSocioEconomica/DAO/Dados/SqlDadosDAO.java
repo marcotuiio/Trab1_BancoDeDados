@@ -1,17 +1,13 @@
-package DAO.Dados;
+package org.AnaliseSocioEconomica.DAO.Dados;
 
-import Controller.RequestController;
-import DAO.Pais.SqlPaisDAO;
-import Model.Dados;
-import Model.SerieAnoAtrib;
-import org.apache.el.stream.StreamELResolverImpl;
-import org.apache.tomcat.util.http.parser.Upgrade;
+import org.AnaliseSocioEconomica.Model.Dados;
+import org.AnaliseSocioEconomica.DAO.Pais.SqlPaisDAO;
+import org.AnaliseSocioEconomica.Model.SerieAnoAtrib;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.PreparedStatement;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
@@ -45,7 +41,7 @@ public class SqlDadosDAO implements DadosDAO {
 
             statement.executeUpdate();
         } catch (SQLException ex) {
-            Logger.getLogger(SqlDadosDAO.class.getName()).log(Level.SEVERE, "DAO", ex);
+            Logger.getLogger(SqlDadosDAO.class.getName()).log(Level.SEVERE, "org/AnaliseSocioEconomica/DAO", ex);
             throw new SQLException("Erro ao criar dados por país.");
         }
     }
@@ -65,7 +61,7 @@ public class SqlDadosDAO implements DadosDAO {
                     throw new SQLException("Erro ao visualizar dados por país: dado não encontrado.");
                 }
             } catch (SQLException ex) {
-                Logger.getLogger(SqlDadosDAO.class.getName()).log(Level.SEVERE, "DAO", ex);
+                Logger.getLogger(SqlDadosDAO.class.getName()).log(Level.SEVERE, "org/AnaliseSocioEconomica/DAO", ex);
                 throw ex;
             }
         }
@@ -89,7 +85,7 @@ public class SqlDadosDAO implements DadosDAO {
                 throw new SQLException("Erro ao editar dados.");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "DAO", ex);
+            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "org/AnaliseSocioEconomica/DAO", ex);
             throw ex;
         }
     }
@@ -103,7 +99,7 @@ public class SqlDadosDAO implements DadosDAO {
                 throw new SQLException("Erro ao excluir: dado não encontrado.");
             }
         } catch (SQLException ex) {
-            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "DAO", ex);
+            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "org/AnaliseSocioEconomica/DAO", ex);
             throw ex;
         }
     }

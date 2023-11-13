@@ -1,9 +1,8 @@
-package Controller;
+package org.AnaliseSocioEconomica.Controller;
 
-import DatabaseController.DatabaseController;
-import Model.Dados;
-import Model.Pais;
-import Model.SerieAnoAtrib;
+import org.AnaliseSocioEconomica.Model.Dados;
+import org.AnaliseSocioEconomica.Model.Pais;
+import org.AnaliseSocioEconomica.Model.SerieAnoAtrib;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.opencsv.CSVReader;
@@ -20,19 +19,14 @@ import java.io.FileReader;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
-import org.springframework.context.event.EventListener;
 
 @Controller
 public class RequestController {
     private static List<String> paises = List.of("AR", "AU", "BR", "CA", "CN", "DE", "FR", "GB", "ID",
             "IN", "IT", "JP", "KR", "MX", "RU", "SA", "TR", "US", "ZA");
     private static List<String> indicadores = List.of("77827", "77825", "77826", "77821", "77823", "77857", "77831");
-    //    private static List<String> paises = List.of("BR");
+//    private static List<String> paises = List.of("BR");
 //    private static List<String> indicadores = List.of("77827");
     private static String urlIbge = "https://servicodados.ibge.gov.br/api/v1/paises/{pais}/indicadores/{indicador}";
 
@@ -43,21 +37,20 @@ public class RequestController {
     private static String PATH_TO_CSV = "C:\\Users\\marco\\Desktop\\UEL\\Database\\Trab1_BancoDeDados\\CSVs\\";
 //    private static String PATH_TO_CSV = "/home/vfs/Documents/Database_I/Trab1_BancoDeDados/CSVs/";
 
-    private static List<String> arquivos = List.of("impComInter", "impExportacao", "impReceitaFiscal",
-            "impAlfanImport", "impRenda");
+    private static List<String> arquivos = List.of("imp_com_inter", "imp_exportacao", "imp_receita_fiscal",
+            "imp_alfan_import", "imp_renda");
 
-    DatabaseController databaseController = new DatabaseController();
+//    DatabaseController databaseController = new DatabaseController();
+
     @GetMapping("/")
     public String NaoSeiMasEoQueRodaQuandoComeca(Model model) {
-//        Controller controller = new Controller();
-        System.out.println("Fazendo request\n");
+        System.out.println("Fazendo Request\n");
         Map<String, Map<String, JsonNode>> resultadosPorPais = makeRequestIbgeAPI();  // dados brutos json da API
         List<Pais> meusPaises = filtraPaises(resultadosPorPais);  // filtro inicial, limpando mapas e anos desejado
         System.out.println("Lendo csv\n");
         callCSVFilter(meusPaises);
-        System.out.println("Inserindo\n");
-        insertIntoDB(meusPaises);
-//        printarMeusPaises(meusPaises);
+//        insertIntoDB(meusPaises);
+        printarMeusPaises(meusPaises);
         model.addAttribute("paises", meusPaises);
         return "index";
     }
@@ -130,7 +123,7 @@ public class RequestController {
                 int idInd = Integer.parseInt(indicadorEntry.getKey());  // Chave do sub-mapa, indicador
                 JsonNode resposta = indicadorEntry.getValue(); // Valor do sub-mapa, resposta da API para tal indicador
                 // TEM QUE MUDAR DEPOIS: O NOME DO IDENTIFICADOR TEM QUE SER IDÊNTICO À COMO ESTÁ NO BANCO DE DADOS
-                String nomeInd = resposta.get(0).get("indicador").asText(); // pega nome do indicador
+//                String nomeInd = resposta.get(0).get("indicador").asText(); // pega nome do indicador
                 String nomePais = resposta.get(0).get("series").get(0).get("pais").get("nome").asText();  // pega nome do pais
                 JsonNode seriesDados = resposta.get(0).get("series").get(0).get("serie"); // pega serie de anos e valores
                 paisTeste.setNome(nomePais);
@@ -166,31 +159,31 @@ public class RequestController {
 
                 switch (idInd) {
                     case 77827: // Total PIB
-                        Dados indicadorPib = new Dados(paisSigla, nomeInd, serieAnoAtrib);
+                        Dados indicadorPib = new Dados(paisSigla, "pib_total", serieAnoAtrib);
                         paisTeste.setPibTotal(indicadorPib);
                         break;
                     case 77825: // Total Exportações
-                        Dados indicadorExportacoes = new Dados(paisSigla, nomeInd, serieAnoAtrib);
+                        Dados indicadorExportacoes = new Dados(paisSigla, "total_exportacao", serieAnoAtrib);
                         paisTeste.setTotalExportacao(indicadorExportacoes);
                         break;
                     case 77826: // Total Importações
-                        Dados indicadorImportacoes = new Dados(paisSigla, nomeInd, serieAnoAtrib);
+                        Dados indicadorImportacoes = new Dados(paisSigla, "total_importacao", serieAnoAtrib);
                         paisTeste.setTotalImportacao(indicadorImportacoes);
                         break;
                     case 77821: // Investimentos em pesquisa e desenvolvimento
-                        Dados indicadorInvestimento = new Dados(paisSigla, nomeInd, serieAnoAtrib);
+                        Dados indicadorInvestimento = new Dados(paisSigla, "invest_pesq_desenv", serieAnoAtrib);
                         paisTeste.setInvestPesqDesenv(indicadorInvestimento);
                         break;
                     case 77823: // PIB per capita
-                        Dados indicadorPibPC = new Dados(paisSigla, nomeInd, serieAnoAtrib);
+                        Dados indicadorPibPC = new Dados(paisSigla, "pib_per_capita", serieAnoAtrib);
                         paisTeste.setPibPerCapita(indicadorPibPC);
                         break;
                     case 77857: // Indivíduos com acesso à internet
-                        Dados indicadorIndividuos = new Dados(paisSigla, nomeInd, serieAnoAtrib);
+                        Dados indicadorIndividuos = new Dados(paisSigla, "indiv_aces_net", serieAnoAtrib);
                         paisTeste.setIndivAcesNet(indicadorIndividuos);
                         break;
                     case 77831: // IDH
-                        Dados indicadorIdh = new Dados(paisSigla, nomeInd, serieAnoAtrib);
+                        Dados indicadorIdh = new Dados(paisSigla, "idh", serieAnoAtrib);
                         paisTeste.setIdh(indicadorIdh);
                         break;
                 }
@@ -367,23 +360,23 @@ public class RequestController {
             }
 
             switch (arquivo) {
-                case "impComInter":
+                case "imp_com_inter":
                     paisToSet.setImpComInter(objeto);
                     break;
-                case "impExportacao":
+                case "imp_exportacao":
                     paisToSet.setImpExportacao(objeto);
                     break;
-                case "impReceitaFiscal":
+                case "imp_receita_fiscal":
                     paisToSet.setImpReceitaFiscal(objeto);
                     break;
-                case "impAlfanImport":
+                case "imp_alfan_import":
                     paisToSet.setImpAlfanImport(objeto);
                     break;
-                case "impRenda":
+                case "imp_renda":
                     paisToSet.setImpRenda(objeto);
                     break;
                 default:
-                    System.out.println("ERRO -> Atibuto" + arquivo + "não está nos dados de interesse dos países");
+                    System.out.println("ERRO -> Atibuto " + arquivo + " não está nos dados de interesse dos países");
                     break;
             }
         }
@@ -437,21 +430,21 @@ public class RequestController {
         return resultadosPorPais;
     }
 
-    public void insertIntoDB(List<Pais> meusPaises) {
-        databaseController.insertPais(meusPaises);
-        databaseController.insertPibTotal(meusPaises);
-        databaseController.insertPibPerCapita(meusPaises);
-        databaseController.insertTotalExportacao(meusPaises);
-        databaseController.insertTotalImportacao(meusPaises);
-        databaseController.insertInvestPesqDesenv(meusPaises);
-        databaseController.insertIndivAcesNet(meusPaises);
-        databaseController.insertIdh(meusPaises);
-        databaseController.insertImpComInter(meusPaises);
-        databaseController.insertImpExportacao(meusPaises);
-        databaseController.insertImpReceitaFiscal(meusPaises);
-        databaseController.insertImpAlfanImport(meusPaises);
-        databaseController.insertImpRenda(meusPaises);
-    }
+//    public void insertIntoDB(List<Pais> meusPaises) {
+//        databaseController.insertPais(meusPaises);
+//        databaseController.insertPibTotal(meusPaises);
+//        databaseController.insertPibPerCapita(meusPaises);
+//        databaseController.insertTotalExportacao(meusPaises);
+//        databaseController.insertTotalImportacao(meusPaises);
+//        databaseController.insertInvestPesqDesenv(meusPaises);
+//        databaseController.insertIndivAcesNet(meusPaises);
+//        databaseController.insertIdh(meusPaises);
+//        databaseController.insertImpComInter(meusPaises);
+//        databaseController.insertImpExportacao(meusPaises);
+//        databaseController.insertImpReceitaFiscal(meusPaises);
+//        databaseController.insertImpAlfanImport(meusPaises);
+//        databaseController.insertImpRenda(meusPaises);
+//    }
 
     public void printarMeusPaises(List<Pais> meusPaises) {
         System.out.println("\n---- TESTE POS FILTRO ----");

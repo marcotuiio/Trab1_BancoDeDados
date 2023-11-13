@@ -1,4 +1,4 @@
-package Model;
+package org.AnaliseSocioEconomica.Model;
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

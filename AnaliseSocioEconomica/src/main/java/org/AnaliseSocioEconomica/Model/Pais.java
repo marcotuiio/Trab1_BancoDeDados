@@ -1,4 +1,5 @@
-package Model;
+package org.AnaliseSocioEconomica.Model;
+
 
 public class Pais {
     private String id;

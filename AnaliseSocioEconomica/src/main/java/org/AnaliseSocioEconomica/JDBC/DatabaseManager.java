@@ -1,4 +1,4 @@
-package JDBC;
+package org.AnaliseSocioEconomica.JDBC;
 
 import java.sql.Connection;
 import java.sql.DriverManager;

@@ -1,4 +1,4 @@
-package JDBC;
+package org.AnaliseSocioEconomica.JDBC;
 
 import java.io.IOException;
 import java.sql.Connection;

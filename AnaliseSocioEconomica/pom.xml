@@ -8,14 +8,14 @@
 		<version>3.1.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
-	<groupId>default</groupId>
-	<artifactId>org</artifactId>
+	<groupId>org</groupId>
+	<artifactId>AnaliseSocioEconomica</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<name>AnaliseSocioEconomica</name>
 	<description>Trabalho de Banco de Dados, feito em dupla, com intuito de promover uma análise socio-econômica com base em dados abertos de múltiplas fontes.</description>
 	<properties>
 		<java.version>17</java.version>
-		<start-class>run.AnaliseSocioEconomicaApplication</start-class>
+<!--		<start-class>java.org.AnaliseSocioEconomica.AnaliseSocioEconomicaApplication</start-class>-->
 	</properties>
 	<dependencies>
 		<dependency>
