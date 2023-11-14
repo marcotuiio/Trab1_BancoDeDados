@@ -18,7 +18,8 @@ public class MySqlConnectionFactory extends ConnectionFactory {
 
             readProperties();
 
-            String dbUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbName;
+            String dbUrl = "jdbc:mysql://" + dbHost + ":" + dbPort + "/" + dbSchema;
+//            System.out.println("CONEXAO MYSQL " + dbUrl);
             connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
         } catch (ClassNotFoundException ex) {

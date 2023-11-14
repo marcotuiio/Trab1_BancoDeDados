@@ -18,7 +18,7 @@ public class PgConnectionFactory extends ConnectionFactory {
 
             readProperties();
 
-            String dbUrl = "jdbc:postgre://" + dbHost + ":" + dbPort + "/" + dbName;
+            String dbUrl = "jdbc:postgre://" + dbHost + ":" + dbPort + "/" + dbSchema;
             connection = DriverManager.getConnection(dbUrl, dbUser, dbPassword);
 
         } catch (ClassNotFoundException ex) {

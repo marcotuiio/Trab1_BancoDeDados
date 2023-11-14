@@ -34,12 +34,17 @@ public class SqlDadosDAO implements DadosDAO {
         String createQuery = START_CREATE_QUERY + dados.getIndicador() + END_CREATE_QUERY;
 
         try (PreparedStatement statement = connection.prepareStatement(createQuery)) {
-            Map.Entry<Integer, String> entry = (Map.Entry<Integer, String>) dados.getSeries().getDuplaAnoAtributo().entrySet();
-            statement.setInt(1, entry.getKey());
-            statement.setString(2, dados.getSigla());
-            statement.setString(3, entry.getValue());
+            Map<Integer, String> duplaAnoAtributo = dados.getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : duplaAnoAtributo.entrySet()) {
+                statement.setInt(1, entry.getKey());
+                statement.setString(2, dados.getSigla());
+                statement.setString(3, entry.getValue());
+//                System.out.println(statement);
+                statement.addBatch();
+                statement.clearParameters();
+            }
+            statement.executeBatch();
 
-            statement.executeUpdate();
         } catch (SQLException ex) {
             Logger.getLogger(SqlDadosDAO.class.getName()).log(Level.SEVERE, "org/AnaliseSocioEconomica/DAO", ex);
             throw new SQLException("Erro ao criar dados por país.");
@@ -74,15 +79,19 @@ public class SqlDadosDAO implements DadosDAO {
     @Override
     public void update(Dados dados) throws SQLException {
         String updateQuery = START_UPDATE_QUERY + dados.getIndicador() + END_UPDATE_QUERY;
-        Map.Entry<Integer, String> entry = (Map.Entry<Integer, String>) dados.getSeries().getDuplaAnoAtributo().entrySet();
+
 
         try (PreparedStatement statement = connection.prepareStatement(updateQuery)) {
-            statement.setString(1, entry.getValue());
-            statement.setInt(2, entry.getKey());
-            statement.setString(3, dados.getSigla());
+            Map<Integer, String> duplaAnoAtributo = dados.getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : duplaAnoAtributo.entrySet()) {
+                statement.setString(1, entry.getValue());
+                statement.setInt(2, entry.getKey());
+                statement.setString(3, dados.getSigla());
+                statement.addBatch();
+            }
 
-            if (statement.executeUpdate() < 1) {
-                throw new SQLException("Erro ao editar dados.");
+            for (int i : statement.executeBatch()) {
+                if (i < 0) System.out.println("Erro ao editar dados\n");
             }
         } catch (SQLException ex) {
             Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "org/AnaliseSocioEconomica/DAO", ex);

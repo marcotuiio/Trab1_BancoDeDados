@@ -1,5 +1,6 @@
 package org.AnaliseSocioEconomica.JDBC;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.sql.Connection;
@@ -8,12 +9,12 @@ import java.util.Properties;
 
 public abstract class ConnectionFactory {
     private static ConnectionFactory instance = null;
-    protected static String propertiesPath = "C:\\Users\\marco\\Desktop\\UEL\\Database\\Trab1_BancoDeDados\\AnaliseSocioEconomica\\datasource.properties";
+    protected static String propertiesPath = "C:\\Users\\marco\\Desktop\\UEL\\Database\\Trab1_BancoDeDados\\AnaliseSocioEconomica\\src\\main\\resources\\application.properties";
     private static String dbServer;
 
     protected String dbHost;
     protected String dbPort;
-    protected String dbName;
+    protected String dbSchema;
     protected String dbUser;
     protected String dbPassword;
 
@@ -24,7 +25,7 @@ public abstract class ConnectionFactory {
             Properties properties = new Properties();
 
             try {
-                InputStream input = ConnectionFactory.class.getClassLoader().getResourceAsStream(propertiesPath);
+                InputStream input = new FileInputStream(propertiesPath);
                 properties.load(input);
 
                 dbServer = properties.getProperty("server");
@@ -57,12 +58,12 @@ public abstract class ConnectionFactory {
         Properties properties = new Properties();
 
         try {
-            InputStream input = this.getClass().getClassLoader().getResourceAsStream(propertiesPath);
+            InputStream input = new FileInputStream(propertiesPath);
             properties.load(input);
 
             dbHost = properties.getProperty("host");
             dbPort = properties.getProperty("port");
-            dbName = properties.getProperty("db");
+            dbSchema = properties.getProperty("schema");
             dbUser = properties.getProperty("user");
             dbPassword = properties.getProperty("password");
 

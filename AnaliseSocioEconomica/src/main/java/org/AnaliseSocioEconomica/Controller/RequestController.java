@@ -2,6 +2,7 @@ package org.AnaliseSocioEconomica.Controller;
 
 import org.AnaliseSocioEconomica.Model.Dados;
 import org.AnaliseSocioEconomica.Model.Pais;
+import org.AnaliseSocioEconomica.DAO.*;
 import org.AnaliseSocioEconomica.Model.SerieAnoAtrib;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -14,6 +15,7 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.sql.SQLException;
 import java.util.*;
 import java.io.FileReader;
 
@@ -42,15 +44,41 @@ public class RequestController {
 
 //    DatabaseController databaseController = new DatabaseController();
 
+    DAO<Pais> daoPais;
+    DAO<Dados> daoDados;
+
     @GetMapping("/")
-    public String NaoSeiMasEoQueRodaQuandoComeca(Model model) {
+    public String makeRequestsAndInserts(Model model) {
+        // if time.lastRequest = 1 year faz isso
         System.out.println("Fazendo Request\n");
         Map<String, Map<String, JsonNode>> resultadosPorPais = makeRequestIbgeAPI();  // dados brutos json da API
         List<Pais> meusPaises = filtraPaises(resultadosPorPais);  // filtro inicial, limpando mapas e anos desejado
-        System.out.println("Lendo csv\n");
+        System.out.println("Fazendo leitura CSV");
         callCSVFilter(meusPaises);
-//        insertIntoDB(meusPaises);
-        printarMeusPaises(meusPaises);
+
+        System.out.println("Iniciando inserts");
+        try (DAOFactory daoFactory = DAOFactory.getInstance()) {
+            daoPais = daoFactory.getPaisDAO();
+            daoDados = daoFactory.getDadosDAO();
+            for (Pais p : meusPaises) {
+                daoPais.create(p);
+                daoDados.create(p.getPibTotal());
+                daoDados.create(p.getPibPerCapita());
+                daoDados.create(p.getTotalExportacao());
+                daoDados.create(p.getTotalImportacao());
+                daoDados.create(p.getInvestPesqDesenv());
+                daoDados.create(p.getIndivAcesNet());
+                daoDados.create(p.getIdh());
+                daoDados.create(p.getImpComInter());
+                daoDados.create(p.getImpExportacao());
+                daoDados.create(p.getImpReceitaFiscal());
+                daoDados.create(p.getImpAlfanImport());
+                daoDados.create(p.getImpRenda());
+            }
+            System.out.println("Feito inserts");
+        } catch (ClassNotFoundException | IOException | SQLException ex) {
+            model.addAttribute("error", ex.getMessage());
+        }
         model.addAttribute("paises", meusPaises);
         return "index";
     }
@@ -201,7 +229,7 @@ public class RequestController {
                 e.printStackTrace();
             }
         }
-
+        System.out.println("Feito Leitura CSV");
     }
 
     public void LeituraCSV(List<Pais> meusPaises, String arquivo, Class<? extends Dados> type)
@@ -236,114 +264,133 @@ public class RequestController {
             Pais paisToSet = null;
             switch (nomePaisCsv) {
                 case "Argentina":
+                    objeto.setSigla("AR");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("AR"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "Australia":
+                    objeto.setSigla("AU");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("AU"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "Brazil":
+                    objeto.setSigla("BR");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("BR"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "Canada":
+                    objeto.setSigla("CA");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("CA"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "China":
+                    objeto.setSigla("CN");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("CN"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "Germany":
+                    objeto.setSigla("DE");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("DE"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "France":
+                    objeto.setSigla("FR");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("FR"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "United Kingdom":
+                    objeto.setSigla("GB");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("GB"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "Indonesia":
+                    objeto.setSigla("ID");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("ID"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "India":
+                    objeto.setSigla("IN");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("IN"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "Italy":
+                    objeto.setSigla("IT");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("IT"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "Japan":
+                    objeto.setSigla("JP");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("JP"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "Korea, Rep.":
+                    objeto.setSigla("KR");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("KR"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "Mexico":
+                    objeto.setSigla("MX");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("MX"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "Russian Federation":
+                    objeto.setSigla("RU");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("RU"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "Saudi Arabia":
+                    objeto.setSigla("SA");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("SA"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "Turkiye":
+                    objeto.setSigla("TR");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("TR"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "United States":
+                    objeto.setSigla("US");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("US"))
                             .findFirst()
                             .orElse(null);
                     break;
                 case "South Africa":
+                    objeto.setSigla("ZA");
                     paisToSet = meusPaises.stream()
                             .filter(pais -> pais.getId().equals("ZA"))
                             .findFirst()
@@ -430,22 +477,6 @@ public class RequestController {
         return resultadosPorPais;
     }
 
-//    public void insertIntoDB(List<Pais> meusPaises) {
-//        databaseController.insertPais(meusPaises);
-//        databaseController.insertPibTotal(meusPaises);
-//        databaseController.insertPibPerCapita(meusPaises);
-//        databaseController.insertTotalExportacao(meusPaises);
-//        databaseController.insertTotalImportacao(meusPaises);
-//        databaseController.insertInvestPesqDesenv(meusPaises);
-//        databaseController.insertIndivAcesNet(meusPaises);
-//        databaseController.insertIdh(meusPaises);
-//        databaseController.insertImpComInter(meusPaises);
-//        databaseController.insertImpExportacao(meusPaises);
-//        databaseController.insertImpReceitaFiscal(meusPaises);
-//        databaseController.insertImpAlfanImport(meusPaises);
-//        databaseController.insertImpRenda(meusPaises);
-//    }
-
     public void printarMeusPaises(List<Pais> meusPaises) {
         System.out.println("\n---- TESTE POS FILTRO ----");
         for (Pais p : meusPaises) {
@@ -491,35 +522,35 @@ public class RequestController {
 
             System.out.println("\n-- DADOS DO CSV --");
 
-            System.out.println("\n<Serie anual impComInter>");
-            Map<Integer, String> impInter = p.getImpComInter().getSeries().getDuplaAnoAtributo();
-            for (Map.Entry<Integer, String> entry : impInter.entrySet()) {
-                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
-            }
-
-            System.out.println("\n<Serie anual impExportacao>");
-            Map<Integer, String> impExp = p.getImpExportacao().getSeries().getDuplaAnoAtributo();
-            for (Map.Entry<Integer, String> entry : impExp.entrySet()) {
-                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
-            }
-
-            System.out.println("\n<Serie anual impReceitaFiscal>");
-            Map<Integer, String> receitaFiscal = p.getImpReceitaFiscal().getSeries().getDuplaAnoAtributo();
-            for (Map.Entry<Integer, String> entry : receitaFiscal.entrySet()) {
-                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
-            }
-
-            System.out.println("\n<Serie anual impAlfanImport>");
-            Map<Integer, String> impAlf = p.getImpAlfanImport().getSeries().getDuplaAnoAtributo();
-            for (Map.Entry<Integer, String> entry : impAlf.entrySet()) {
-                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
-            }
-
-            System.out.println("\n<Serie anual impRenda>");
-            Map<Integer, String> impRenda = p.getImpRenda().getSeries().getDuplaAnoAtributo();
-            for (Map.Entry<Integer, String> entry : impRenda.entrySet()) {
-                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
-            }
+//            System.out.println("\n<Serie anual impComInter>");
+//            Map<Integer, String> impInter = p.getImpComInter().getSeries().getDuplaAnoAtributo();
+//            for (Map.Entry<Integer, String> entry : impInter.entrySet()) {
+//                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+//            }
+//
+//            System.out.println("\n<Serie anual impExportacao>");
+//            Map<Integer, String> impExp = p.getImpExportacao().getSeries().getDuplaAnoAtributo();
+//            for (Map.Entry<Integer, String> entry : impExp.entrySet()) {
+//                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+//            }
+//
+//            System.out.println("\n<Serie anual impReceitaFiscal>");
+//            Map<Integer, String> receitaFiscal = p.getImpReceitaFiscal().getSeries().getDuplaAnoAtributo();
+//            for (Map.Entry<Integer, String> entry : receitaFiscal.entrySet()) {
+//                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+//            }
+//
+//            System.out.println("\n<Serie anual impAlfanImport>");
+//            Map<Integer, String> impAlf = p.getImpAlfanImport().getSeries().getDuplaAnoAtributo();
+//            for (Map.Entry<Integer, String> entry : impAlf.entrySet()) {
+//                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+//            }
+//
+//            System.out.println("\n<Serie anual impRenda>");
+//            Map<Integer, String> impRenda = p.getImpRenda().getSeries().getDuplaAnoAtributo();
+//            for (Map.Entry<Integer, String> entry : impRenda.entrySet()) {
+//                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+//            }
 
             System.out.println("\n\n");
         }
