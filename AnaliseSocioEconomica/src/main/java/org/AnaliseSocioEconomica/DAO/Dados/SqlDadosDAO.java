@@ -19,7 +19,7 @@ public class SqlDadosDAO implements DadosDAO {
     private  static final String START_CREATE_QUERY = "INSERT INTO t1bd.";
     private  static final String END_CREATE_QUERY = "(ano, sigla, valor) VALUES(?, ?, ?);";
     private static final String START_READBYSIGLA_QUERY = "SELECT * FROM t1bd.";
-    private static final String END_READBYSIGLA_QUERY = " WHERE sigla = ?;";
+    private static final String END_READBYSIGLA_QUERY = " WHERE sigla = ?";
     private static final String START_DELETE_QUERY = "DELETE * FROM t1bd.";
     private static final String END_DELETE_QUERY = ";";
     private static final String START_UPDATE_QUERY = "UPDATE t1bd.";

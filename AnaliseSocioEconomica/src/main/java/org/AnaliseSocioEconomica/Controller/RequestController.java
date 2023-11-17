@@ -109,10 +109,13 @@ public class RequestController {
             daoDados = daoFactory.getDadosDAO();
 
             Dados dados = ((DadosDAO) daoDados).readBySigla(atrib, sigla);
-            SerieAnoAtrib series = dados.getSeries();
-            Map<Integer, String> values = series.getDuplaAnoAtributo();
+            // Map.Entry<Integer, String> entry = (Map.Entry<Integer, String>) dados.getSeries().getDuplaAnoAtributo().entrySet();
 
-            model.addAttribute("dados", series);
+            for (Map.Entry<Integer, String> entry : dados.getSeries().getDuplaAnoAtributo().entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
+
+            model.addAttribute("dados", dados);
         } catch (ClassNotFoundException | IOException | SQLException ex) {
             model.addAttribute("error", ex.getMessage());
         }

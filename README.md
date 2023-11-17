@@ -53,7 +53,7 @@ Para a extração dos dados foram utilizados as seguintes fontes:
 
 A API do IBGE foi utilizada para modelar os países e os indicativos fundamentais. 
 
-    - https://servicodados.ibge.gov.br/api/docs/paisesV
+    - https://servicodados.ibge.gov.br/api/docs/paises
 
 * Indicativos e os códigos necessários para os requests:
     - 77827 - Economia - Total do PIB

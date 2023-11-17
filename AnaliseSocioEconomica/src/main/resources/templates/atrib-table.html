@@ -20,11 +20,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr th:each="atrib : ${dados.series.duplaAnoAtributo.entrySet()}">
+        <tr th:each="atrib : ${dados.getSeries().getDuplaAnoAtributo().entrySet()}">
             <td th:text="${dados.sigla}"></td>
             <td th:text="${dados.indicador}"></td>
             <td th:text="${atrib.getKey()}"></td>
-            <td th:text="${dados.getValue()}"></td>
+            <td th:text="${atrib.getValue()}"></td>
             <td style="text-align: center;"><a th:href="@{/editar-atrib/{id}(id=${'BR'})}">Editar</a></td>
             <td style="text-align: center;"><a th:href="@{/remover-atrib/{id}(id=${'BR'})}">Remover</a></td>
         </tr>
