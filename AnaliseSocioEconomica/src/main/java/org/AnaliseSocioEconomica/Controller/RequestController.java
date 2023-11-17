@@ -23,6 +23,7 @@ import java.io.FileReader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
 @Controller
 public class RequestController {
@@ -98,6 +99,25 @@ public class RequestController {
             model.addAttribute("error", ex.getMessage());
         }
         return "index";
+    }
+
+    @GetMapping("/consulta-atrib/{atrib}/{sigla}")
+    public String consultaAtrib(@PathVariable("atrib") String atrib,
+                                @PathVariable("sigla") String sigla, Model model) {
+
+        try (DAOFactory daoFactory = DAOFactory.getInstance()) {
+            daoDados = daoFactory.getDadosDAO();
+
+            Dados dados = ((DadosDAO) daoDados).readBySigla(atrib, sigla);
+            SerieAnoAtrib series = dados.getSeries();
+            Map<Integer, String> values = series.getDuplaAnoAtributo();
+
+            model.addAttribute("dados", series);
+        } catch (ClassNotFoundException | IOException | SQLException ex) {
+            model.addAttribute("error", ex.getMessage());
+        }
+
+        return "atrib-table";
     }
 
     public Map<String, Map<String, JsonNode>> makeRequestIbgeAPI() {
