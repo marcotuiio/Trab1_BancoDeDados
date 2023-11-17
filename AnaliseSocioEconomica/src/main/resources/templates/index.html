@@ -13,12 +13,14 @@
         <tr>
             <th>País</th>
             <th>Sigla</th>
+            <th>IDH</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="pais : ${paises}">
             <td th:text="${pais.nome}"></td>
             <td th:text="${pais.id}"></td>
+            <td><a th:href="@{/consulta-atrib/idh/{sigla}(sigla=${pais.id})}">Editar</a></td>
         </tr>
         </tbody>
     </table>

@@ -47,7 +47,9 @@ public class RequestController {
     DAO<Pais> daoPais;
     DAO<Dados> daoDados;
 
-    @GetMapping("/")
+    // esse aqui deeemora e faz os request na api, le o csv e retorna a lista de paises resultantes
+    // usar apenas quando o banco nao estiveer carregado
+    @GetMapping("/request")
     public String makeRequestsAndInserts(Model model) {
         // if time.lastRequest = 1 year faz isso
         System.out.println("Fazendo Request\n");
@@ -80,6 +82,20 @@ public class RequestController {
             model.addAttribute("error", ex.getMessage());
         }
         model.addAttribute("paises", meusPaises);
+        return "index";
+    }
+
+    @GetMapping("/")
+    public String listAllPaises(Model model) {
+        try (DAOFactory daoFactory = DAOFactory.getInstance()) {
+            daoPais = daoFactory.getPaisDAO();
+            List<Pais> meusPaises = daoPais.all();
+
+            model.addAttribute("paises", meusPaises);
+
+        } catch (ClassNotFoundException | IOException | SQLException ex) {
+            model.addAttribute("error", ex.getMessage());
+        }
         return "index";
     }
 

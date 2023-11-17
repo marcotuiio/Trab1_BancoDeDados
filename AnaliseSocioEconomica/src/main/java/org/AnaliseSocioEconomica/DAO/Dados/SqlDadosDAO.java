@@ -39,7 +39,6 @@ public class SqlDadosDAO implements DadosDAO {
                 statement.setInt(1, entry.getKey());
                 statement.setString(2, dados.getSigla());
                 statement.setString(3, entry.getValue());
-//                System.out.println(statement);
                 statement.addBatch();
                 statement.clearParameters();
             }
@@ -51,6 +50,7 @@ public class SqlDadosDAO implements DadosDAO {
         }
     }
 
+    // se eu tenho so o pais, como vou saber qual indicador passar para o query
     public Dados readBySigla(String indicador, String siglaPais) throws SQLException {
         String readQuery = START_READBYSIGLA_QUERY + indicador + END_READBYSIGLA_QUERY;
         SerieAnoAtrib series = new SerieAnoAtrib();
@@ -58,12 +58,10 @@ public class SqlDadosDAO implements DadosDAO {
         try (PreparedStatement statement = connection.prepareStatement(readQuery)) {
             statement.setString(1, siglaPais);
             try (ResultSet result = statement.executeQuery()) {
-                if (result.next()) {
+                while (result.next()) {
                     int ano = result.getInt("ano");
                     String valor = result.getString("valor");
                     series.setDuplaAnoAtributo(ano, valor);
-                } else {
-                    throw new SQLException("Erro ao visualizar dados por país: dado não encontrado.");
                 }
             } catch (SQLException ex) {
                 Logger.getLogger(SqlDadosDAO.class.getName()).log(Level.SEVERE, "org/AnaliseSocioEconomica/DAO", ex);
@@ -79,7 +77,6 @@ public class SqlDadosDAO implements DadosDAO {
     @Override
     public void update(Dados dados) throws SQLException {
         String updateQuery = START_UPDATE_QUERY + dados.getIndicador() + END_UPDATE_QUERY;
-
 
         try (PreparedStatement statement = connection.prepareStatement(updateQuery)) {
             Map<Integer, String> duplaAnoAtributo = dados.getSeries().getDuplaAnoAtributo();
