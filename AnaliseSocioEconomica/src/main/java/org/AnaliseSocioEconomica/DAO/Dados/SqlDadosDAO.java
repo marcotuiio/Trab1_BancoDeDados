@@ -50,7 +50,6 @@ public class SqlDadosDAO implements DadosDAO {
         }
     }
 
-    // se eu tenho so o pais, como vou saber qual indicador passar para o query
     public Dados readBySigla(String indicador, String siglaPais) throws SQLException {
         String readQuery = START_READBYSIGLA_QUERY + indicador + END_READBYSIGLA_QUERY;
         SerieAnoAtrib series = new SerieAnoAtrib();
@@ -114,4 +113,5 @@ public class SqlDadosDAO implements DadosDAO {
     public Dados read(String indicador) throws SQLException { return null; }
     @Override
     public List<Dados> all() throws SQLException { return null; }
+
 }

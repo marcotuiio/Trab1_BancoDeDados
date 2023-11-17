@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!--    <link rel="stylesheet" th:href="@{/static/style_index.css}">-->
+    <title>Request dos Dados</title>
+</head>
+<div class="center">
+    <body>
+    <h2>Teste de request do dados</h2>
+    <table>
+        <thead>
+        <tr>
+            <th>Sigla</th>
+            <th>Indicador</th>
+            <th>ANO</th>
+            <th>VALOR</th>
+            <th>EDITAR</th>
+            <th>REMOVER</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="atrib : ${dados.series.duplaAnoAtributo.entrySet()}">
+            <td th:text="${dados.sigla}"></td>
+            <td th:text="${dados.indicador}"></td>
+            <td th:text="${atrib.getKey()}"></td>
+            <td th:text="${dados.getValue()}"></td>
+            <td style="text-align: center;"><a th:href="@{/editar-atrib/{id}(id=${'BR'})}">Editar</a></td>
+            <td style="text-align: center;"><a th:href="@{/remover-atrib/{id}(id=${'BR'})}">Remover</a></td>
+        </tr>
+        </tbody>
+    </table>
+    <td><a th:href="@{/}">Retornar</a></td>
+    </body>
+</div>
+</html>

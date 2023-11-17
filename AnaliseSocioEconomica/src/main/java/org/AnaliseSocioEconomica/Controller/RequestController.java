@@ -1,5 +1,6 @@
 package org.AnaliseSocioEconomica.Controller;
 
+import org.AnaliseSocioEconomica.DAO.Dados.DadosDAO;
 import org.AnaliseSocioEconomica.Model.Dados;
 import org.AnaliseSocioEconomica.Model.Pais;
 import org.AnaliseSocioEconomica.DAO.*;
@@ -61,7 +62,7 @@ public class RequestController {
         System.out.println("Iniciando inserts");
         try (DAOFactory daoFactory = DAOFactory.getInstance()) {
             daoPais = daoFactory.getPaisDAO();
-            daoDados = daoFactory.getDadosDAO();
+            daoDados = (DadosDAO) daoFactory.getDadosDAO();
             for (Pais p : meusPaises) {
                 daoPais.create(p);
                 daoDados.create(p.getPibTotal());
@@ -538,35 +539,35 @@ public class RequestController {
 
             System.out.println("\n-- DADOS DO CSV --");
 
-//            System.out.println("\n<Serie anual impComInter>");
-//            Map<Integer, String> impInter = p.getImpComInter().getSeries().getDuplaAnoAtributo();
-//            for (Map.Entry<Integer, String> entry : impInter.entrySet()) {
-//                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
-//            }
-//
-//            System.out.println("\n<Serie anual impExportacao>");
-//            Map<Integer, String> impExp = p.getImpExportacao().getSeries().getDuplaAnoAtributo();
-//            for (Map.Entry<Integer, String> entry : impExp.entrySet()) {
-//                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
-//            }
-//
-//            System.out.println("\n<Serie anual impReceitaFiscal>");
-//            Map<Integer, String> receitaFiscal = p.getImpReceitaFiscal().getSeries().getDuplaAnoAtributo();
-//            for (Map.Entry<Integer, String> entry : receitaFiscal.entrySet()) {
-//                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
-//            }
-//
-//            System.out.println("\n<Serie anual impAlfanImport>");
-//            Map<Integer, String> impAlf = p.getImpAlfanImport().getSeries().getDuplaAnoAtributo();
-//            for (Map.Entry<Integer, String> entry : impAlf.entrySet()) {
-//                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
-//            }
-//
-//            System.out.println("\n<Serie anual impRenda>");
-//            Map<Integer, String> impRenda = p.getImpRenda().getSeries().getDuplaAnoAtributo();
-//            for (Map.Entry<Integer, String> entry : impRenda.entrySet()) {
-//                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
-//            }
+            System.out.println("\n<Serie anual impComInter>");
+            Map<Integer, String> impInter = p.getImpComInter().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : impInter.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
+
+            System.out.println("\n<Serie anual impExportacao>");
+            Map<Integer, String> impExp = p.getImpExportacao().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : impExp.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
+
+            System.out.println("\n<Serie anual impReceitaFiscal>");
+            Map<Integer, String> receitaFiscal = p.getImpReceitaFiscal().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : receitaFiscal.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
+
+            System.out.println("\n<Serie anual impAlfanImport>");
+            Map<Integer, String> impAlf = p.getImpAlfanImport().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : impAlf.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
+
+            System.out.println("\n<Serie anual impRenda>");
+            Map<Integer, String> impRenda = p.getImpRenda().getSeries().getDuplaAnoAtributo();
+            for (Map.Entry<Integer, String> entry : impRenda.entrySet()) {
+                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+            }
 
             System.out.println("\n\n");
         }

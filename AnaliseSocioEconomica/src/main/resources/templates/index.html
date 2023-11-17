@@ -7,20 +7,46 @@
 </head>
 <div class="center">
     <body>
-    <h2>Teste de request</h2>
+    <h2>Teste de request dos países</h2>
     <table>
         <thead>
         <tr>
             <th>País</th>
             <th>Sigla</th>
-            <th>IDH</th>
+            <th>idh</th>
+            <th>imp_alfan_import</th>
+            <th>imp_com_inter</th>
+            <th>imp_receita_fiscal</th>
+            <th>imp_exportacao</th>
+            <th>imp_renda</th>
+            <th>indiv_aces_net</th>
+            <th>pib_total</th>
+            <th>pib_per_capita</th>
+            <th>invest_pesq_desenv</th>
+            <th>total_exportacao</th>
+            <th>total_importacao</th>
+            <th>EDITAR</th>
+            <th>REMOVER</th>
         </tr>
         </thead>
         <tbody>
         <tr th:each="pais : ${paises}">
             <td th:text="${pais.nome}"></td>
             <td th:text="${pais.id}"></td>
-            <td><a th:href="@{/consulta-atrib/idh/{sigla}(sigla=${pais.id})}">Editar</a></td>
+            <td style="text-align: center;"><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'idh'}, sigla=${pais.id})}">VER</a></td>
+            <td style="text-align: center;"><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_alfan_import'}, sigla=${pais.id})}">VER</a></td>
+            <td style="text-align: center;"><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_com_inter'}, sigla=${pais.id})}">VER</a></td>
+            <td style="text-align: center;"><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_receita_fiscal'}, sigla=${pais.id})}">VER</a></td>
+            <td style="text-align: center;"><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_exportacao'}, sigla=${pais.id})}">VER</a></td>
+            <td style="text-align: center;"><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_renda'}, sigla=${pais.id})}">VER</a></td>
+            <td style="text-align: center;"><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'indiv_aces_net'}, sigla=${pais.id})}">VER</a></td>
+            <td style="text-align: center;"><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'pib_total'}, sigla=${pais.id})}">VER</a></td>
+            <td style="text-align: center;"><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'pib_per_capita'}, sigla=${pais.id})}">VER</a></td>
+            <td style="text-align: center;"><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'invest_pesq_desenv'}, sigla=${pais.id})}">VER</a></td>
+            <td style="text-align: center;"><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'total_exportacao'}, sigla=${pais.id})}">VER</a></td>
+            <td style="text-align: center;"><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'total_importacao'}, sigla=${pais.id})}">VER</a></td>
+            <td style="text-align: center;"><a th:href="@{/editar-pais/{id}(id=${pais.id})}">Editar</a></td>
+            <td style="text-align: center;"><a th:href="@{/remover-pais/{id}(id=${pais.id})}">Remover</a></td>
         </tr>
         </tbody>
     </table>
