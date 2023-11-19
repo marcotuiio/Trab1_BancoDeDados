@@ -2,6 +2,7 @@ package org.AnaliseSocioEconomica.Controller;
 
 import org.AnaliseSocioEconomica.DAO.Dados.DadosDAO;
 import org.AnaliseSocioEconomica.Model.Dados;
+import org.AnaliseSocioEconomica.Model.IntervaloAnosRequest;
 import org.AnaliseSocioEconomica.Model.Pais;
 import org.AnaliseSocioEconomica.DAO.*;
 import org.AnaliseSocioEconomica.Model.SerieAnoAtrib;
@@ -17,6 +18,9 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.sql.SQLException;
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.*;
 import java.io.FileReader;
 
@@ -34,7 +38,7 @@ public class RequestController {
 //    private static List<String> paises = List.of("BR");
 //    private static List<String> indicadores = List.of("77827");
     private static String urlIbge = "https://servicodados.ibge.gov.br/api/v1/paises/{pais}/indicadores/{indicador}";
-
+//    private static String urlSimulacao = "https://github.com/marcotuiio/marcotuiio.github.io/simulacao.json";
     private static HttpClient client = HttpClient.newHttpClient();
 
     private static ObjectMapper objectMapper = new ObjectMapper();
@@ -45,16 +49,38 @@ public class RequestController {
     private static List<String> arquivos = List.of("imp_com_inter", "imp_exportacao", "imp_receita_fiscal",
             "imp_alfan_import", "imp_renda");
 
-//    DatabaseController databaseController = new DatabaseController();
-
+    private static int API_INTERVAL = 6; // months
+    private int ANO_INICIAL;
+    private int ANO_FINAL;
+    private Date REQUEST_DATE;
     DAO<Pais> daoPais;
     DAO<Dados> daoDados;
+    DAO<IntervaloAnosRequest> daoIntervalos;
 
     // esse aqui deeemora e faz os request na api, le o csv e retorna a lista de paises resultantes
     // usar apenas quando o banco nao estiveer carregado
     @GetMapping("/request")
     public String makeRequestsAndInserts(Model model) {
-        // if time.lastRequest = 1 year faz isso
+        IntervaloAnosRequest intervaloAnosRequest = null;
+        try (DAOFactory daoFactory = DAOFactory.getInstance()) {
+            daoIntervalos = daoFactory.getIntervalosDAO();
+            intervaloAnosRequest = daoIntervalos.read("");
+
+            ANO_INICIAL = intervaloAnosRequest.getAnoInicial();
+            ANO_FINAL = intervaloAnosRequest.getAnoFinal();
+            REQUEST_DATE = intervaloAnosRequest.getRequestDate();
+
+        } catch (ClassNotFoundException | IOException | SQLException ex) {
+            model.addAttribute("error", ex.getMessage());
+        }
+
+        LocalDate sqlDate = REQUEST_DATE.toLocalDate();
+        LocalDate localDate = LocalDate.now();
+        long monthsBetween = ChronoUnit.MONTHS.between(sqlDate, localDate);
+        System.out.printf("\nINTERVALO DOS REQUEST ANO INICIAL %d ANO FINAL %d REQUEST DATE %s\nMESES %d\n", ANO_INICIAL, ANO_FINAL, REQUEST_DATE, monthsBetween);
+        if (monthsBetween <= 6) return "redirect:/index";
+        // se o ultimo request foi feito em menos de 6 meses nao faz request
+
         System.out.println("Fazendo Request\n");
         Map<String, Map<String, JsonNode>> resultadosPorPais = makeRequestIbgeAPI();  // dados brutos json da API
         List<Pais> meusPaises = filtraPaises(resultadosPorPais);  // filtro inicial, limpando mapas e anos desejado
@@ -64,7 +90,7 @@ public class RequestController {
         System.out.println("Iniciando inserts");
         try (DAOFactory daoFactory = DAOFactory.getInstance()) {
             daoPais = daoFactory.getPaisDAO();
-            daoDados = (DadosDAO) daoFactory.getDadosDAO();
+            daoDados = daoFactory.getDadosDAO();
             for (Pais p : meusPaises) {
                 daoPais.create(p);
                 daoDados.create(p.getPibTotal());
@@ -80,6 +106,10 @@ public class RequestController {
                 daoDados.create(p.getImpAlfanImport());
                 daoDados.create(p.getImpRenda());
             }
+            daoIntervalos = daoFactory.getIntervalosDAO();
+            intervaloAnosRequest.setRequestDate(Date.valueOf(localDate));
+            daoIntervalos.update(intervaloAnosRequest);
+
             System.out.println("Feito inserts");
         } catch (ClassNotFoundException | IOException | SQLException ex) {
             model.addAttribute("error", ex.getMessage());
@@ -178,7 +208,8 @@ public class RequestController {
                         // para muitos países em anos anteriores
 
                         if (ano.length() == 4) {
-                            if (Integer.parseInt(ano) >= 2010 && Integer.parseInt(ano) <= 2021) {
+                            // Primeiro dos requests
+                            if (Integer.parseInt(ano) >= ANO_INICIAL && Integer.parseInt(ano) <= ANO_FINAL) {
                                 serieAnoAtrib.setDuplaAnoAtributo(Integer.parseInt(ano), valor);
 //                        System.out.println("Ano: " + ano + ", Valor: " + valor);
                             }
@@ -432,54 +463,6 @@ public class RequestController {
                     break;
             }
         }
-    }
-
-    public Map<String, Map<String, JsonNode>> makeRequestTesouroNacionalAPI() {
-
-        // Mapa de Mapas para armazenar os resultados
-        // A chave geral é o país, e a chave de chada sub-mapa é o indicador
-        // Então por linhas gerais tem-se mapa do páis com vários atributos de indicadores
-        Map<String, Map<String, JsonNode>> resultadosPorPais = new HashMap<>();
-
-        // Fazer um request para cada país e indicador
-        for (String pais : paises) {
-
-            // Para cada país, criar um sub-mapa para armazenar os resultados dos indicadores
-            Map<String, JsonNode> resultadosPorIndicador = new HashMap<>();
-
-            for (String indicador : indicadores) {
-
-                // Fazer o request de GET para a API para aquele país e indicador
-                String urlCompleta = urlIbge.replace("{pais}", pais).replace("{indicador}", indicador);
-                HttpRequest request = HttpRequest.newBuilder()
-                        .GET()
-                        .uri(URI.create(urlCompleta))
-                        .build();
-
-                try {
-
-                    HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-
-                    if (response.statusCode() == 200) {
-                        // Converter a resposta para um objeto JsonNode e armazenar no mapa dos indicadores
-                        JsonNode jsonResponse = objectMapper.readTree(response.body());
-                        resultadosPorIndicador.put(indicador, jsonResponse);
-
-                    } else {
-                        System.out.println("ERRO NO REQUEST COM RESPONSE CODE = " + response.statusCode());
-                    }
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException(e);
-                }
-
-            }
-            // Armazenar o sub-mapa dos indicadores no mapa geral dos países
-            resultadosPorPais.put(pais, resultadosPorIndicador);
-        }
-        return resultadosPorPais;
     }
 
     public void printarMeusPaises(List<Pais> meusPaises) {

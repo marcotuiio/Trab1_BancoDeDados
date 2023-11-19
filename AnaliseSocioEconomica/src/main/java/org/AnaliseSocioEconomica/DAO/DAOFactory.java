@@ -3,6 +3,7 @@ import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.AnaliseSocioEconomica.DAO.Intervalos.IntervalosDAO;
 import org.AnaliseSocioEconomica.DAO.Pais.PaisDAO;
 import org.AnaliseSocioEconomica.DAO.Dados.DadosDAO;
 import org.AnaliseSocioEconomica.JDBC.ConnectionFactory;
@@ -86,6 +87,8 @@ public abstract class DAOFactory implements AutoCloseable {
     public abstract PaisDAO getPaisDAO();
 
     public abstract DadosDAO getDadosDAO();
+
+    public abstract IntervalosDAO getIntervalosDAO();
 
     @Override
     public void close() throws SQLException {

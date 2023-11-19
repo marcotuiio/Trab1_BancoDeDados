@@ -140,6 +140,15 @@ create table T1BD.imp_renda (
 	constraint const_imp_renda check((valor >= 0 and valor < 100) or valor = null) 
 );
 
+
+create table T1BD.intervalos (
+	anoInicial int,
+    anoFinal int,
+    requestDate date,
+    
+    constraint pk_intervalos primary key(anoInicial)
+);
+
 use t1bd;
 select * from pais;
 select * from idh;

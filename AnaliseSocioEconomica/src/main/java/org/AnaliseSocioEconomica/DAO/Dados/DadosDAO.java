@@ -10,4 +10,5 @@ public interface DadosDAO extends DAO<Dados> {
 
     public Dados readBySigla(String indicador, String siglaPais) throws SQLException;
     public SerieAnoAtrib readUniqueAno(String indicador, String siglaPais, int ano) throws SQLException;
+    public void deleteSpecificDados(String indicador, String siglaPais, int ano) throws  SQLException;
 }

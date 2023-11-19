@@ -1,6 +1,8 @@
 package org.AnaliseSocioEconomica.DAO;
 
 import org.AnaliseSocioEconomica.DAO.Dados.SqlDadosDAO;
+import org.AnaliseSocioEconomica.DAO.Intervalos.IntervalosDAO;
+import org.AnaliseSocioEconomica.DAO.Intervalos.SqlIntervalosDAO;
 import org.AnaliseSocioEconomica.DAO.Pais.PaisDAO;
 import org.AnaliseSocioEconomica.DAO.Pais.SqlPaisDAO;
 
@@ -23,4 +25,7 @@ public class SqlDAOFactory extends DAOFactory {
     public DadosDAO getDadosDAO() {
         return new SqlDadosDAO(this.connection);
     }
+
+    @Override
+    public IntervalosDAO getIntervalosDAO() { return new SqlIntervalosDAO(this.connection); }
 }

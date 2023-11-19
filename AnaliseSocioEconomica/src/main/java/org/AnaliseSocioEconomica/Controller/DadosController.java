@@ -43,13 +43,47 @@ public class DadosController {
         return "atrib-table";
     }
 
-    @GetMapping("/remover-dados/{id}/{indi}/{ano}")
+    @GetMapping("/remover-atrib/{id}/{indi}/{ano}")
     public String removerUmDadoDeAno(@PathVariable("id") String id, @PathVariable("indi") String indi,
                                       @PathVariable("ano") int ano, Model model) {
 
+//        System.out.printf("\nIndo remover %s %s %s \n", indi, id, ano);
         try (DAOFactory daoFactory = DAOFactory.getInstance()) {
             daoDados = daoFactory.getDadosDAO();
-            // faltando acabar
+
+            ((DadosDAO) daoDados).deleteSpecificDados(indi, id, ano);
+
+        } catch (ClassNotFoundException | IOException | SQLException ex) {
+            model.addAttribute("error", ex.getMessage());
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/remover-dados-pais/{id}/{indi}")
+    public String removerDadosPais(@PathVariable("id") String id, @PathVariable("indi") String indi,
+                                   Model model) {
+
+//        System.out.printf("\nIndo remover dados do pais %s %s \n", indi, id);
+        try (DAOFactory daoFactory = DAOFactory.getInstance()) {
+            daoDados = daoFactory.getDadosDAO();
+
+            ((DadosDAO) daoDados).deleteSpecificDados(indi, id, 0);
+
+        } catch (ClassNotFoundException | IOException | SQLException ex) {
+            model.addAttribute("error", ex.getMessage());
+        }
+        return "redirect:/";
+    }
+
+    @GetMapping("/drop-dados/{indi}")
+    public String removerDadosPais(@PathVariable("indi") String indi, Model model) {
+
+//        System.out.printf("\nIndo dropar dados %s \n", indi);
+        try (DAOFactory daoFactory = DAOFactory.getInstance()) {
+            daoDados = daoFactory.getDadosDAO();
+
+            daoDados.delete(indi);
+
         } catch (ClassNotFoundException | IOException | SQLException ex) {
             model.addAttribute("error", ex.getMessage());
         }
@@ -67,7 +101,7 @@ public class DadosController {
             String valor = null;
             for (Map.Entry<Integer, String> entry : serieAnoAtrib.getDuplaAnoAtributo().entrySet()) {
                 valor = entry.getValue();
-                System.out.println("TESTEEE " + indi + " ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+//                System.out.println("TESTEEE " + indi + " ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
             }
             model.addAttribute("idPais", id);
             model.addAttribute("indi", indi);
@@ -94,9 +128,9 @@ public class DadosController {
             d.setSigla(id);
             d.setIndicador(indi);
             d.setSeries(serieAnoAtrib);
-            for (Map.Entry<Integer, String> entry : d.getSeries().getDuplaAnoAtributo().entrySet()) {
-                System.out.println("TESTEEE2222 " + d.getIndicador() + " ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
-            }
+//            for (Map.Entry<Integer, String> entry : d.getSeries().getDuplaAnoAtributo().entrySet()) {
+//                System.out.println("TESTEEE2222 " + d.getIndicador() + " ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
+//            }
             daoDados.update(d);
 
         } catch (ClassNotFoundException | IOException | SQLException ex) {
@@ -104,6 +138,7 @@ public class DadosController {
         }
 
         return "redirect:/";
+//        model.addAttribute()
 //        return "redirect:/consulta-atrib/{" + indi + "}/{" + id + "}";
     }
 }

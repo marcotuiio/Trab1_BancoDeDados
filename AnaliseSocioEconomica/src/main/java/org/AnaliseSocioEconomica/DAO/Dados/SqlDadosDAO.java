@@ -21,13 +21,13 @@ public class SqlDadosDAO implements DadosDAO {
     private static final String START_READBYSIGLA_QUERY = "SELECT * FROM t1bd.";
     private static final String END_READBYSIGLA_QUERY = " WHERE sigla = ?";
     private static final String START_READUNIQUE_QUERY = "SELECT * FROM t1bd.";
-    private static final String END_READUNIQUE_QUERY = " WHERE sigla = ? and ano = ?";
-    private static final String START_DELETE_QUERY = "DELETE * FROM t1bd.";
+    private static final String END_READUNIQUE_QUERY = " WHERE sigla = ? AND ano = ?";
+    private static final String START_DELETE_QUERY = "DELETE FROM t1bd.";
     private static final String END_DELETEALL_QUERY = ";";
     private static final String END_DELETEUNIQUE_QUERY = " WHERE sigla = ? and ano = ?;";
-    private static final String END_DELETEALLPAIS_QUERY = "WHERE sigla = ?;";
+    private static final String END_DELETEALLPAIS_QUERY = " WHERE sigla = ?;";
     private static final String START_UPDATE_QUERY = "UPDATE t1bd.";
-    private static final String END_UPDATE_QUERY = " SET valor = ? WHERE ano = ? AND sigla = ?;";  // NÂO SEI SE ESSE AND FUNCIONA
+    private static final String END_UPDATE_QUERY = " SET valor = ? WHERE ano = ? AND sigla = ?;";
 
     public SqlDadosDAO(Connection connection) {
         this.connection = connection;
@@ -127,6 +127,7 @@ public class SqlDadosDAO implements DadosDAO {
         String deleteQuery = START_DELETE_QUERY + indicador + END_DELETEALL_QUERY;
 
         try (PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
+            System.out.println(statement);
             if (statement.executeUpdate() < 1) {
                 throw new SQLException("Erro ao excluir: dado não encontrado.");
             }
@@ -135,6 +136,34 @@ public class SqlDadosDAO implements DadosDAO {
             throw ex;
         }
     }
+
+    @Override
+    public void deleteSpecificDados(String indicador, String siglaPais, int ano) throws SQLException {
+        String deleteQuery = null;
+        if (ano == 0) {
+            deleteQuery = START_DELETE_QUERY + indicador + END_DELETEALLPAIS_QUERY;
+        } else {
+            deleteQuery = START_DELETE_QUERY + indicador + END_DELETEUNIQUE_QUERY;
+        }
+
+        try (PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
+            if (ano == 0) {
+                statement.setString(1, siglaPais);
+            } else {
+                statement.setString(1, siglaPais);
+                statement.setInt(2, ano);
+            }
+            System.out.println(statement);
+            if (statement.executeUpdate() < 1) {
+                throw new SQLException("Erro ao excluir: dado não encontrado.");
+            }
+        } catch (SQLException ex) {
+            Logger.getLogger(SqlPaisDAO.class.getName()).log(Level.SEVERE, "org/AnaliseSocioEconomica/DAO", ex);
+            throw ex;
+        }
+
+    }
+
 
     @Override
     public Dados read(String indicador) throws SQLException { return null; }
