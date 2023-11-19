@@ -20,8 +20,12 @@ public class SqlDadosDAO implements DadosDAO {
     private  static final String END_CREATE_QUERY = "(ano, sigla, valor) VALUES(?, ?, ?);";
     private static final String START_READBYSIGLA_QUERY = "SELECT * FROM t1bd.";
     private static final String END_READBYSIGLA_QUERY = " WHERE sigla = ?";
+    private static final String START_READUNIQUE_QUERY = "SELECT * FROM t1bd.";
+    private static final String END_READUNIQUE_QUERY = " WHERE sigla = ? and ano = ?";
     private static final String START_DELETE_QUERY = "DELETE * FROM t1bd.";
-    private static final String END_DELETE_QUERY = ";";
+    private static final String END_DELETEALL_QUERY = ";";
+    private static final String END_DELETEUNIQUE_QUERY = " WHERE sigla = ? and ano = ?;";
+    private static final String END_DELETEALLPAIS_QUERY = "WHERE sigla = ?;";
     private static final String START_UPDATE_QUERY = "UPDATE t1bd.";
     private static final String END_UPDATE_QUERY = " SET valor = ? WHERE ano = ? AND sigla = ?;";  // NÂO SEI SE ESSE AND FUNCIONA
 
@@ -76,6 +80,27 @@ public class SqlDadosDAO implements DadosDAO {
     }
 
     @Override
+    public SerieAnoAtrib readUniqueAno(String indicador, String siglaPais, int ano) throws SQLException {
+        String readQuery = START_READUNIQUE_QUERY + indicador + END_READUNIQUE_QUERY;
+        SerieAnoAtrib series = new SerieAnoAtrib();
+
+        try (PreparedStatement statement = connection.prepareStatement(readQuery)) {
+            statement.setString(1, siglaPais);
+            statement.setInt(2, ano);
+            try (ResultSet result = statement.executeQuery()) {
+                if (result.next()) {
+                    String valor = result.getString("valor");
+                    series.setDuplaAnoAtributo(ano, valor);
+                }
+            } catch (SQLException ex) {
+                Logger.getLogger(SqlDadosDAO.class.getName()).log(Level.SEVERE, "org/AnaliseSocioEconomica/DAO", ex);
+                throw ex;
+            }
+        }
+        return series;
+    }
+
+    @Override
     public void update(Dados dados) throws SQLException {
         String updateQuery = START_UPDATE_QUERY + dados.getIndicador() + END_UPDATE_QUERY;
 
@@ -99,7 +124,7 @@ public class SqlDadosDAO implements DadosDAO {
 
     @Override
     public void delete(String indicador) throws SQLException {
-        String deleteQuery = START_DELETE_QUERY + indicador + END_DELETE_QUERY;
+        String deleteQuery = START_DELETE_QUERY + indicador + END_DELETEALL_QUERY;
 
         try (PreparedStatement statement = connection.prepareStatement(deleteQuery)) {
             if (statement.executeUpdate() < 1) {

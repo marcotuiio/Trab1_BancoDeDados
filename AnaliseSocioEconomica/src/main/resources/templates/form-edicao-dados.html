@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <!--    <link rel="stylesheet" th:href="@{/static/style_form.css}">-->
+    <title>Editar Dados</title>
+</head>
+<body style="text-align: center">
+<h2>EDITAR DADOS</h2>
+<var th:text="${idPais}"> </var>
+<var th:text="${indi}"> </var>
+<var th:text="${ano}"> </var>
+<br/><br/>
+<form style="text-align: center"
+      action="#"
+      th:action="@{/update-dados/{id}/{indi}/{ano}(id=${idPais}, indi=${indi}, ano=${ano})}"
+      method="post">
+    <label for="valor">Valor: </label>
+    <input type="text" id="valor" name="valor" th:value="${valorSerieAnoAtrib}">
+<!--    <span th:if="${#fields.hasErrors('valor')}" th:errors="*{valorSerieAnoAtrib}"></span>-->
+    <br/><br/>
+    <input type="submit" value="Editar">
+</form>
+<p><a href="/" class="btn-list">Listar Países</a></p>
+</body>
+</html>

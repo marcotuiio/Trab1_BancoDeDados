@@ -18,7 +18,7 @@ public class SqlPaisDAO implements PaisDAO {
 
     private static final String READ_QUERY = "SELECT * FROM t1bd.pais WHERE sigla = ?;";
 
-    private static final String UPDATE_QUERY = "UPDATE t1bd.pais SET sigla = ? nome_extenso = ? WHERE sigla = ?;";
+    private static final String UPDATE_QUERY = "UPDATE t1bd.pais SET sigla = ?, nome_extenso = ? WHERE sigla = ?;";
 
     private static final String DELETE_QUERY = "DELETE FROM t1bd.pais WHERE sigla = ?;";
 

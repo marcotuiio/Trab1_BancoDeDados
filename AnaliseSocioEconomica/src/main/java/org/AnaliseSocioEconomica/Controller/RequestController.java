@@ -24,6 +24,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class RequestController {
@@ -85,42 +86,6 @@ public class RequestController {
         }
         model.addAttribute("paises", meusPaises);
         return "index";
-    }
-
-    @GetMapping("/")
-    public String listAllPaises(Model model) {
-        try (DAOFactory daoFactory = DAOFactory.getInstance()) {
-            daoPais = daoFactory.getPaisDAO();
-            List<Pais> meusPaises = daoPais.all();
-
-            model.addAttribute("paises", meusPaises);
-
-        } catch (ClassNotFoundException | IOException | SQLException ex) {
-            model.addAttribute("error", ex.getMessage());
-        }
-        return "index";
-    }
-
-    @GetMapping("/consulta-atrib/{atrib}/{sigla}")
-    public String consultaAtrib(@PathVariable("atrib") String atrib,
-                                @PathVariable("sigla") String sigla, Model model) {
-
-        try (DAOFactory daoFactory = DAOFactory.getInstance()) {
-            daoDados = daoFactory.getDadosDAO();
-
-            Dados dados = ((DadosDAO) daoDados).readBySigla(atrib, sigla);
-            // Map.Entry<Integer, String> entry = (Map.Entry<Integer, String>) dados.getSeries().getDuplaAnoAtributo().entrySet();
-
-            for (Map.Entry<Integer, String> entry : dados.getSeries().getDuplaAnoAtributo().entrySet()) {
-                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
-            }
-
-            model.addAttribute("dados", dados);
-        } catch (ClassNotFoundException | IOException | SQLException ex) {
-            model.addAttribute("error", ex.getMessage());
-        }
-
-        return "atrib-table";
     }
 
     public Map<String, Map<String, JsonNode>> makeRequestIbgeAPI() {

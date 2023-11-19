@@ -25,8 +25,8 @@
             <td th:text="${dados.indicador}"></td>
             <td th:text="${atrib.getKey()}"></td>
             <td th:text="${atrib.getValue()}"></td>
-            <td style="text-align: center;"><a th:href="@{/editar-atrib/{id}(id=${'BR'})}">Editar</a></td>
-            <td style="text-align: center;"><a th:href="@{/remover-atrib/{id}(id=${'BR'})}">Remover</a></td>
+            <td style="text-align: center;"><a th:href="@{/form-editar-atrib/{id}/{indi}/{ano}(id=${dados.getSigla()}, indi=${dados.getIndicador()}, ano=${atrib.getKey()})}">Editar</a></td>
+            <td style="text-align: center;"><a th:href="@{/remover-atrib/{id}/{indi}/{ano}(id=${dados.getSigla()}, indi=${dados.getIndicador()}, ano=${atrib.getKey()})}">Remover</a></td>
         </tr>
         </tbody>
     </table>
