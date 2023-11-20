@@ -7,6 +7,8 @@ exportações, investimentos em pesquisas e IDH.
 Um problema é que existem diversos tipos de imposto e apesar de serem públicos, extrair e encapsular os dados de interesse 
 mostrou-se uma tarefa complexa, pois cada país possui sua particularidade fiscal específica. 
 
+A aplicação terá a capacidade de atualizar o banco de dados, usando as APIs, a cada X intervalo de tempo.
+
 Com esses dados filtrados, pretendemos realizar consultadas e comparações cruzando dados variados, como por exemplo, 
 imposto x arrecadação, imposto x desenvolvimento, imposto x investimento, imposto x qualidade de vida, etc.
 
@@ -186,6 +188,12 @@ encaminhar script sql -->
     c) So precisamos ajustar os dados (principalmente impostos) e acabar o encapsulamentos nas classes. Depois é so fazer o script de carga de dados.
     d) Com os itens acima feitos, basta juntar tudo e o banco de dados estará rodando com alguns dados.
 
+* Etapa 2:
+    a) A implementação do DAO foi realizada e testada
+    b) Ajustamos a parte do pom.xml
+    c) Uma página html simples foi feita para visualizar o funcionamento do DAO e as tabelas que estão no banco de dados.
+
 # TODO:
 * Ajustar impostos -> faremos depois pois alguns dados estão faltando, mas os tipos ja foram definidos
 * Verificar dados e estudar incrementos para variar mais dados, aumentar volume de dados e melhorar a qualidade dos relatórios
+* Implementação da parte do front, incluindo gráficos e demais relatórios
