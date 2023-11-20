@@ -143,13 +143,16 @@ create table T1BD.imp_renda (
 
 create table T1BD.intervalos (
 	anoInicial int,
-    anoFinal int,
-    requestDate date,
+    anoFinal int NOT NULL,
+    requestDate date NOT NULL,
     
     constraint pk_intervalos primary key(anoInicial)
 );
 
+insert into t1bd.intervalos(anoInicial, anoFinal, requestDate) values (2010, 2021, '2022-11-19');
+
 use t1bd;
+select * from intervalos;
 select * from pais;
 select * from idh;
 select * from imp_alfan_import;
@@ -165,6 +168,7 @@ select * from total_exportacao where sigla = 'BR';
 select * from total_importacao;
 
 -- -- DROPs
+-- drop table intervalos;
 -- drop table pais;
 -- drop table idh;
 -- drop table imp_alfan_import;
@@ -178,5 +182,4 @@ select * from total_importacao;
 -- drop table invest_pesq_desenv;
 -- drop table total_exportacao;
 -- drop table total_importacao;
-DELETE FROM pais WHERE sigla = 'DE'; 
 
