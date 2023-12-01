@@ -64,5 +64,8 @@
   "bugs": {
     "url": "https://github.com/marcotuiio/Trab1_BancoDeDados/issues"
   },
-  "homepage": "https://github.com/marcotuiio/Trab1_BancoDeDados/tree/main#readme"
+  "homepage": "http://localhost:3000",
+  "devDependencies": {
+    "@babel/plugin-proposal-private-property-in-object": "^7.21.11"
+  }
 }
