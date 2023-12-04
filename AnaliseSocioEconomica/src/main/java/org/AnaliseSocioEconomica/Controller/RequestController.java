@@ -78,7 +78,7 @@ public class RequestController {
         LocalDate localDate = LocalDate.now();
         long monthsBetween = ChronoUnit.MONTHS.between(sqlDate, localDate);
         System.out.printf("\nINTERVALO DOS REQUEST ANO INICIAL %d ANO FINAL %d REQUEST DATE %s\nMESES %d\n", ANO_INICIAL, ANO_FINAL, REQUEST_DATE, monthsBetween);
-        if (monthsBetween <= 6) return "redirect:/index";
+        if (monthsBetween <= API_INTERVAL) return "redirect:/index";
         // se o ultimo request foi feito em menos de 6 meses nao faz request
 
         System.out.println("Fazendo Request\n");
