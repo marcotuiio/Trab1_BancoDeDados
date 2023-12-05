@@ -156,6 +156,19 @@ assuntos variados de diversos países, e os impostos são organizados por tipo d
 <!-- * Exemplo do CSV:
     ![alt text](Trab1_BancoDeDados\exemploCSV.png?raw=true "Exemplo CSV") -->
 
+### Análises Planejadas
+
+Para tal, será utilizada a biblioteca ChartJS do JavaScript, que permite a criação de gráficos de diversos tipos, como linhas, barras, pizza, etc.
+Os gráficos serão montados por requisição AJAX e existe na interface da aplicação pre sets das análises propostas, permitindo que o usuário escolha
+ainda alguns parêmetros, como país e intevalo.
+
+* Páis individualmente e seus atributos.
+* Comparação entre dois países e seus atributos. 
+* Países com maior IDH x Países com maiores impostos
+* Imposto Importação x Imposto Renda x Arrecadação
+* 
+* 
+
 ## Etapas do trabalho:
 
 * ETAPA 1: Descrição dos serviços de coleta de dados escolhidos e indicação de relatórios relevantes a serem construídos.
@@ -180,20 +193,3 @@ assuntos variados de diversos países, e os impostos são organizados por tipo d
 #### Script SQL:
 encaminhar script sql -->
 
-### Andamento do trabalho:
-
-* Etapa 1:
-    a) Amostra dos dados de interesse: conseguimos pegar a maior parte bruta do site do IBGE e o filtro está indo bem. Ainda não conseguimos organizar os impostos.
-    b) Vini e eu fizemos boa parte da modelagem juntos, mas ainda faltam ajustes. Vini ficou encarregado de formalizar os diagramas e fez um script inicial do SQL 
-    c) So precisamos ajustar os dados (principalmente impostos) e acabar o encapsulamentos nas classes. Depois é so fazer o script de carga de dados.
-    d) Com os itens acima feitos, basta juntar tudo e o banco de dados estará rodando com alguns dados.
-
-* Etapa 2:
-    a) A implementação do DAO foi realizada e testada
-    b) Ajustamos a parte do pom.xml
-    c) Uma página html simples foi feita para visualizar o funcionamento do DAO e as tabelas que estão no banco de dados.
-
-# TODO:
-* Ajustar impostos -> faremos depois pois alguns dados estão faltando, mas os tipos ja foram definidos
-* Verificar dados e estudar incrementos para variar mais dados, aumentar volume de dados e melhorar a qualidade dos relatórios
-* Implementação da parte do front, incluindo gráficos e demais relatórios
