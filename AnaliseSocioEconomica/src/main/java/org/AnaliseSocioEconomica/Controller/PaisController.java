@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -24,8 +25,13 @@ public class PaisController {
     DAO<Pais> daoPais;
     DAO<Dados> daoDados;
 
+    private static List<String> atribs = List.of("idh", "imp_alfan_import", "imp_com_inter", "imp_receita_fiscal",
+            "imp_exportacao", "imp_renda", "indiv_aces_net", "pib_total", "pib_per_capita", "invest_pesq_desenv",
+            "total_exportacao", "total_importacao");
+
     @GetMapping("/teste")
     public String htmlCru(Model model) {
+
         try (DAOFactory daoFactory = DAOFactory.getInstance()) {
             daoPais = daoFactory.getPaisDAO();
             List<Pais> meusPaises = daoPais.all();
@@ -45,6 +51,7 @@ public class PaisController {
             List<Pais> meusPaises = daoPais.all();
 
             model.addAttribute("paises", meusPaises);
+            model.addAttribute("atribs", atribs);
 
         } catch (ClassNotFoundException | IOException | SQLException ex) {
             model.addAttribute("error", ex.getMessage());
@@ -94,6 +101,7 @@ public class PaisController {
     }
 
     public Pais readPais(String id) {
+
         try (DAOFactory daoFactory = DAOFactory.getInstance()) {
             daoPais = daoFactory.getPaisDAO();
 
@@ -106,29 +114,78 @@ public class PaisController {
         return null;
     }
 
-    @GetMapping("/getNomesAtributos/{paisId}")
-    public ResponseEntity<Map<String, List<String>>> getDados(@PathVariable("paisId") String paisId) {
-        Pais p = readPais(paisId);
+    public Dados readDados(String indi, String sigla) {
 
-        List<String> dados = new ArrayList<>();
-        dados.add(p.getPibTotal().getIndicador());
-        dados.add(p.getPibPerCapita().getIndicador());
-        dados.add(p.getTotalExportacao().getIndicador());
-        dados.add(p.getTotalImportacao().getIndicador());
-        dados.add(p.getInvestPesqDesenv().getIndicador());
-        dados.add(p.getIndivAcesNet().getIndicador());
-        dados.add(p.getIdh().getIndicador());
-        dados.add(p.getImpComInter().getIndicador());
-        dados.add(p.getImpExportacao().getIndicador());
-        dados.add(p.getImpReceitaFiscal().getIndicador());
-        dados.add(p.getImpAlfanImport().getIndicador());
-        dados.add(p.getImpRenda().getIndicador());
+        try (DAOFactory daoFactory = DAOFactory.getInstance()) {
+            daoDados = daoFactory.getDadosDAO();
 
-        for (String s : dados) {
-            System.out.println(s);
+            Dados dados = ((DadosDAO) daoDados).readBySigla(indi, sigla);
+            return dados;
+
+        } catch (ClassNotFoundException | IOException | SQLException ex) {
+            System.out.println("Exception in readDados");
         }
-        Map<String, List<String>> response = new HashMap<>();
-        response.put("dados", dados);
-        return ResponseEntity.ok(response);
+
+        return null;
     }
+
+    @PostMapping("/teste-ajax")
+    public ResponseEntity<?> montarPais(@RequestBody Map<String, String> formData) {
+//        System.out.println("ENTRANDO DA FUNCAO DA REQUISICAO AJAX");
+        String paisId = formData.get("paisId");
+        String atrib = formData.get("atrib");
+        String anoInicio = formData.get("anoInicio");
+        String anoFim = formData.get("anoFim");
+
+        Pais p = readPais(paisId);
+        Dados d = readDados(atrib, paisId);
+
+        switch (atrib) {
+            case "idh":
+                p.setIdh(d);
+                break;
+            case "imp_alfan_import":
+                p.setImpAlfanImport(d);
+                break;
+            case "imp_com_inter":
+                p.setImpComInter(d);
+                break;
+            case "imp_receita_fiscal":
+                p.setImpReceitaFiscal(d);
+                break;
+            case "imp_exportacao":
+                p.setImpExportacao(d);
+                break;
+            case "imp_renda":
+                p.setImpRenda(d);
+                break;
+            case "indiv_aces_net":
+                p.setIndivAcesNet(d);
+                break;
+            case "pib_total":
+                p.setPibTotal(d);
+                break;
+            case "pib_per_capita":
+                p.setPibPerCapita(d);
+                break;
+            case "invest_pesq_desenv":
+                p.setInvestPesqDesenv(d);
+                break;
+            case "total_exportacao":
+                p.setTotalExportacao(d);
+                break;
+            case "total_importacao":
+                p.setTotalImportacao(d);
+                break;
+            default:
+                break;
+        }
+        Map<String, Object> paisDados = new HashMap<>();
+        paisDados.put("pais", p);
+        paisDados.put("dados", d);
+//        System.out.println("SAINDO DA FUNCAO DA REQUISICAO AJAX" + p.getNome() + d.getIndicador());
+        return ResponseEntity.ok(paisDados);
+    }
+
+
 }

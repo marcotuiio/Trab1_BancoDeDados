@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" th:href="@{/style.css}">
+    <script src="https://code.jquery.com/jquery-1.10.2.js"></script>
     <title>Analises SocioEconomicas</title>
 </head>
 <body>
@@ -18,7 +19,7 @@
 </div>
     <div class="main-content">
         <h1>Interface de Análises SocioEconômicas</h1>
-        <div class="form-row">
+        <form id="meuForm" class="form-row">
             <div class="form-group">
                 <label for="pais">País:</label>
                 <select id="pais" name="pais">
@@ -31,7 +32,7 @@
                 <label for="atrib">Atributo:</label>
                 <select id="atrib" name="atrib">
                     <option value="" th:disabled="selected">Selecione um atributo</option>
-                    <!-- As opções serão preenchidas dinamicamente pelo jQuery -->
+                    <option th:each="atrib : ${atribs}" th:value="${atrib}" th:text="${atrib}"></option>
                 </select>
             </div>
 
@@ -44,7 +45,12 @@
                 <label for="anoFim">Ano Fim:</label>
                 <input type="text" id="anoFim" name="anoFim">
             </div>
-        </div>
+
+            <div class="form-group">
+                <button type="submit">Enviar</button>
+            </div>
+
+        </form>
         <div class="grid-container">
             <div class="grid-item">Gráfico 1</div>
             <div class="grid-item">Gráfico 2</div>
@@ -52,9 +58,6 @@
             <div class="grid-item">Gráfico 4</div>
         </div>
     </div>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-    <script th:src="@{/script.js}"></script>
-
+<script th:src="@{/script.js}"></script>
 </body>
 </html>
