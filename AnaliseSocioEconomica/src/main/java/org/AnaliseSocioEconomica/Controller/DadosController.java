@@ -6,6 +6,7 @@ import org.AnaliseSocioEconomica.DAO.Dados.DadosDAO;
 import org.AnaliseSocioEconomica.Model.Dados;
 import org.AnaliseSocioEconomica.Model.Pais;
 import org.AnaliseSocioEconomica.Model.SerieAnoAtrib;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,6 +16,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 @Controller
@@ -23,14 +27,14 @@ public class DadosController {
     DAO<Pais> daoPais;
     DAO<Dados> daoDados;
 
-    @GetMapping("/consulta-atrib/{atrib}/{sigla}")
-    public String consultaAtrib(@PathVariable("atrib") String atrib,
+    @GetMapping("/consulta-atrib/{indi}/{sigla}")
+    public String consultaAtrib(@PathVariable("indi") String indi,
                                 @PathVariable("sigla") String sigla, Model model) {
 
         try (DAOFactory daoFactory = DAOFactory.getInstance()) {
             daoDados = daoFactory.getDadosDAO();
 
-            Dados dados = ((DadosDAO) daoDados).readBySigla(atrib, sigla);
+            Dados dados = ((DadosDAO) daoDados).readBySigla(indi, sigla);
 //            for (Map.Entry<Integer, String> entry : dados.getSeries().getDuplaAnoAtributo().entrySet()) {
 //                System.out.println("ANO: " + entry.getKey() + " VALOR: " + entry.getValue());
 //            }
@@ -45,7 +49,7 @@ public class DadosController {
 
     @GetMapping("/remover-atrib/{id}/{indi}/{ano}")
     public String removerUmDadoDeAno(@PathVariable("id") String id, @PathVariable("indi") String indi,
-                                      @PathVariable("ano") int ano, Model model) {
+                                     @PathVariable("ano") int ano, Model model) {
 
 //        System.out.printf("\nIndo remover %s %s %s \n", indi, id, ano);
         try (DAOFactory daoFactory = DAOFactory.getInstance()) {

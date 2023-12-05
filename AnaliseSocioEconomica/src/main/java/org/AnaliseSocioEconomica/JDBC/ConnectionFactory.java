@@ -14,6 +14,7 @@ public abstract class ConnectionFactory {
 
     protected String dbHost;
     protected String dbPort;
+    protected String dbName;
     protected String dbSchema;
     protected String dbUser;
     protected String dbPassword;
@@ -63,6 +64,7 @@ public abstract class ConnectionFactory {
 
             dbHost = properties.getProperty("host");
             dbPort = properties.getProperty("port");
+            dbName = properties.getProperty("db");
             dbSchema = properties.getProperty("schema");
             dbUser = properties.getProperty("user");
             dbPassword = properties.getProperty("password");
