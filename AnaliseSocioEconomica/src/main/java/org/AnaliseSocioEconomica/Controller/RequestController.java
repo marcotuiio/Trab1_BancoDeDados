@@ -43,8 +43,8 @@ public class RequestController {
 
     private static ObjectMapper objectMapper = new ObjectMapper();
 
-//    private static String PATH_TO_CSV = "C:\\Users\\marco\\Desktop\\UEL\\Database\\Trab1_BancoDeDados\\CSVs\\";
-    private static String PATH_TO_CSV = "/home/vfs/Documents/Database_I/Trab1_BancoDeDados/CSVs/";
+    private static String PATH_TO_CSV = "C:\\Users\\marco\\Desktop\\UEL\\Database\\Trab1_BancoDeDados\\CSVs\\";
+//    private static String PATH_TO_CSV = "/home/vfs/Documents/Database_I/Trab1_BancoDeDados/CSVs/";
 
     private static List<String> arquivos = List.of("imp_com_inter", "imp_exportacao", "imp_receita_fiscal",
             "imp_alfan_import", "imp_renda");
