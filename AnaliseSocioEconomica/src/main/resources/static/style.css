@@ -30,6 +30,13 @@ body {
 .sidebar button:hover {
     background-color: #4169E1;
 }
+#visualizarDados {
+    width: 80%;
+    padding: 20px;
+    background-color: #e6e0a8;
+    margin-top: auto;
+    margin-bottom: 110px;
+}
 .main-content {
     margin-left: 25%;
     padding: 20px;

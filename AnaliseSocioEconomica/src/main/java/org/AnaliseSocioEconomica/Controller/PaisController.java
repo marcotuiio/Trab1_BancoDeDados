@@ -129,60 +129,83 @@ public class PaisController {
         return null;
     }
 
-    @PostMapping("/teste-ajax")
+    @PostMapping("/monta-pais-ajax")
     public ResponseEntity<?> montarPais(@RequestBody Map<String, String> formData) {
 //        System.out.println("ENTRANDO NA FUNCAO DA REQUISICAO AJAX");
-        String paisId = formData.get("paisId");
+        String paisAId = formData.get("paisAId");
         String atrib = formData.get("atrib");
         String anoInicio = formData.get("anoInicio");
         String anoFim = formData.get("anoFim");
 
-        Pais p = readPais(paisId);
-        Dados d = readDados(atrib, paisId);
+        Pais p = readPais(paisAId);
+        Dados d = readDados(atrib, paisAId);
+
+        String paisBId = formData.get("paisBId");
+        Pais p2 = null;
+        Dados d2 = null;
+        if (paisBId != null) {
+            p2 = readPais(paisBId);
+            d2 = readDados(atrib, paisBId);
+        }
 
         switch (atrib) {
             case "idh":
                 p.setIdh(d);
+                if (p2 != null) p2.setIdh(d2);
                 break;
             case "imp_alfan_import":
                 p.setImpAlfanImport(d);
+                if (p2 != null) p2.setImpAlfanImport(d2);
                 break;
             case "imp_com_inter":
                 p.setImpComInter(d);
+                if (p2 != null) p2.setImpComInter(d2);
                 break;
             case "imp_receita_fiscal":
                 p.setImpReceitaFiscal(d);
+                if (p2 != null) p2.setImpReceitaFiscal(d2);
                 break;
             case "imp_exportacao":
                 p.setImpExportacao(d);
+                if (p2 != null) p2.setImpExportacao(d2);
                 break;
             case "imp_renda":
                 p.setImpRenda(d);
+                if (p2 != null) p2.setImpRenda(d2);
                 break;
             case "indiv_aces_net":
                 p.setIndivAcesNet(d);
+                if (p2 != null) p2.setIndivAcesNet(d2);
                 break;
             case "pib_total":
                 p.setPibTotal(d);
+                if (p2 != null) p2.setPibTotal(d2);
                 break;
             case "pib_per_capita":
                 p.setPibPerCapita(d);
+                if (p2 != null) p2.setPibPerCapita(d2);
                 break;
             case "invest_pesq_desenv":
                 p.setInvestPesqDesenv(d);
+                if (p2 != null) p2.setInvestPesqDesenv(d2);
                 break;
             case "total_exportacao":
                 p.setTotalExportacao(d);
+                if (p2 != null) p2.setTotalExportacao(d2);
                 break;
             case "total_importacao":
                 p.setTotalImportacao(d);
+                if (p2 != null) p2.setTotalImportacao(d2);
                 break;
             default:
                 break;
         }
         Map<String, Object> paisDados = new HashMap<>();
-        paisDados.put("pais", p);
-        paisDados.put("dados", d);
+        paisDados.put("paisA", p);
+        paisDados.put("dadosA", d);
+
+        paisDados.put("paisB", p2);
+        paisDados.put("dadosB", d2);
 //        System.out.println("SAINDO DA FUNCAO DA REQUISICAO AJAX" + p.getNome() + d.getIndicador());
         return ResponseEntity.ok(paisDados);
     }

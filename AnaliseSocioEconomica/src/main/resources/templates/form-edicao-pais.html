@@ -2,24 +2,37 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-<!--    <link rel="stylesheet" th:href="@{/static/style_form.css}">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <title>Editar País</title>
 </head>
-<body style="text-align: center">
-<h2>EDITAR PAÍS</h2>
-<var th:text="${pais.getNome()}"> </var>
-<br/><br/>
-<form style="text-align: center"
-      action="#"
-      th:action="@{/update-pais/{id}(id=${pais.id})}"
-      th:object="${pais}"
-      method="post">
-    <label for="nome">Nome: </label>
-    <input type="text" th:field="*{nome}" id="nome">
-    <span th:if="${#fields.hasErrors('nome')}" th:errors="*{nome}"></span>
-    <br/><br/>
-    <input type="submit" value="Editar">
-</form>
-<p><a href="/" class="btn-list">Listar Países</a></p>
+<body>
+<div class="container-fluid">
+    <h2 class="text-center mt-4">EDITAR PAÍS</h2>
+    <div class="text-center">
+        <var th:text="${pais.getNome()}"> </var>
+    </div>
+    <form class="mt-4"
+          action="#"
+          th:action="@{/update-pais/{id}(id=${pais.id})}"
+          th:object="${pais}"
+          method="post">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <!-- Add your input fields here -->
+                <div class="form-group">
+                    <label for="paisNome">Nome do País</label>
+                    <input type="text" class="form-control" id="paisNome" th:field="*{nome}">
+                </div>
+                <!-- Add more input fields as needed -->
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+            <button type="submit" class="btn btn-primary">Salvar</button>
+        </div>
+    </form>
+    <div class="d-flex justify-content-center mt-4">
+        <a th:href="@{/}" class="btn btn-secondary">Retornar</a>
+    </div>
+</div>
 </body>
 </html>

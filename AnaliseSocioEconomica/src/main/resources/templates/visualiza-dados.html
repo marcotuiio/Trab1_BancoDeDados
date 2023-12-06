@@ -32,7 +32,7 @@
             <tr th:each="pais : ${paises}" class="text-center">
                 <td th:text="${pais.nome}"></td>
                 <td th:text="${pais.id}"></td>
-                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'idh'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
+                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'idh'}, sigla=${pais.id})}" class="btn btn-primary" >VER</a></td>
                 <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_alfan_import'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
                 <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_com_inter'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
                 <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_receita_fiscal'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
