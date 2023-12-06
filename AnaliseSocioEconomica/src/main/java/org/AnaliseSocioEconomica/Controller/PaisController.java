@@ -29,7 +29,7 @@ public class PaisController {
             "imp_exportacao", "imp_renda", "indiv_aces_net", "pib_total", "pib_per_capita", "invest_pesq_desenv",
             "total_exportacao", "total_importacao");
 
-    @GetMapping("/teste")
+    @GetMapping("/visualizar-dados")
     public String htmlCru(Model model) {
 
         try (DAOFactory daoFactory = DAOFactory.getInstance()) {
@@ -41,7 +41,7 @@ public class PaisController {
         } catch (ClassNotFoundException | IOException | SQLException ex) {
             model.addAttribute("error", ex.getMessage());
         }
-        return "index";
+        return "visualiza-dados";
     }
 
     @GetMapping(value = {"/", "/index"})
@@ -69,7 +69,7 @@ public class PaisController {
         } catch (ClassNotFoundException | IOException | SQLException ex) {
             model.addAttribute("error", ex.getMessage());
         }
-        return "redirect:/";
+        return "redirect:/visualizar-dados";
     }
 
     @GetMapping("/form-editar-pais/{id}")

@@ -1,0 +1,56 @@
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+        <title>Request dos Países</title>
+    </head>
+    <body>
+    <div class="container-fluid">
+        <h2 class="text-center mt-4">Teste de request dos países</h2>
+        <table class="table table-striped mt-4">
+            <thead>
+            <tr class="text-center">
+                <th>País</th>
+                <th>Sigla</th>
+                <th>idh</th>
+                <th>imp_alfan_import</th>
+                <th>imp_com_inter</th>
+                <th>imp_receita_fiscal</th>
+                <th>imp_exportacao</th>
+                <th>imp_renda</th>
+                <th>indiv_aces_net</th>
+                <th>pib_total</th>
+                <th>pib_per_capita</th>
+                <th>invest_pesq_desenv</th>
+                <th>total_exportacao</th>
+                <th>total_importacao</th>
+                <th>Remover</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pais : ${paises}" class="text-center">
+                <td th:text="${pais.nome}"></td>
+                <td th:text="${pais.id}"></td>
+                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'idh'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
+                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_alfan_import'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
+                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_com_inter'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
+                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_receita_fiscal'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
+                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_exportacao'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
+                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_renda'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
+                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'indiv_aces_net'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
+                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'pib_total'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
+                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'pib_per_capita'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
+                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'invest_pesq_desenv'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
+                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'total_exportacao'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
+                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'total_importacao'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
+                <td><a th:href="@{/remover-pais/{id}(id=${pais.id})}" class="btn btn-danger">Remover</a></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="d-flex justify-content-center mt-4">
+            <a th:href="@{/}" class="btn btn-secondary">Retornar</a>
+        </div>
+    </div>
+    </body>
+    </html>

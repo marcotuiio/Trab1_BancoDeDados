@@ -1,6 +1,5 @@
 package org.AnaliseSocioEconomica.Controller;
 
-import org.AnaliseSocioEconomica.DAO.Dados.DadosDAO;
 import org.AnaliseSocioEconomica.Model.Dados;
 import org.AnaliseSocioEconomica.Model.IntervaloAnosRequest;
 import org.AnaliseSocioEconomica.Model.Pais;
@@ -27,8 +26,6 @@ import java.io.FileReader;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
 
 @Controller
 public class RequestController {
@@ -115,7 +112,7 @@ public class RequestController {
             model.addAttribute("error", ex.getMessage());
         }
         model.addAttribute("paises", meusPaises);
-        return "index";
+        return "visualiza-dados";
     }
 
     public Map<String, Map<String, JsonNode>> makeRequestIbgeAPI() {
