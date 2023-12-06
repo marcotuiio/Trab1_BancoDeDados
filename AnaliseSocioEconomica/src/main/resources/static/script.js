@@ -1,6 +1,5 @@
 $(document).ready(function() {
-    $('#meuForm').submit(function(event) {
-        event.preventDefault();
+    $('#analise1').click(function() {
 
         let paisId = $('#pais').val();
         let atrib = $('#atrib').val();
@@ -30,19 +29,23 @@ $(document).ready(function() {
             //         console.log("ANO: " + ano + " VALOR: " + valor);
             //     }
             // }
+            let nomeAnalise = "Análise de " + atrib + " do país " + data.pais.nome;
 
             let duplaAnoAtributo = data.dados.series.duplaAnoAtributo;
             let anos = Object.keys(duplaAnoAtributo);
             let valores = Object.values(duplaAnoAtributo);
 
             // Crie ou atualize o gráfico no elemento <canvas>
-            updateChart('myChart', anos, valores, 400, 400);
+            createChart1('myChart1', anos, valores);
+            createChart2('myChart2', anos, valores);
+            $('h1').text(nomeAnalise);
 
         });
     });
+
 });
 
-function updateChart(chartId, labels, dataValues, canvasWidth, canvasHeight) {
+function createChart1(chartId, labels, dataValues) {
     let existingChart = Chart.getChart(chartId);
 
     if (existingChart) {
@@ -73,8 +76,39 @@ function updateChart(chartId, labels, dataValues, canvasWidth, canvasHeight) {
         }
     });
 
-    // Define a largura e a altura do canvas
-    document.getElementById(chartId).width = canvasWidth;
-    document.getElementById(chartId).height = canvasHeight;
 }
+
+function createChart2(chartId, labels, dataValues) {
+    let existingChart = Chart.getChart(chartId);
+
+    if (existingChart) {
+        existingChart.destroy(); // Destrói o gráfico existente
+    }
+
+    let ctx = document.getElementById(chartId).getContext('2d');
+    let newChart = new Chart(ctx, {
+        type: 'bar',
+        data: {
+            labels: labels,
+            datasets: [{
+                label: 'Valor',
+                data: dataValues,
+                backgroundColor: 'rgba(255, 99, 132, 0.5)', // Cor diferente
+                borderColor: 'rgba(255, 99, 132, 1)', // Cor diferente
+                borderWidth: 1
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, // Permite ao gráfico não ocupar toda a tela
+            scales: {
+                y: {
+                    stacked: true
+                }
+            }
+        }
+    });
+
+}
+
 

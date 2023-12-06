@@ -10,18 +10,17 @@
 </head>
 <body>
     <div class="sidebar">
-        <h2>Análises</h2>
-        <button>Análise 1</button><br>
-        <button>Análise 2</button><br>
-        <button>Análise 3</button><br>
-        <button>Análise 4</button><br>
-        <button>Análise 5</button><br>
-        <button>Análise 6</button><br>
-        <button>Análise 7</button><br>
+        <h2>PRÉ SETS DE ANÁLISES</h2>
+        <button id="analise1">Apenas País A</button>
+        <button id="analise2">País A x País B</button>
+        <button id="analise3">Rank IDH x Imposto</button>
+        <button id="analise4">Imp Import x Renda x Arrecadação</button>
+        <button id="analise5">Análise 5</button>
+        <!-- ... outros botões ... -->
     </div>
         <div class="main-content">
-            <h1>Interface de Análises SocioEconômicas</h1>
-            <form id="meuForm" class="form-row">
+            <h1 id="nomeAnalise">Interface de Análises SocioEconômicas</h1>
+            <div class="form-row">
                 <div class="form-group">
                     <label for="pais">País:</label>
                     <select id="pais" name="pais">
@@ -48,18 +47,14 @@
                     <input type="text" id="anoFim" name="anoFim">
                 </div>
 
-                <div class="form-group">
-                    <button type="submit">Enviar</button>
-                </div>
-
-            </form>
+            </div>
             <div class="grid-container">
                 <div class="grid-item">
-                    <canvas id="myChart" width=35% height=35%></canvas>
+                    <canvas id="myChart1" ></canvas>
                 </div>
-                <div class="grid-item">Gráfico 2</div>
-                <div class="grid-item">Gráfico 3</div>
-                <div class="grid-item">Gráfico 4</div>
+                <div class="grid-item">
+                    <canvas id="myChart2" ></canvas>
+                </div>
             </div>
         </div>
     <script th:src="@{/script.js}"></script>

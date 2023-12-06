@@ -92,6 +92,7 @@ public class RequestController {
             daoPais = daoFactory.getPaisDAO();
             daoDados = daoFactory.getDadosDAO();
             for (Pais p : meusPaises) {
+                if (ANO_INICIAL == 2010)
                 daoPais.create(p);
                 daoDados.create(p.getPibTotal());
                 daoDados.create(p.getPibPerCapita());
