@@ -42,7 +42,8 @@ public class SqlDadosDAO implements DadosDAO {
             for (Map.Entry<Integer, String> entry : duplaAnoAtributo.entrySet()) {
                 statement.setInt(1, entry.getKey());
                 statement.setString(2, dados.getSigla());
-                statement.setString(3, entry.getValue());
+                double valor = entry.getValue() != null ? Double.parseDouble(entry.getValue()) : Double.NaN;
+                statement.setDouble(3, valor);
                 statement.addBatch();
                 statement.clearParameters();
             }
