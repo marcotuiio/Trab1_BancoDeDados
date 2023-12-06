@@ -6,6 +6,13 @@ $(document).ready(function() {
         let anoInicio = $('#anoInicio').val();
         let anoFim = $('#anoFim').val();
 
+        if (anoInicio && anoFim) {
+            if (anoInicio < 2010 || anoInicio > 2021 || anoFim > 2021 || anoFim < 2010 || anoFim < anoInicio) {
+                alert('Intervalo incorreto de anos.\nAno mínimo: 2010\nAno máximo: 2021');
+                return;
+            }
+        }
+
         let formData = {
             'paisAId': paisAId,
             'paisBId': paisBId,
