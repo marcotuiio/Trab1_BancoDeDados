@@ -42,7 +42,9 @@ $(document).ready(function() {
 
         });
     });
-
+    document.getElementById("visualizarDados").addEventListener("click", function () {
+        window.location.href = "/visualizar-dados";
+    });
 });
 
 function createChart1(chartId, labels, dataValues) {

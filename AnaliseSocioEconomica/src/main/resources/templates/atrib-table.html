@@ -1,22 +1,21 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
-    <!--    <link rel="stylesheet" th:href="@{/static/style_index.css}">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <title>Request dos Dados</title>
 </head>
-<div class="center">
-    <body>
-    <h2>Teste de request do dados</h2>
-    <table>
+<body>
+<div class="container">
+    <h2 class="text-center mt-4">Teste de request do dados</h2>
+    <table class="table table-striped mt-4">
         <thead>
         <tr>
             <th>Sigla</th>
             <th>Indicador</th>
-            <th>ANO</th>
-            <th>VALOR</th>
-            <th>EDITAR</th>
-            <th>REMOVER</th>
+            <th>Ano</th>
+            <th>Valor</th>
+            <th>Remover</th>
         </tr>
         </thead>
         <tbody>
@@ -25,13 +24,14 @@
             <td th:text="${dados.indicador}"></td>
             <td th:text="${atrib.getKey()}"></td>
             <td th:text="${atrib.getValue()}"></td>
-            <td style="text-align: center;"><a th:href="@{/form-editar-atrib/{id}/{indi}/{ano}(id=${dados.getSigla()}, indi=${dados.getIndicador()}, ano=${atrib.getKey()})}">Editar</a></td>
-            <td style="text-align: center;"><a th:href="@{/remover-atrib/{id}/{indi}/{ano}(id=${dados.getSigla()}, indi=${dados.getIndicador()}, ano=${atrib.getKey()})}">Remover</a></td>
+            <td><a th:href="@{/remover-atrib/{id}/{indi}/{ano}(id=${dados.getSigla()}, indi=${dados.getIndicador()}, ano=${atrib.getKey()})}" class="btn btn-danger">Remover</a></td>
         </tr>
         </tbody>
     </table>
-    <td><a th:href="@{/remover-dados-pais/{id}/{indi}(id=${dados.sigla}, indi=${dados.indicador})}">Deletar todos esses dados desse país</a></td>
-    <td><a th:href="@{/}">Retornar</a></td>
-    </body>
+    <div class="d-flex justify-content-center mt-4">
+        <a th:href="@{/remover-dados-pais/{id}/{indi}(id=${dados.sigla}, indi=${dados.indicador})}" class="btn btn-danger mr-2">Deletar todos esses dados desse país</a>
+        <a th:href="@{/visualizar-dados}" class="btn btn-secondary">Retornar</a>
+    </div>
 </div>
+</body>
 </html>
