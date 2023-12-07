@@ -6,20 +6,18 @@ $(document).ready(function() {
         let anoInicio = $('#anoInicio').val();
         let anoFim = $('#anoFim').val();
 
+        let formData = {
+            'paisAId': paisAId,
+            'paisBId': paisBId,
+            'atrib': atrib,
+        };
+
         if (anoInicio && anoFim) {
             if (anoInicio < 2010 || anoInicio > 2021 || anoFim > 2021 || anoFim < 2010 || anoFim < anoInicio) {
                 alert('Intervalo incorreto de anos.\nAno mínimo: 2010\nAno máximo: 2021');
                 return;
             }
         }
-
-        let formData = {
-            'paisAId': paisAId,
-            'paisBId': paisBId,
-            'atrib': atrib,
-            'anoInicio': anoInicio,
-            'anoFim': anoFim
-        };
 
         $.ajax({
             type: 'POST',
@@ -28,44 +26,57 @@ $(document).ready(function() {
             dataType: 'json',
             contentType:"application/json; charset=utf-8",
         }).done(function(data) {
-
             let seriesA = data.dadosA.series.duplaAnoAtributo;
-            console.log(data.paisA.nome);
-            for (let ano in seriesA) {
-                if (seriesA.hasOwnProperty(ano)) {
-                    let valor = seriesA[ano];
-                    console.log("ANO: " + ano + " VALOR: " + valor);
-                }
-            }
             let seriesB = data.dadosB.series.duplaAnoAtributo;
-            console.log(data.paisB.nome);
-            for (let ano in seriesB) {
-                if (seriesB.hasOwnProperty(ano)) {
-                    let valor = seriesB[ano];
-                    console.log("ANO: " + ano + " VALOR: " + valor);
+
+            let anosFiltradosA = {};
+            let valoresFiltradosA = {};
+            let anosFiltradosB = {};
+            let valoresFiltradosB = {};
+
+            if (!anoFim || !anoInicio) {
+                nomeAnalise = "Análise de contraste de " + atrib + " dos países " + data.paisA.nome + " e " + data.paisB.nome;
+                anosFiltradosA = Object.keys(seriesA);
+                valoresFiltradosA = Object.values(seriesA);
+                anosFiltradosB = Object.keys(seriesB);
+                valoresFiltradosB = Object.values(seriesB);
+            } else {
+                nomeAnalise = "Análise de contraste de " + atrib + " dos países " + data.paisA.nome + " e " + data.paisB.nome + " intervalo " + anoInicio + "-" + anoFim;
+                // Filtrar os dados com base no intervalo de anos
+                for (let ano in seriesA) {
+                    if (ano >= anoInicio && ano <= anoFim) {
+                        anosFiltradosA[ano] = ano;
+                        valoresFiltradosA[ano] = seriesA[ano];
+                    }
+                }
+                for (let ano in seriesB) {
+                    if (ano >= anoInicio && ano <= anoFim) {
+                        anosFiltradosB[ano] = ano;
+                        valoresFiltradosB[ano] = seriesB[ano];
+                    }
                 }
             }
-            let nomeAnalise = "Análise de contraste de " + atrib + " dos países " + data.paisA.nome + " e " + data.paisB.nome;
 
-            let anos = Object.keys(seriesA);
-            let valoresA = Object.values(seriesA);
-            let valoresB = Object.values(seriesB);
+            let anosArrayA = Object.values(anosFiltradosA);
+            let valoresArrayA = Object.values(valoresFiltradosA);
+            let anosArrayB = Object.values(anosFiltradosB);
+            let valoresArrayB = Object.values(valoresFiltradosB);
 
             const dataset = {
-                labels: anos,
+                labels: anosArrayA,
                 datasets: [
                     {
-                        label: 'Dataset 1',
-                        data: valoresA,
-                        borderColor: 'rgba(0, 123, 255, 1)',
-                        backgroundColor: 'rgba(0, 123, 255, 0.5)',
+                        label: paisAId,
+                        data: valoresArrayA,
+                        borderColor: 'rgba(128, 0, 128, 1)', // Cor da borda roxa
+                        backgroundColor: 'rgba(128, 0, 128, 0.5)', // Cor de fundo roxa
                         yAxisID: 'y',
                     },
                     {
-                        label: 'Dataset 2',
-                        data: valoresB,
-                        borderColor: 'rgba(255, 99, 132, 1)',
-                        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+                        label: paisBId,
+                        data: valoresArrayB,
+                        borderColor: 'rgba(255, 255, 0, 1)', // Cor da borda amarela
+                        backgroundColor: 'rgba(255, 255, 0, 0.5)', // Cor de fundo amarela
                         yAxisID: 'y1',
                     }
                 ]
@@ -74,6 +85,7 @@ $(document).ready(function() {
             createChart1Analise2('myChart1', dataset);
             createChart2Analise2('myChart2', dataset);
             $('h1').text(nomeAnalise);
+
         });
     });
 });
@@ -90,6 +102,7 @@ function createChart1Analise2(chartId, dataset) {
         data: dataset,
         options: {
             responsive: true,
+            maintainAspectRatio: false, // Permite ao gráfico não ocupar toda a tela
             interaction: {
                 mode: 'index',
                 intersect: false,
@@ -97,7 +110,7 @@ function createChart1Analise2(chartId, dataset) {
             stacked: false,
             plugins: {
                 title: {
-                    display: true,
+                    display: false,
                     text: 'Chart.js Line Chart - Multi Axis'
                 }
             },
@@ -135,12 +148,13 @@ function createChart2Analise2(chartId, dataset) {
         data: dataset,
         options: {
             responsive: true,
+            maintainAspectRatio: false, // Permite ao gráfico não ocupar toda a tela
             plugins: {
                 legend: {
                     position: 'top',
                 },
                 title: {
-                    display: true,
+                    display: false,
                     text: 'Chart.js Bar Chart'
                 }
             }

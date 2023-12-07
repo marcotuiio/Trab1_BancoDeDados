@@ -8,9 +8,14 @@ $(document).ready(function() {
         let formData = {
             'paisAId': paisAId,
             'atrib': atrib,
-            'anoInicio': anoInicio,
-            'anoFim': anoFim
         };
+
+        if (anoInicio && anoFim) {
+            if (anoInicio < 2010 || anoInicio > 2021 || anoFim > 2021 || anoFim < 2010 || anoFim < anoInicio) {
+                alert('Intervalo incorreto de anos.\nAno mínimo: 2010\nAno máximo: 2021');
+                return;
+            }
+        }
 
         $.ajax({
             type: 'POST',
@@ -19,22 +24,34 @@ $(document).ready(function() {
             dataType: 'json',
             contentType:"application/json; charset=utf-8",
         }).done(function(data) {
-            let seriesA = data.dadosA.series.duplaAnoAtributo;
-            console.log(data.paisA.nome);
-            for (let ano in seriesA) {
-                if (seriesA.hasOwnProperty(ano)) {
-                    let valor = seriesA[ano];
-                    console.log("ANO: " + ano + " VALOR: " + valor);
+            let nomeAnalise = '';
+            let duplaAnoAtributo = data.dadosA.series.duplaAnoAtributo;
+
+            let anosFiltrados = {};
+            let valores = {};
+
+            if (!anoFim || !anoInicio) {
+                nomeAnalise = "Análise de " + atrib + " do país " + data.paisA.nome;
+                anosFiltrados = Object.keys(duplaAnoAtributo);
+                valores = Object.values(duplaAnoAtributo);
+
+            } else {
+                nomeAnalise = "Análise de " + atrib + " do país " + data.paisA.nome + " intervalo " + anoInicio + "-" + anoFim;
+                // Filtrar os dados com base no intervalo de anos
+                for (let ano in duplaAnoAtributo) {
+                    if (ano >= anoInicio && ano <= anoFim) {
+                        anosFiltrados[ano] = ano;
+                        valores[ano] = duplaAnoAtributo[ano];
+                    }
                 }
             }
-            let nomeAnalise = "Análise de " + atrib + " do país " + data.paisA.nome;
 
-            let duplaAnoAtributo = data.dadosA.series.duplaAnoAtributo;
-            let anos = Object.keys(duplaAnoAtributo);
-            let valores = Object.values(duplaAnoAtributo);
+            let anosArray = Object.values(anosFiltrados);
+            let valoresArray = Object.values(valores);
 
-            createChart1Analise1('myChart1', anos, valores);
-            createChart2Analise1('myChart2', anos, valores);
+            createChart1Analise1('myChart1', anosArray, valoresArray);
+            createChart2Analise1('myChart2', anosArray, valoresArray);
+
             $('h1').text(nomeAnalise);
         });
     });
