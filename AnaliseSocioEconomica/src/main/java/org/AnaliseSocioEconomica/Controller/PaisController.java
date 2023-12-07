@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @Controller
 public class PaisController {
@@ -28,6 +29,9 @@ public class PaisController {
     private static List<String> atribs = List.of("idh", "imp_alfan_import", "imp_com_inter", "imp_receita_fiscal",
             "imp_exportacao", "imp_renda", "indiv_aces_net", "pib_total", "pib_per_capita", "invest_pesq_desenv",
             "total_exportacao", "total_importacao");
+
+    private static List<String> paises = List.of("AR", "AU", "BR", "CA", "CN", "DE", "FR", "GB", "ID",
+            "IN", "IT", "JP", "KR", "MX", "RU", "SA", "TR", "US", "ZA");
 
     @GetMapping("/visualizar-dados")
     public String htmlCru(Model model) {
@@ -210,4 +214,32 @@ public class PaisController {
         return ResponseEntity.ok(paisDados);
     }
 
+    @PostMapping("/montar-ranking")
+    public ResponseEntity<?> montarRanking(@RequestBody Map<String, String> formData) {
+        List<Map<String, Object>> response = new ArrayList<>();
+        List<Dados> todosIDHs = new ArrayList<>();
+
+        for (String pais : paises) {
+            todosIDHs.add(readDados("idh", pais));
+        }
+
+        for (int ano = 2010; ano <= 2021; ano++) {
+            double maiorIdhPaisAno = 0;
+            String nomePais = null;
+            for (Dados tI : todosIDHs) {
+                double valorIdhPaisAno = Double.parseDouble(tI.getSeries().getDuplaAnoAtributo().get(ano));
+                if (valorIdhPaisAno > maiorIdhPaisAno) {
+                    maiorIdhPaisAno = valorIdhPaisAno;
+                    nomePais = tI.getSigla();
+                }
+            }
+            Map<String, Object> result = new HashMap<>();
+            result.put("nomePais", nomePais);
+            result.put("ano", ano);
+            result.put("maiorIdhPaisAno", maiorIdhPaisAno);
+            response.add(result);
+        }
+
+        return ResponseEntity.ok(response);
+    }
 }
