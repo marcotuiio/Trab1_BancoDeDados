@@ -1,13 +1,12 @@
 $(document).ready(function() {
     $('#analise1').click(function() {
-
-        let paisId = $('#pais').val();
+        let paisAId = $('#paisA').val();
         let atrib = $('#atrib').val();
         let anoInicio = $('#anoInicio').val();
         let anoFim = $('#anoFim').val();
 
         let formData = {
-            'paisId': paisId,
+            'paisAId': paisAId,
             'atrib': atrib,
             'anoInicio': anoInicio,
             'anoFim': anoFim
@@ -15,41 +14,34 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'POST',
-            url: '/teste-ajax',
+            url: '/monta-pais-ajax',
             data: JSON.stringify(formData),
             dataType: 'json',
             contentType:"application/json; charset=utf-8",
         }).done(function(data) {
+            let seriesA = data.dadosA.series.duplaAnoAtributo;
+            console.log(data.paisA.nome);
+            for (let ano in seriesA) {
+                if (seriesA.hasOwnProperty(ano)) {
+                    let valor = seriesA[ano];
+                    console.log("ANO: " + ano + " VALOR: " + valor);
+                }
+            }
+            let nomeAnalise = "Análise de " + atrib + " do país " + data.paisA.nome;
 
-            // let bla = data.dados.series.duplaAnoAtributo;
-            // console.log(data.pais.nome);
-            // for (let ano in bla) {
-            //     if (bla.hasOwnProperty(ano)) {
-            //         let valor = bla[ano];
-            //         console.log("ANO: " + ano + " VALOR: " + valor);
-            //     }
-            // }
-            let nomeAnalise = "Análise de " + atrib + " do país " + data.pais.nome;
-
-            let duplaAnoAtributo = data.dados.series.duplaAnoAtributo;
+            let duplaAnoAtributo = data.dadosA.series.duplaAnoAtributo;
             let anos = Object.keys(duplaAnoAtributo);
             let valores = Object.values(duplaAnoAtributo);
 
-            // Crie ou atualize o gráfico no elemento <canvas>
-            createChart1('myChart1', anos, valores);
-            createChart2('myChart2', anos, valores);
+            createChart1Analise1('myChart1', anos, valores);
+            createChart2Analise1('myChart2', anos, valores);
             $('h1').text(nomeAnalise);
-
         });
-    });
-    document.getElementById("visualizarDados").addEventListener("click", function () {
-        window.location.href = "/visualizar-dados";
     });
 });
 
-function createChart1(chartId, labels, dataValues) {
+function createChart1Analise1(chartId, labels, dataValues) {
     let existingChart = Chart.getChart(chartId);
-
     if (existingChart) {
         existingChart.destroy(); // Destrói o gráfico existente
     }
@@ -77,10 +69,9 @@ function createChart1(chartId, labels, dataValues) {
             }
         }
     });
-
 }
 
-function createChart2(chartId, labels, dataValues) {
+function createChart2Analise1(chartId, labels, dataValues) {
     let existingChart = Chart.getChart(chartId);
 
     if (existingChart) {
@@ -110,7 +101,4 @@ function createChart2(chartId, labels, dataValues) {
             }
         }
     });
-
 }
-
-

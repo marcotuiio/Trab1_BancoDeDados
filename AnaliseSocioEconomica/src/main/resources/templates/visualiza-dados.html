@@ -25,14 +25,14 @@
                 <th>invest_pesq_desenv</th>
                 <th>total_exportacao</th>
                 <th>total_importacao</th>
-                <th>Remover</th>
+<!--                <th>Remover</th>-->
             </tr>
             </thead>
             <tbody>
             <tr th:each="pais : ${paises}" class="text-center">
                 <td th:text="${pais.nome}"></td>
                 <td th:text="${pais.id}"></td>
-                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'idh'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
+                <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'idh'}, sigla=${pais.id})}" class="btn btn-primary" >VER</a></td>
                 <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_alfan_import'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
                 <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_com_inter'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
                 <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'imp_receita_fiscal'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
@@ -44,7 +44,7 @@
                 <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'invest_pesq_desenv'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
                 <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'total_exportacao'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
                 <td><a th:href="@{/consulta-atrib/{atrib}/{sigla}(atrib=${'total_importacao'}, sigla=${pais.id})}" class="btn btn-primary">VER</a></td>
-                <td><a th:href="@{/remover-pais/{id}(id=${pais.id})}" class="btn btn-danger">Remover</a></td>
+<!--                <td><a th:href="@{/remover-pais/{id}(id=${pais.id})}" class="btn btn-danger">Remover</a></td>-->
             </tr>
             </tbody>
         </table>

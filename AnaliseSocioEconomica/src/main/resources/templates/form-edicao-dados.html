@@ -2,25 +2,36 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <!--    <link rel="stylesheet" th:href="@{/static/style_form.css}">-->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <title>Editar Dados</title>
 </head>
-<body style="text-align: center">
-<h2>EDITAR DADOS</h2>
-<var th:text="${idPais}"> </var>
-<var th:text="${indi}"> </var>
-<var th:text="${ano}"> </var>
-<br/><br/>
-<form style="text-align: center"
-      action="#"
-      th:action="@{/update-dados/{id}/{indi}/{ano}(id=${idPais}, indi=${indi}, ano=${ano})}"
-      method="post">
-    <label for="valor">Valor: </label>
-    <input type="text" id="valor" name="valor" th:value="${valorSerieAnoAtrib}">
-<!--    <span th:if="${#fields.hasErrors('valor')}" th:errors="*{valorSerieAnoAtrib}"></span>-->
-    <br/><br/>
-    <input type="submit" value="Editar">
-</form>
-<p><a href="/" class="btn-list">Listar Países</a></p>
+<body>
+<div class="container-fluid">
+    <h2 class="text-center mt-4">EDITAR DADOS</h2>
+    <div class="text-center">
+        <var th:text="${idPais}"> </var>
+        <var th:text="${indi}"> </var>
+        <var th:text="${ano}"> </var>
+    </div>
+    <form class="mt-4"
+          action="#"
+          th:action="@{/update-dados/{id}/{indi}/{ano}(id=${idPais}, indi=${indi}, ano=${ano})}"
+          method="post">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="form-group">
+                    <label for="valor">Valor: </label>
+                    <input type="text" id="valor" name="valor" th:value="${valorSerieAnoAtrib}" class="form-control">
+                </div>
+            </div>
+        </div>
+        <div class="d-flex justify-content-center mt-4">
+            <input type="submit" value="Editar" class="btn btn-primary">
+        </div>
+    </form>
+    <div class="d-flex justify-content-center mt-4">
+        <a href="/" class="btn btn-secondary">Listar Países</a>
+    </div>
+</div>
 </body>
 </html>

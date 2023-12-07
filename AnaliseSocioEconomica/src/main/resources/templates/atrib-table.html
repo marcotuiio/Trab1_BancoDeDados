@@ -15,7 +15,7 @@
             <th>Indicador</th>
             <th>Ano</th>
             <th>Valor</th>
-            <th>Remover</th>
+<!--            <th>Remover</th>-->
         </tr>
         </thead>
         <tbody>
@@ -24,12 +24,12 @@
             <td th:text="${dados.indicador}"></td>
             <td th:text="${atrib.getKey()}"></td>
             <td th:text="${atrib.getValue()}"></td>
-            <td><a th:href="@{/remover-atrib/{id}/{indi}/{ano}(id=${dados.getSigla()}, indi=${dados.getIndicador()}, ano=${atrib.getKey()})}" class="btn btn-danger">Remover</a></td>
+<!--            <td><a th:href="@{/remover-atrib/{id}/{indi}/{ano}(id=${dados.getSigla()}, indi=${dados.getIndicador()}, ano=${atrib.getKey()})}" class="btn btn-danger">Remover</a></td>-->
         </tr>
         </tbody>
     </table>
     <div class="d-flex justify-content-center mt-4">
-        <a th:href="@{/remover-dados-pais/{id}/{indi}(id=${dados.sigla}, indi=${dados.indicador})}" class="btn btn-danger mr-2">Deletar todos esses dados desse país</a>
+<!--        <a th:href="@{/remover-dados-pais/{id}/{indi}(id=${dados.sigla}, indi=${dados.indicador})}" class="btn btn-danger mr-2">Deletar todos esses dados desse país</a>-->
         <a th:href="@{/visualizar-dados}" class="btn btn-secondary">Retornar</a>
     </div>
 </div>

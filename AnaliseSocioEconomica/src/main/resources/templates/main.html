@@ -15,18 +15,25 @@
         <button id="analise2">País A x País B</button>
         <button id="analise3">Rank IDH x Imposto</button>
         <button id="analise4">Imp Import x Renda x Arrecadação</button>
-        <button id="analise5">Análise 5</button>
+        <button id="analise5">IDH x Arrecadação</button>
+        <button id="analise6">IDH x Internet x Pesquisas</button>
         <button id="visualizarDados">Visualizar dados</button>
-
-        <!-- ... outros botões ... -->
     </div>
         <div class="main-content">
             <h1 id="nomeAnalise">Interface de Análises SocioEconômicas</h1>
             <div class="form-row">
                 <div class="form-group">
-                    <label for="pais">País:</label>
-                    <select id="pais" name="pais">
-                        <option value="" th:disabled="selected">Selecione um país</option>
+                    <label for="paisA">País A:</label>
+                    <select id="paisA" name="paisA">
+                        <option value="" th:disabled="selected">Selecione o país A</option>
+                        <option th:each="pais : ${paises}" th:value="${pais.getId()}" th:text="${pais.getNome()}"></option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="paisB">País B:</label>
+                    <select id="paisB" name="paisB">
+                        <option value="" th:disabled="selected">Selecione o país B</option>
                         <option th:each="pais : ${paises}" th:value="${pais.getId()}" th:text="${pais.getNome()}"></option>
                     </select>
                 </div>
@@ -48,7 +55,6 @@
                     <label for="anoFim">Ano Fim:</label>
                     <input type="text" id="anoFim" name="anoFim">
                 </div>
-
             </div>
             <div class="grid-container">
                 <div class="grid-item">
@@ -59,6 +65,12 @@
                 </div>
             </div>
         </div>
-    <script th:src="@{/script.js}"></script>
+    <script th:src="@{/analise1.js}"></script>
+    <script th:src="@{/analise2.js}"></script>
+<!--    <script th:src="@{/analise3.js}"></script>-->
+<!--    <script th:src="@{/analise4.js}"></script>-->
+<!--    <script th:src="@{/analise5.js}"></script>-->
+<!--    <script th:src="@{/analise6.js}"></script>-->
+    <script th:src="@{/visualizar-dados.js}"></script>
 </body>
 </html>
