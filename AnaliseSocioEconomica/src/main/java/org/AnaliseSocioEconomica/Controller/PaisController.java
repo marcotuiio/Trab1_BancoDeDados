@@ -134,8 +134,6 @@ public class PaisController {
 //        System.out.println("ENTRANDO NA FUNCAO DA REQUISICAO AJAX");
         String paisAId = formData.get("paisAId");
         String atrib = formData.get("atrib");
-        String anoInicio = formData.get("anoInicio");
-        String anoFim = formData.get("anoFim");
 
         Pais p = readPais(paisAId);
         Dados d = readDados(atrib, paisAId);
@@ -206,6 +204,29 @@ public class PaisController {
 
         paisDados.put("paisB", p2);
         paisDados.put("dadosB", d2);
+//        System.out.println("SAINDO DA FUNCAO DA REQUISICAO AJAX" + p.getNome() + d.getIndicador());
+        return ResponseEntity.ok(paisDados);
+    }
+
+    @PostMapping("/monta-pais-analise6-ajax")
+    public ResponseEntity<?> montarPaisAnalise6(@RequestBody Map<String, String> formData) {
+//        System.out.println("ENTRANDO NA FUNCAO DA REQUISICAO AJAX");
+        String paisAId = formData.get("paisAId");
+
+        Pais p = readPais(paisAId);
+        Dados idh = readDados("idh", paisAId);
+        p.setIdh(idh);
+        Dados net = readDados("indiv_aces_net", paisAId);
+        p.setIndivAcesNet(net);
+        Dados pesquisas = readDados("invest_pesq_desenv", paisAId);
+        p.setInvestPesqDesenv(pesquisas);
+
+        Map<String, Object> paisDados = new HashMap<>();
+        paisDados.put("paisA", p);
+        paisDados.put("idh", idh);
+        paisDados.put("net", net);
+        paisDados.put("pesquisas", pesquisas);
+
 //        System.out.println("SAINDO DA FUNCAO DA REQUISICAO AJAX" + p.getNome() + d.getIndicador());
         return ResponseEntity.ok(paisDados);
     }
