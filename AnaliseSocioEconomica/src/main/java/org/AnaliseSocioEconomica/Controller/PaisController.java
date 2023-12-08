@@ -212,7 +212,7 @@ public class PaisController {
         return ResponseEntity.ok(paisDados);
     }
 
-    @PostMapping("/montar-ranking")
+    @PostMapping("/monta-pais-analise3-ajax")
     public ResponseEntity<?> montarRanking(@RequestBody Map<String, String> formData) {
         List<Map<String, Object>> response = new ArrayList<>();
         List<Dados> todosIDHs = new ArrayList<>();
@@ -223,18 +223,31 @@ public class PaisController {
 
         for (int ano = 2010; ano <= 2021; ano++) {
             double maiorIdhPaisAno = 0;
-            String nomePais = null;
+            String siglaPais = null;
             for (Dados tI : todosIDHs) {
                 double valorIdhPaisAno = Double.parseDouble(tI.getSeries().getDuplaAnoAtributo().get(ano));
                 if (valorIdhPaisAno > maiorIdhPaisAno) {
                     maiorIdhPaisAno = valorIdhPaisAno;
-                    nomePais = tI.getSigla();
+                    siglaPais = tI.getSigla();
                 }
             }
+
+            Dados impImport = readDados("imp_alfan_import", siglaPais);
+            double impImportPaisAno = Double.parseDouble(impImport.getSeries().getDuplaAnoAtributo().get(ano));
+
+            Dados impReceitaFiscal = readDados("imp_receita_fiscal", siglaPais);
+            double impReceitaFiscalPaisAno = Double.parseDouble(impReceitaFiscal.getSeries().getDuplaAnoAtributo().get(ano));
+
+            double impImportDivReceita = 0;
+            if (impReceitaFiscalPaisAno != 0) {
+                impImportDivReceita = impImportPaisAno / impReceitaFiscalPaisAno;
+            }
+
             Map<String, Object> result = new HashMap<>();
-            result.put("nomePais", nomePais);
+            result.put("nomePais", siglaPais);
             result.put("ano", ano);
             result.put("maiorIdhPaisAno", maiorIdhPaisAno);
+            result.put("impImportDivReceita", impImportDivReceita * 100);
             response.add(result);
         }
 
