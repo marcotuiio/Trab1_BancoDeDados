@@ -57,15 +57,15 @@ $(document).ready(function() {
                     {
                         label: 'PERCENTUAL PAÍS MAIOR IDH',
                         data: todosPercentual,
-                        borderColor: 'rgba(128, 0, 128, 1)', // Cor da borda roxa
-                        backgroundColor: 'rgba(128, 0, 128, 0.5)', // Cor de fundo roxa
+                        borderColor: 'rgba(0, 255, 0, 1)', // Cor da borda ver
+                        backgroundColor: 'rgba(0, 255, 0, 0.5)', // Cor de fundo verde
                         yAxisID: 'y',
                     },
                     {
                         label: 'PERCENTUAL PAÍS ESCOLHIDO',
                         data: percentualEspecifico,
-                        borderColor: 'rgba(255, 255, 0, 1)', // Cor da borda amarela
-                        backgroundColor: 'rgba(255, 255, 0, 0.5)', // Cor de fundo amarela
+                        borderColor: 'rgba(139, 0, 0, 1)', // Cor da borda vermei
+                        backgroundColor: 'rgba(139, 0, 0, 0.5)', // Cor de fundo vermei
                         yAxisID: 'y1',
                     }
                 ]
@@ -77,15 +77,15 @@ $(document).ready(function() {
                     {
                         label: 'MAIOR IDH',
                         data: maioresIdh,
-                        borderColor: 'rgba(128, 0, 128, 1)', // Cor da borda roxa
-                        backgroundColor: 'rgba(128, 0, 128, 0.5)', // Cor de fundo roxa
+                        borderColor: 'rgba(0, 255, 0, 1)', // Cor da borda ver
+                        backgroundColor: 'rgba(0, 255, 0, 0.5)', // Cor de fundo verde
                         yAxisID: 'y',
                     },
                     {
                         label: 'IDH PAÍS ESCOLHIDO',
                         data: valoresIdhEspecifico,
-                        borderColor: 'rgba(255, 255, 0, 1)', // Cor da borda amarela
-                        backgroundColor: 'rgba(255, 255, 0, 0.5)', // Cor de fundo amarela
+                        borderColor: 'rgba(255, 40, 0, 1)', // Cor da borda vermei
+                        backgroundColor: 'rgba(255, 40, 0, 0.5)', // Cor de fundo vermei
                         yAxisID: 'y',
                     }
                 ]
