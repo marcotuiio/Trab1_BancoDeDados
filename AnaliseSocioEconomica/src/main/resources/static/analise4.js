@@ -81,7 +81,7 @@ $(document).ready(function() {
                         borderColor: 'rgba(123, 172, 32, 1)',
                         data: valoresImpImport,
                     }, {
-                        label: 'PIB Per Capita',
+                        label: 'PIB Total',
                         fill: false,
                         backgroundColor: 'rgba(223, 89, 22, 0.5)',
                         borderColor: 'rgba(223, 89, 22, 1)',
