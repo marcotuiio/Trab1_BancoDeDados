@@ -284,4 +284,21 @@ public class PaisController {
 
         return ResponseEntity.ok(response);
     }
+
+    @PostMapping("/monta-pais-analise5-ajax")
+    public ResponseEntity<?> montarPaisAnalise5(@RequestBody Map<String, String> formData) {
+        String paisAId = formData.get("paisAId");
+        Pais pais = readPais(paisAId);
+
+        Dados idh = readDados("idh", paisAId);
+        pais.setIdh(idh);
+        // Arrecadacao
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("paisA", pais);
+        response.put("idh", idh);
+        // Arrecadacao
+
+        return ResponseEntity.ok(response);
+    }
 }

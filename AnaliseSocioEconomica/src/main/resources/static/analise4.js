@@ -22,7 +22,7 @@ $(document).ready(function() {
             dataType: 'json',
             contentType:"application/json; charset=utf-8",
         }).done(function(data) {
-            let nomeAnalise = '';
+            let nomeAnalise = 'Análise de Imposto de Renda X Imposto de Importação X PIB Total ';
             let impImport = data.impImport.series.duplaAnoAtributo;
             let pibTotal = data.pibTotal.series.duplaAnoAtributo;
             let impRenda = data.impRenda.series.duplaAnoAtributo;
@@ -35,7 +35,7 @@ $(document).ready(function() {
             let valoresFiltradosImpRenda = {};
 
             if (!anoFim || !anoInicio) {
-                // nomeANalise
+                nomeAnalise = nomeAnalise + data.paisA.nome;
                 anosFiltradosImpImport = Object.keys(impImport);
                 valoresFiltradosImpImport = Object.values(impImport);
                 anosFiltradosPibTotal = Object.keys(pibTotal);
@@ -43,7 +43,7 @@ $(document).ready(function() {
                 anosFiltradosImpRenda = Object.keys(impRenda);
                 valoresFiltradosImpRenda = Object.values(impRenda);
             } else {
-                // nomeAnalise
+                nomeAnalise = nomeAnalise + data.paisA.nome + ' intervalo ' + anoInicio + '-' + anoFim;
                 for (let ano in impImport) {
                     if (ano >= anoInicio && ano <= anoFim) {
                         anosFiltradosImpImport[ano] = ano;
@@ -75,13 +75,13 @@ $(document).ready(function() {
                 labels: anosImpImport,
                 datasets: [
                     {
-                        label: 'Imposto de Importação',
+                        label: 'IMPOSTO DE IMPORTAÇÃO',
                         fill: false,
                         backgroundColor: 'rgba(123, 172, 32, 0.5)',
                         borderColor: 'rgba(123, 172, 32, 1)',
                         data: valoresImpImport,
                     }, {
-                        label: 'PIB Total',
+                        label: 'PIB TOTAL',
                         fill: false,
                         backgroundColor: 'rgba(223, 89, 22, 0.5)',
                         borderColor: 'rgba(223, 89, 22, 1)',
@@ -111,7 +111,7 @@ function createChart1Analise4(chartId, labels, dataset) {
         data: {
             labels: labels,
             datasets: [{
-                label: 'Imposto de Renda',
+                label: 'IMPOSTO DE RENDA',
                 data: dataset,
                 backgroundColor: 'rgba(0, 123, 255, 0.5)',
                 borderColor: 'rgba(0, 123, 255, 1)',
