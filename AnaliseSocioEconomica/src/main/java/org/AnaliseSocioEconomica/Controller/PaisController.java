@@ -148,6 +148,7 @@ public class PaisController {
         if (paisBId != null) {
             p2 = readPais(paisBId);
             d2 = readDados(atrib, paisBId);
+//            System.out.println("Pais B da analise 2: " + p2.getNome() + " " + d2.getIndicador());
         }
 
         switch (atrib) {

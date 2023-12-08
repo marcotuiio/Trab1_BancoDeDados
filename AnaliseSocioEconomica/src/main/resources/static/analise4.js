@@ -113,9 +113,9 @@ function createChart1Analise4(chartId, labels, dataset) {
             datasets: [{
                 label: 'IMPOSTO DE RENDA',
                 data: dataset,
-                backgroundColor: 'rgba(0, 123, 255, 0.5)',
-                borderColor: 'rgba(0, 123, 255, 1)',
-                borderWidth: 1
+                backgroundColor: 'rgba(255, 255, 0, 1)',
+                borderColor: 'rgba(255, 255, 0, 0.5)',
+                borderWidth: 2
             }]
         },
         options: {

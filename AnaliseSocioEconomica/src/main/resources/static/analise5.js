@@ -80,8 +80,8 @@ function createChart1Analise5(chartId, labels, data) {
             datasets: [{
                 label: 'IDH',
                 data: data,
-                backgroundColor: 'rgba(0, 123, 255, 0.5)',
-                borderColor: 'rgba(0, 123, 255, 1)',
+                backgroundColor: 'rgba(255, 99, 132, 1)', // Cor diferente
+                borderColor: 'rgba(255, 99, 132, 0.5)', // Cor diferente
                 borderWidth: 1
             }]
         },
@@ -111,8 +111,8 @@ function createChart2Analise5(chartId, labels, data) {
             datasets: [{
                 label: 'ARRECADAÇÃO',
                 data: data,
-                backgroundColor: 'rgba(255, 99, 132, 0.5)', // Cor diferente
-                borderColor: 'rgba(255, 99, 132, 1)', // Cor diferente
+                backgroundColor: 'rgba(0, 123, 255, 1)',
+                borderColor: 'rgba(0, 123, 255, 0.5)',
                 borderWidth: 1
             }]
         },

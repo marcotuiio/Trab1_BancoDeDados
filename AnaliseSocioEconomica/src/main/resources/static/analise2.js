@@ -41,6 +41,10 @@ $(document).ready(function() {
                 valoresFiltradosA = Object.values(seriesA);
                 anosFiltradosB = Object.keys(seriesB);
                 valoresFiltradosB = Object.values(seriesB);
+                console.log('Anos Filtrados A:', anosFiltradosA);
+                console.log('Valores Filtrados A:', valoresFiltradosA);
+                console.log('Anos Filtrados B:', anosFiltradosB);
+                console.log('Valores Filtrados B:', valoresFiltradosB);
             } else {
                 nomeAnalise = "Análise de contraste de " + atrib + " dos países " + data.paisA.nome + " e " + data.paisB.nome + " intervalo " + anoInicio + "-" + anoFim;
                 // Filtrar os dados com base no intervalo de anos
@@ -62,6 +66,10 @@ $(document).ready(function() {
             let valoresArrayA = Object.values(valoresFiltradosA);
             let anosArrayB = Object.values(anosFiltradosB);
             let valoresArrayB = Object.values(valoresFiltradosB);
+            console.log('Anos array A:', anosArrayA);
+            console.log('Valores array A:', valoresArrayA);
+            console.log('Anos array B:', anosArrayB);
+            console.log('Valores array B:', valoresArrayB);
 
             const dataset = {
                 labels: anosArrayA,
@@ -78,7 +86,7 @@ $(document).ready(function() {
                         data: valoresArrayB,
                         borderColor: 'rgba(255, 255, 0, 1)', // Cor da borda amarela
                         backgroundColor: 'rgba(255, 255, 0, 0.5)', // Cor de fundo amarela
-                        yAxisID: 'y1',
+                        yAxisID: 'y',
                     }
                 ]
             };

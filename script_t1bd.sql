@@ -151,35 +151,34 @@ create table T1BD.intervalos (
 
 insert into t1bd.intervalos(anoInicial, anoFinal, requestDate) values (2010, 2021, '2022-11-19');
 
-use t1bd;
-select * from intervalos;
-select * from pais;
-select * from idh;
-select * from imp_alfan_import;
-select * from imp_com_inter where sigla = 'BR';
-select * from imp_receita_fiscal where sigla = 'BR';
-select * from imp_exportacao where sigla = 'CN';
-select * from imp_renda where sigla = 'BR';
-select * from indiv_aces_net;
-select * from pib_total where sigla = 'BR';
-select * from pib_per_capita where sigla = 'MX';
-select * from invest_pesq_desenv where sigla = 'BR';
-select * from total_exportacao where sigla = 'BR';
-select * from total_importacao;
+select * from t1bd.intervalos;
+select * from t1bd.pais;
+select * from t1bd.idh;
+select * from t1bd.imp_alfan_import;
+select * from t1bd.imp_com_inter where sigla = 'BR';
+select * from t1bd.imp_receita_fiscal where sigla = 'BR';
+select * from t1bd.imp_exportacao where sigla = 'CN';
+select * from t1bd.imp_renda where sigla = 'BR';
+select * from t1bd.indiv_aces_net;
+select * from t1bd.pib_total where sigla = 'BR';
+select * from t1bd.pib_per_capita where sigla = 'MX';
+select * from t1bd.invest_pesq_desenv where sigla = 'BR';
+select * from t1bd.total_exportacao where sigla = 'BR';
+select * from t1bd.total_importacao;
 
 -- -- DROPs
--- drop table intervalos;
--- drop table idh;
--- drop table imp_alfan_import;
--- drop table imp_com_inter;
--- drop table imp_receita_fiscal;
--- drop table imp_exportacao;
--- drop table imp_renda;
--- drop table indiv_aces_net;
--- drop table pib_total;
--- drop table pib_per_capita;
--- drop table invest_pesq_desenv;
--- drop table total_exportacao;
--- drop table total_importacao;
--- drop table pais;
+-- drop table t1bd.intervalos;
+-- drop table t1bd.idh;
+-- drop table t1bd.imp_alfan_import;
+-- drop table t1bd.imp_com_inter;
+-- drop table t1bd.imp_receita_fiscal;
+-- drop table t1bd.imp_exportacao;
+-- drop table t1bd.imp_renda;
+-- drop table t1bd.indiv_aces_net;
+-- drop table t1bd.pib_total;
+-- drop table t1bd.pib_per_capita;
+-- drop table t1bd.invest_pesq_desenv;
+-- drop table t1bd.total_exportacao;
+-- drop table t1bd.total_importacao;
+-- drop table t1bd.pais;
 
