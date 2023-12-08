@@ -213,7 +213,7 @@ public class PaisController {
         return ResponseEntity.ok(paisDados);
     }
 
-    @PostMapping("/monta-pais-analise3-ajax")
+    @PostMapping("/monta-rank-analise3-ajax")
     public ResponseEntity<?> montarRanking(@RequestBody Map<String, String> formData) {
         List<Map<String, Object>> response = new ArrayList<>();
         List<Dados> todosIDHs = new ArrayList<>();
@@ -250,6 +250,34 @@ public class PaisController {
             result.put("maiorIdhPaisAno", maiorIdhPaisAno);
             result.put("impImportDivReceita", impImportDivReceita * 100);
             response.add(result);
+        }
+
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping("/monta-pais-analise3-ajax")
+    public ResponseEntity<?> montarAnalise3(@RequestBody Map<String, String> formData) {
+        List<Map<String, Object>> response = new ArrayList<>();
+        String paisAId = formData.get("paisAId");
+
+        Dados idhEspecifico = readDados("idh", paisAId);
+        Map<String, Object> result = new HashMap<>();
+        result.put("idhEspecifico", idhEspecifico);
+        response.add(result);
+
+        Dados impReceitaEspecifico = readDados("imp_receita_fiscal", paisAId);
+        Dados impImportEspecifico = readDados("imp_alfan_import", paisAId);
+        for (int ano = 2010; ano <= 2021; ano++) {
+            double iRFE = Double.parseDouble(impReceitaEspecifico.getSeries().getDuplaAnoAtributo().get(ano));
+            double iIE = Double.parseDouble(impImportEspecifico.getSeries().getDuplaAnoAtributo().get(ano));
+
+            double percentual = 0;
+            if (iRFE != 0) {
+                percentual = iIE / iRFE;
+            }
+            Map<String, Object> resultadoDivisao = new HashMap<>();
+            resultadoDivisao.put("percentualEspecifico", percentual);
+            response.add(resultadoDivisao);
         }
 
         return ResponseEntity.ok(response);
