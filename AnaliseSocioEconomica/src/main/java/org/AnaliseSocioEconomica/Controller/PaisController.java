@@ -263,4 +263,25 @@ public class PaisController {
 //        System.out.println("SAINDO DA FUNCAO DA REQUISICAO AJAX" + p.getNome() + d.getIndicador());
         return ResponseEntity.ok(paisDados);
     }
+
+    @PostMapping("/monta-pais-analise4-ajax")
+    public ResponseEntity<?> montarPaisAnalise4(@RequestBody Map<String, String> formData) {
+        String paisAId = formData.get("paisAId");
+        Pais pais = readPais(paisAId);
+
+        Dados impImport = readDados("imp_alfan_import", paisAId);
+        pais.setImpAlfanImport(impImport);
+        Dados pibTotal = readDados("pib_total", paisAId);
+        pais.setPibTotal(pibTotal);
+        Dados impRenda = readDados("imp_renda", paisAId);
+        pais.setImpRenda(impRenda);
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("paisA", pais);
+        response.put("impImport", impImport);
+        response.put("pibTotal", pibTotal);
+        response.put("impRenda", impRenda);
+
+        return ResponseEntity.ok(response);
+    }
 }

@@ -1,5 +1,5 @@
 $(document).ready(function() {
-    $('#analise2').click(function() {
+    $('#analise3').click(function() {
         let anoInicio = $('#anoInicio').val();
         let anoFim = $('#anoFim').val();
 
@@ -17,11 +17,12 @@ $(document).ready(function() {
 
         $.ajax({
             type: 'POST',
-            url: '/monta-pais-ajax',
+            url: '/montar-ranking',
             data: JSON.stringify(formData),
             dataType: 'json',
             contentType:"application/json; charset=utf-8",
         }).done(function(data) {
+            let nomeAnalise = 'Rank IDH'
             for (let i = 0; i < data.length; i++) {
                 console.log('Pais: ' + data[i].nomePais);
                 console.log('Ano: ' + data[i].ano);

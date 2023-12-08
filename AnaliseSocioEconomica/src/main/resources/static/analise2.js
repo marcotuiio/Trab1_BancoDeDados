@@ -26,6 +26,7 @@ $(document).ready(function() {
             dataType: 'json',
             contentType:"application/json; charset=utf-8",
         }).done(function(data) {
+            let nomeAnalise = '';
             let seriesA = data.dadosA.series.duplaAnoAtributo;
             let seriesB = data.dadosB.series.duplaAnoAtributo;
 

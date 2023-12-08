@@ -9,8 +9,8 @@ import java.util.Properties;
 
 public abstract class ConnectionFactory {
     private static ConnectionFactory instance = null;
-    protected static String propertiesPath = "C:\\Users\\marco\\Desktop\\UEL\\Database\\Trab1_BancoDeDados\\AnaliseSocioEconomica\\src\\main\\resources\\application.properties";
-//    protected static String propertiesPath = "/home/vfs/Documents/Database_I/Trab1_BancoDeDados/AnaliseSocioEconomica/src/main/resources/application.properties";
+//    protected static String propertiesPath = "C:\\Users\\marco\\Desktop\\UEL\\Database\\Trab1_BancoDeDados\\AnaliseSocioEconomica\\src\\main\\resources\\application.properties";
+    protected static String propertiesPath = "/home/vfs/Documents/Database_I/Trab1_BancoDeDados/AnaliseSocioEconomica/src/main/resources/application.properties";
     private static String dbServer;
 
     protected String dbHost;
