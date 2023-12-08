@@ -292,12 +292,13 @@ public class PaisController {
 
         Dados idh = readDados("idh", paisAId);
         pais.setIdh(idh);
-        // Arrecadacao
+        Dados impReceitaFiscal = readDados("imp_receita_fiscal", paisAId);
+        pais.setImpReceitaFiscal(impReceitaFiscal);
 
         Map<String, Object> response = new HashMap<>();
         response.put("paisA", pais);
         response.put("idh", idh);
-        // Arrecadacao
+        response.put("impReceitaFiscal", impReceitaFiscal);
 
         return ResponseEntity.ok(response);
     }
