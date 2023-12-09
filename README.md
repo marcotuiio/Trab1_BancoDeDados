@@ -1,4 +1,6 @@
-# Trab1_BancoDeDados
+# Trab1_BancoDeDados 2023
+#### Marco Túlio Alves de Barros
+#### Vinícius Ferreira Schiavon
 
 ## RESUMO GERAL: 
 O intuito do trabalho é montar tabelas para analisar socioeconomicamente os países, exibindo PIB e aprofundando-se em importações,
@@ -17,7 +19,6 @@ Sendo eles: África do Sul, Alemanha, Arábia Saudita, Argentina, Austrália, Br
 Estados Unidos, França, Índia, Indonésia, Itália, Japão, México, Reino Unido, Rússia, Turquia.
 
 ![alt text](https://static.mundoeducacao.uol.com.br/mundoeducacao/2023/09/1-bandeira-dos-participantes-do-g20-grupo-dos-20-ate-o-ano-de-2023.jpg)
-
 
 
 Os impostos de interesse são: sob comércio internacional (%), sob exportação (%), receita fiscal (DÓLAR), alfândega e importações (DÓLAR) e imposto de renda (%). 
@@ -156,18 +157,26 @@ assuntos variados de diversos países, e os impostos são organizados por tipo d
 <!-- * Exemplo do CSV:
     ![alt text](Trab1_BancoDeDados\exemploCSV.png?raw=true "Exemplo CSV") -->
 
-### Análises Planejadas
+### Análises Implementadas:
 
 Para tal, será utilizada a biblioteca ChartJS do JavaScript, que permite a criação de gráficos de diversos tipos, como linhas, barras, pizza, etc.
 Os gráficos serão montados por requisição AJAX e existe na interface da aplicação pre sets das análises propostas, permitindo que o usuário escolha
 ainda alguns parêmetros, como país e intevalo.
 
-* Páis individualmente e seus atributos.
-* Comparação entre dois países e seus atributos. 
-* Países com maior IDH x Países com maiores impostos
-* Imposto Importação x Imposto Renda x Arrecadação
-* 
-* 
+* Apenas País A: Esta análise foca exclusivamente no País A, permitindo uma avaliação detalhada dos indicadores socioeconômicos desse país. Isso pode ajudar a entender as tendências ao longo do tempo e identificar áreas de força ou fraqueza.
+
+* País A x País B: Esta análise compara o País A com o País B em termos de vários indicadores socioeconômicos. Isso pode ajudar a identificar diferenças e semelhanças entre os dois países e fornecer insights sobre como cada país está se saindo em relação ao outro.
+
+* Percentual Imposto Import X Rank IDH: Esta análise examina a relação entre o percentual de imposto de importação e o ranking do Índice de Desenvolvimento Humano (IDH). Foi aplicado um percentual nos valores de impostos brutos em relaçao a receita fiscal. Isso pode ajudar a entender como as políticas fiscais afetam o desenvolvimento humano.
+
+* Imp Renda x Imp Import x PIB: Esta análise explora a interação entre o imposto de renda, o imposto de importação e o Produto Interno Bruto (PIB). Isso pode fornecer insights sobre como esses três fatores se influenciam mutuamente e afetam a economia de um país.
+
+* IDH x Arrecadação: Esta análise investiga a relação entre o IDH e a arrecadação fiscal. Isso pode ajudar a entender como a arrecadação de impostos contribui para o desenvolvimento humano.
+
+* IDH x Internet x Pesquisas: Esta análise examina a interação entre o IDH, o acesso à internet e o investimento em pesquisa. Isso pode fornecer insights sobre como esses três fatores se influenciam mutuamente e contribuem para o desenvolvimento humano.
+
+Por favor note que não é possível afirmar com certeza nenhuma conclusão, o objetivo é apenas um estudo e direcionamento para futuras análises, ou até um conclusão
+simples comm base em uma lógica indutiva e conhecimentos gerais de mundo.  
 
 ## Etapas do trabalho:
 
